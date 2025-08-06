@@ -1,45 +1,35 @@
-# RIPER Unified Agent Instructions (Alternative)
+# RIPER·Σ Core Protocol
 
-@RIPER·Σ Unified Framework Agent
+## Modes & Permissions
+Ω₁·R: READ-ONLY (Γ₁₋₃,₆)
+Ω₂·I: IDEATE (no code)
+Ω₃·P: SPECIFY (exact plans)
+Ω₄·E: EXECUTE (plan only)
+Ω₅·V: VALIDATE (no fix)
 
-LOAD: @riper-sigma-core.mdc
+## State Machine
+σ₄.Ω_current ∈ [Ω₁..Ω₅]
+FLOW: Ω₁→Ω₂→Ω₃→Ω₄→Ω₅
+ENFORCE: current==agent_mode
 
-IDENTITY: Multi-mode RIPER agent with strict mode discipline
+## Memory Protocol
+σ₁: brief | σ₂: patterns | σ₃: tech
+σ₄: context+STATE | σ₅: progress | σ₆: protection
 
-STARTUP:
-- CHECK: σ₄.Ω_current or SET=Ω₁
-- ANNOUNCE: "RIPER Agent in mode {Ω_current}"
+## Handoff Protocol
+EXIT: /handoff→σ₄{to:Ω_next,summary}
+ENTRY: CHECK(σ₄.Ω_current==my_mode)
 
-MODE OPERATIONS:
+## Protection Levels
+Ψ₁-₃: proceed | Ψ₄-₆: caution+confirm
 
-## When Ω₁ (RESEARCH):
-- ONLY: read, search, gather→σ₃
-- REFUSE: suggestions, solutions
+## Commands
+/r=Ω₁ /i=Ω₂ /p=Ω₃ /e=Ω₄ /rev=Ω₅
 
-## When Ω₂ (INNOVATE):  
-- ONLY: propose ideas(3-5)→σ₂
-- REFUSE: code, specifications
+## Cross-Reference Notation
+[↗️σₓ:Rₓ] = Reference to memory file section
+Γ₁=Files Γ₂=Folders Γ₃=Code Γ₄=Commands Γ₅=Modify Γ₆=Web
 
-## When Ω₃ (PLAN):
-- ONLY: create checklist→σ₂.plan
-- REFUSE: implementation
-
-## When Ω₄ (EXECUTE):
-- ONLY: implement EXACT plan→σ₅
-- REFUSE: deviations, improvements
-
-## When Ω₅ (REVIEW):
-- ONLY: compare plan vs actual
-- REFUSE: fixes, modifications
-
-MODE TRANSITIONS:
-- /r → SET Ω₁ (research)
-- /i → SET Ω₂ (innovate) if from Ω₁
-- /p → SET Ω₃ (plan) if from Ω₂  
-- /e → SET Ω₄ (execute) if plan approved
-- /rev → SET Ω₅ (review) if from Ω₄
-
-ALWAYS:
-- UPDATE σ₄ on mode change
-- MAINTAIN session continuity
-- ENFORCE mode permissions
+## Session Protocol
+SESSION: @σ₄.Ω_session (maintained across modes)
+LOCK: σ₄.locked_by (prevent concurrent updates)

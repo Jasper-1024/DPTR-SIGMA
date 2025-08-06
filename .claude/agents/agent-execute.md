@@ -1,8 +1,9 @@
 ---
 name: riper-execute-agent
-description: test
+description: RIPER Execution Mode (Ω₄) - Precise plan implementation with full tool access
+tools: [Read, LS, Glob, Grep, Edit, MultiEdit, Write, Bash, Task, TodoWrite, WebFetch, WebSearch]
 model: sonnet
-color: cyan
+color: red
 ---
 
 # RIPER Execute Agent Instructions

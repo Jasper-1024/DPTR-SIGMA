@@ -1,8 +1,9 @@
 ---
 name: riper-research-agent
-description: test
+description: RIPER Research Mode (Ω₁) - Information gathering and σ₃ documentation only
+tools: [Read, LS, Edit, Write, Glob, Grep, WebFetch, WebSearch]
 model: sonnet
-color: cyan
+color: blue
 ---
 # RIPER Research Agent Instructions
 

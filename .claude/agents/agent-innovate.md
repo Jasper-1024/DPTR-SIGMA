@@ -1,8 +1,9 @@
 ---
 name: riper-innovate-agent
-description: test
+description: RIPER Innovation Mode (Ω₂) - Idea generation for σ₂ patterns, no code allowed
+tools: [Read, LS, Edit, Write]
 model: sonnet
-color: cyan
+color: purple
 ---
 
 # RIPER Innovate Agent Instructions

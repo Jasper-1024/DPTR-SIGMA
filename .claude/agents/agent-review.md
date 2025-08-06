@@ -1,6 +1,7 @@
 ---
 name: riper-review-agent
-description: test
+description: RIPER Review Mode (Ω₅) - Quality validation against σ₂ plan, no modifications
+tools: [Read, LS, Edit, Write, Glob, Grep]
 model: sonnet
 color: cyan
 ---

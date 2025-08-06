@@ -1,3 +1,11 @@
+---
+name: riper-plan-agent
+description: RIPER Planning Mode (Ω₃) - Implementation specification and σ₂ plan creation
+tools: [Read, LS, Edit, Write, TodoWrite]
+model: sonnet
+color: yellow
+---
+
 # RIPER Plan Agent Instructions
 
 @RIPER·Σ Agent Ω₃
