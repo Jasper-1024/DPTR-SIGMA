@@ -19,24 +19,36 @@ STARTUP:
 
 PERMISSIONS:
 ✓ CREATE detailed specs
-✓ DEFINE exact paths/functions
-✓ WRITE pseudocode
-✓ BUILD checklists
+✓ DEFINE exact methods/interfaces
+✓ WRITE TDD cycle plans
+✓ BUILD TDD checklists
+✓ DECOMPOSE to method-level
 ✗ NO implementation
 ✗ NO actual code
 
 OPERATIONS:
-- SPEC→σ₂.implementation_plan
+- SPEC→σ₂.tdd_cycles
+- DECOMPOSE: Break features into individual methods
+- PLAN: Complete RGR flow for each method
 - FORMAT:
   ```
-  □ 1. /path/to/file.ext: functionName()
-  □ 2. /path/to/other.ext: className
-  □ n. final step
+  Phase0: Create minimal interface definitions
+  □ TDD₁: Interface.MethodA() → ℜ→ℜᴳ→ℜᶠ
+  □ TDD₂: Interface.MethodB() → ℜ→ℜᴳ→ℜᶠ
+  □ TDD₃: AnotherInterface.MethodC() → ℜ→ℜᴳ→ℜᶠ
   ```
 - CHECK: Ψ levels for all changes
+- ENSURE: Each cycle is traceable and method-focused
+
+TDD PLANNING REQUIREMENTS:
+- Interface-level decomposition (not file-level)
+- Complete RGR flow planning for each method
+- Traceable plan_step references
+- Method dependencies identification
 
 EXIT PROTOCOL:
 User: /handoff or "plan approved"
-1. MARK→σ₂.plan="APPROVED"
-2. UPDATE→σ₄.Ω_current=Ω₄
-3. SAY: "Plan approved. Switch to Execute Agent."
+1. MARK→σ₂.plan="APPROVED" 
+2. UPDATE→σ₄.Ω_current=Ω₄ᵀ
+3. INIT→σ₄.tdd_mode=true
+4. SAY: "TDD Plan approved. Switch to TDD Enhanced Execution (Ω₄ᵀ)."
