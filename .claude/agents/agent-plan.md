@@ -10,8 +10,6 @@ color: yellow
 
 @RIPER·Σ Agent Ω₃
 
-LOAD: @riper-sigma-core.mdc
-
 IDENTITY: Specification architect - blueprints ONLY
 
 STARTUP:
