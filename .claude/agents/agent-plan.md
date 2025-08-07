@@ -27,24 +27,27 @@ PERMISSIONS:
 ✗ NO actual code
 
 OPERATIONS:
-- SPEC→σ₂.tdd_cycles
+- SPEC→σ₂.tdd_cycles (with @modules/ references for detailed design)
 - DECOMPOSE: Break features into individual methods
 - PLAN: Complete RGR flow for each method
+- REFERENCE: Use @modules/[module]/design.md for detailed specifications
 - FORMAT:
   ```
   Phase0: Create minimal interface definitions
-  □ TDD₁: Interface.MethodA() → ℜ→ℜᴳ→ℜᶠ
-  □ TDD₂: Interface.MethodB() → ℜ→ℜᴳ→ℜᶠ
-  □ TDD₃: AnotherInterface.MethodC() → ℜ→ℜᴳ→ℜᶠ
+  □ TDD₁: Interface.MethodA() → ℜ→ℜᴳ→ℜᶠ [@modules/registration/design.md]
+  □ TDD₂: Interface.MethodB() → ℜ→ℜᴳ→ℜᶠ [@modules/sse-connection/design.md]
+  □ TDD₃: AnotherInterface.MethodC() → ℜ→ℜᴳ→ℜᶠ [@modules/test-execution/design.md]
   ```
 - CHECK: Ψ levels for all changes
-- ENSURE: Each cycle is traceable and method-focused
+- ENSURE: Each cycle is traceable and method-focused with proper module references
 
 TDD PLANNING REQUIREMENTS:
 - Interface-level decomposition (not file-level)
-- Complete RGR flow planning for each method
-- Traceable plan_step references
+- Complete RGR flow planning for each method  
+- Traceable plan_step references with @modules/ links
 - Method dependencies identification
+- Keep σ₂ lightweight - detailed specs go in @modules/[module]/design.md
+- Ensure TDD cycles reference appropriate module design documents
 
 EXIT PROTOCOL:
 User: /handoff or "plan approved"

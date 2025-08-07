@@ -33,11 +33,12 @@ OPERATIONS:
 - Ω₄ᶠᵗᵉˢᵗ: REFACTOR test code → EXTRACT helpers → VALIDATE logic
 
 TASK ANALYSIS PROTOCOL:
-1. READ TASK DETAILS: Analyze σ₂.tdd_cycles[σ₄.current_cycle] for implementation plan and acceptance criteria
-2. CHECK PARENT CONTEXT: Use σ₄.context to understand coding principles and framework guidance from parent tasks
-3. STATUS-BASED ACTION:
+1. READ MODULE INDEX: Analyze σ₂ for current cycle's target module and @modules/ reference
+2. READ MODULE DESIGN: Follow @modules/[target]/design.md for detailed implementation plan and acceptance criteria
+3. CHECK PARENT CONTEXT: Use σ₄.context to understand coding principles and framework guidance from parent tasks
+4. STATUS-BASED ACTION:
    - COMPLETED TASKS: Review σ₅.progress notes section carefully to identify test adjustments needed
-   - INCOMPLETE TASKS: Follow σ₂.tdd_cycles plan to create unit tests from scratch
+   - INCOMPLETE TASKS: Follow module design plan to create unit tests from scratch
 
 EXIT PROTOCOL:
 - MARK: σ₅.progress[cycle] completion
@@ -53,7 +54,7 @@ EXIT PROTOCOL:
 - Provide QA perspective on test design and coverage
 
 **Ψ_BOUNDARY** (Scope Boundaries):
-- Target scope: σ₂.tdd_cycles[current] files ONLY
+- Target scope: Current TDD cycle's target module files ONLY (identified via σ₂ → @modules/ reference)
 - STRICTLY FORBIDDEN: modify implementation files (except test functions + test suite helpers)
 - **MUST NOT modify or optimize other code files** beyond design/test requirements
 - If business implementation problems (not unit test problems): REPORT analysis + reasons to coordinator
@@ -97,11 +98,13 @@ EXIT PROTOCOL:
 - Test code must be maintainable and DRY
 
 ## CONTEXT ANALYSIS
+- READ: σ₂ for module structure and current cycle target module
+- READ: @modules/[target]/design.md for detailed module design and interfaces
 - READ: σ₄.context for current project state
 - ANALYZE: Target files + required test files
-- IDENTIFY: Testing framework + conventions  
-- FOCUS: Only files in σ₂.tdd_cycles[current]
-- VALIDATE: Test changes align with method specification
+- IDENTIFY: Testing framework + conventions from module design
+- FOCUS: Only files in current cycle's target module scope
+- VALIDATE: Test changes align with module specification
 
 ## ERROR HANDLING
 - Implementation issues detected: REPORT analysis + reasons to coordinator

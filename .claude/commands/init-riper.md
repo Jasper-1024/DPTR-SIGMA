@@ -1,10 +1,10 @@
 ---
 description: "Initialize RIPER workflow with incremental updates and enhanced quality control"
 allowed-tools: Read, Write, Edit, LS, Bash, Glob, Grep, WebSearch, WebFetch, TodoWrite
-version: "3.0"
+version: "4.0"
 ---
 
-# RIPER Initialization Command v3.0
+# RIPER Initialization Command v4.0
 
 Use 4-Opus model, if Opus model is not available, this command will fallback to Sonnet for reliable performance.
 
@@ -83,7 +83,7 @@ CURRENT: File complete and content appears accurate → Skip processing
 19. [COLLECT] Assess testing approaches and quality assurance practices
 ```
 
-### **Phase 2: Incremental Content Generation & Quality Control (30 tasks)**
+### **Phase 2: Incremental Content Generation & Quality Control (40 tasks)**
 
 **Each σ file follows: Generate/Update → Audit → Structure Check → Correct → Confirm**
 
@@ -96,63 +96,91 @@ CURRENT: File complete and content appears accurate → Skip processing
 24. [CONFIRM-σ₁] Final validation of goals alignment and cross-references
 ```
 
-**σ₂ System Patterns (5 tasks):**
+**σ₂ System Patterns - Lightweight (5 tasks):**
 ```
-25. [UPDATE-σ₂] Generate/update systemPatterns.md based on file status assessment
-26. [AUDIT-σ₂] Verify architecture description matches actual code structure
-27. [STRUCT-σ₂] Verify complete template compliance: ✓Contains ALL required sections (Architecture Overview, Design Patterns, Code Conventions, Cross-References) ✓No missing chapters ✓No extra non-template sections ✓Correct section order ✓Proper subsection structure (Import Order, Naming Conventions, Error Handling)
-28. [FIX-σ₂] Correct pattern identification errors, convention descriptions, or structural issues
-29. [CONFIRM-σ₂] Validate design patterns and code conventions accuracy
+25. [UPDATE-σ₂] Generate/update systemPatterns.md with lightweight architecture + module index
+26. [AUDIT-σ₂] Verify architecture overview accuracy and module boundary identification
+27. [STRUCT-σ₂] Verify template compliance: ✓Architecture Overview ✓System Data Flow ✓Design Patterns ✓Module Structure (with @modules/ refs) ✓TDD Planning Storage ✓Cross-References
+28. [FIX-σ₂] Correct architecture misidentification or module organization issues
+29. [CONFIRM-σ₂] Validate architecture clarity and module index completeness
+```
+
+**Modules Structure Generation (10 tasks):**
+```
+30. [ANALYZE-MODULES] Identify project modules from source code structure and imports
+31. [CREATE-MODULES-DIR] Create memory-bank/modules/ directory structure
+32. [GENERATE-REG-MODULE] Generate modules/registration/design.md for registration functionality
+33. [GENERATE-SSE-MODULE] Generate modules/sse-connection/design.md for SSE/WebSocket functionality
+34. [GENERATE-EXEC-MODULE] Generate modules/test-execution/design.md for test execution engine
+35. [GENERATE-TIMEOUT-MODULE] Generate modules/timeout-control/design.md for timeout management
+36. [GENERATE-STATE-MODULE] Generate modules/state-management/design.md for state/session management
+37. [GENERATE-MSG-MODULE] Generate modules/message-broadcast/design.md for message/notification system
+38. [AUDIT-MODULES] Verify each module design.md contains: Core Responsibilities, Key Interfaces, Data Structures, Technical Decisions
+39. [UPDATE-MODULE-REFS] Update σ₂ systemPatterns.md with correct @modules/ references
+```
+
+**Project-Level CLAUDE.md (5 tasks):**
+```
+40. [ANALYZE-PROJECT] Extract project-specific tech stack, commands, and conventions
+41. [GENERATE-CLAUDE-MD] Create project-level CLAUDE.md with Tech Stack, Project Structure, Commands, Code Style, Do Not, Memory Integration
+42. [VALIDATE-COMMANDS] Verify build/test/run commands are project-specific and functional
+43. [AUDIT-CLAUDE-MD] Ensure CLAUDE.md contains memory-bank integration references
+44. [CONFIRM-CLAUDE-MD] Final validation of project-level constraints and team conventions
 ```
 
 **σ₃ Technical Context (5 tasks):**
 ```
-30. [UPDATE-σ₃] Generate/update techContext.md based on file status assessment
-31. [AUDIT-σ₃] Verify technology stack accuracy and dependency completeness
-32. [STRUCT-σ₃] Verify complete template compliance: ✓Contains ALL required sections (Technology Stack with 5 categories, Dependencies with Core/Dev subsections, Cross-References) ✓No missing chapters ✓No extra non-template sections ✓Correct section order ✓Proper technology categorization
-33. [FIX-σ₃] Correct technology misidentifications, missing dependencies, or structural deviations
-34. [CONFIRM-σ₃] Validate tech stack relevance and version accuracy
+45. [UPDATE-σ₃] Generate/update techContext.md based on file status assessment
+46. [AUDIT-σ₃] Verify technology stack accuracy and dependency completeness
+47. [STRUCT-σ₃] Verify complete template compliance: ✓Contains ALL required sections (Technology Stack with 5 categories, Dependencies with Core/Dev subsections, Cross-References) ✓No missing chapters ✓No extra non-template sections ✓Correct section order ✓Proper technology categorization
+48. [FIX-σ₃] Correct technology misidentifications, missing dependencies, or structural deviations
+49. [CONFIRM-σ₃] Validate tech stack relevance and version accuracy
 ```
 
 **σ₄ Active Context (5 tasks):**
 ```
-35. [UPDATE-σ₄] Generate/update activeContext.md based on file status assessment
-36. [AUDIT-σ₄] Verify context references validity and state initialization
-37. [STRUCT-σ₄] Verify complete template compliance: ✓Contains ALL required sections (Current Focus, Context References, Context Status, RIPER Agent State, Agent Handoff, Mode History, Cross-References) ✓No missing chapters ✓No extra non-template sections ✓Correct section order ✓Proper agent state format
-38. [FIX-σ₄] Correct invalid references, agent state configuration, or structural issues
-39. [CONFIRM-σ₄] Validate context relevance and handoff mechanisms
+50. [UPDATE-σ₄] Generate/update activeContext.md based on file status assessment
+51. [AUDIT-σ₄] Verify context references validity and state initialization
+52. [STRUCT-σ₄] Verify complete template compliance: ✓Contains ALL required sections (Current Focus, Context References, Context Status, RIPER Agent State, Agent Handoff, Mode History, Cross-References) ✓No missing chapters ✓No extra non-template sections ✓Correct section order ✓Proper agent state format
+53. [FIX-σ₄] Correct invalid references, agent state configuration, or structural issues
+54. [CONFIRM-σ₄] Validate context relevance and handoff mechanisms
 ```
 
 **σ₅ Progress Tracker (5 tasks):**
 ```
-40. [UPDATE-σ₅] Generate/update progress.md based on file status assessment
-41. [AUDIT-σ₅] Verify milestone relevance and task categorization logic
-42. [STRUCT-σ₅] Verify complete template compliance: ✓Contains ALL required sections (Project Status, Completed Tasks, In Progress, Pending Tasks, Milestones, Cross-References) ✓No missing chapters ✓No extra non-template sections ✓Correct section order ✓Proper task list format
-43. [FIX-σ₅] Adjust milestones, refine task organization, or fix structural deviations
-44. [CONFIRM-σ₅] Validate progress tracking alignment with project goals
+55. [UPDATE-σ₅] Generate/update progress.md based on file status assessment
+56. [AUDIT-σ₅] Verify milestone relevance and task categorization logic
+57. [STRUCT-σ₅] Verify complete template compliance: ✓Contains ALL required sections (Project Status, Completed Tasks, In Progress, Pending Tasks, Milestones, Cross-References) ✓No missing chapters ✓No extra non-template sections ✓Correct section order ✓Proper task list format
+58. [FIX-σ₅] Adjust milestones, refine task organization, or fix structural deviations
+59. [CONFIRM-σ₅] Validate progress tracking alignment with project goals
 ```
 
 **σ₆ Protection Registry (5 tasks):**
 ```
-45. [UPDATE-σ₆] Generate/update protection.md based on file status assessment
-46. [AUDIT-σ₆] Verify protection classifications and critical file identification
-47. [STRUCT-σ₆] Verify complete template compliance: ✓Contains ALL required sections (Protected Regions, Critical Files, Protected Functions, Protection History, Approvals, Permission Violations, Cross-References) ✓No missing chapters ✓No extra non-template sections ✓Correct section order ✓Proper protection classification format
-48. [FIX-σ₆] Refine protection levels, add missing critical elements, or fix structural issues
-49. [CONFIRM-σ₆] Validate protection registry completeness and accuracy
+60. [UPDATE-σ₆] Generate/update protection.md based on file status assessment
+61. [AUDIT-σ₆] Verify protection classifications and critical file identification
+62. [STRUCT-σ₆] Verify complete template compliance: ✓Contains ALL required sections (Protected Regions, Critical Files, Protected Functions, Protection History, Approvals, Permission Violations, Cross-References) ✓No missing chapters ✓No extra non-template sections ✓Correct section order ✓Proper protection classification format
+63. [FIX-σ₆] Refine protection levels, add missing critical elements, or fix structural issues
+64. [CONFIRM-σ₆] Validate protection registry completeness and accuracy
 ```
 
-### **Phase 3: Integration & Final Validation (9 tasks)**
+### **Phase 3: Integration & Final Validation (15 tasks)**
 ```
-50. [INTEGRATE] Verify all σ₁-σ₆ cross-references are valid and complete
-51. [XREF-UPDATE] Update cross-references that point to renamed or restructured sections
-52. [VALIDATE] Ensure placeholder replacement completeness ({DATE}, {PHASE}, {MODE})
-53. [VERIFY] Confirm CLAUDE.md memory-bank integration links are functional
-54. [CHECK] Validate RIPER Agent State initialization and session setup
-55. [META-CHECK] Verify metadata consistency across all σ files (version, date, phase, mode)  
-56. [QUALITY-CHECK] Ensure all sections have actual content (no empty placeholders)
-57. [FORMAT-CHECK] Validate Markdown format standardization and emoji consistency
-58. [REPORT] Generate initialization summary and quality assessment with change log
-59. [FINALIZE] Create/update symbols.md reference guide
+65. [INTEGRATE] Verify all σ₁-σ₆ cross-references are valid and complete
+66. [VALIDATE-MODULE-REFS] Verify all @modules/ references in σ₂ point to existing design.md files
+67. [XREF-UPDATE] Update cross-references that point to renamed or restructured sections
+68. [VALIDATE] Ensure placeholder replacement completeness ({DATE}, {PHASE}, {MODE})
+69. [VERIFY-CLAUDE-MD] Confirm project-level CLAUDE.md memory-bank integration links are functional
+70. [VERIFY-GLOBAL] Confirm global CLAUDE.md memory-bank integration links are functional
+71. [CHECK] Validate RIPER Agent State initialization and session setup
+72. [META-CHECK] Verify metadata consistency across all σ files and modules (version, date, phase, mode)
+73. [QUALITY-CHECK-CORE] Ensure all core σ files have actual content (no empty placeholders)
+74. [QUALITY-CHECK-MODULES] Ensure all module design.md files have complete sections
+75. [FORMAT-CHECK] Validate Markdown format standardization and emoji consistency
+76. [MODULE-INDEX-CHECK] Verify σ₂ module index accuracy and completeness
+77. [PROJECT-CLAUDE-CHECK] Verify project-level CLAUDE.md contains all required sections
+78. [REPORT] Generate initialization summary and quality assessment with change log
+79. [FINALIZE] Create/update symbols.md reference guide
 ```
 
 ## Quality Assurance Features
@@ -208,7 +236,7 @@ For each σ file:
 
 **σ₁ projectbrief.md:** # σ₁: Project Brief\n*v1.0 | Created: {DATE} | Updated: {DATE}*\n*Π: {PHASE} | Ω: {MODE}*\n\n## 🏆 Overview\n[Project description]\n\n## 📋 Requirements\n- [R₁] [Requirement 1]\n- [R₂] [Requirement 2]\n- [R₃] [Requirement 3]\n\n## 🎯 Goals & Objectives\n- [G₁] [Goal 1]\n- [G₂] [Goal 2]\n- [G₃] [Goal 3]\n\n## 🔗 Cross-References\n- Architecture: [↗️σ₂:Architecture]\n- Tech Stack: [↗️σ₃:Technologies]\n- Progress: [↗️σ₅:Status]
 
-**σ₂ systemPatterns.md:** # σ₂: System Patterns\n*v1.0 | Created: {DATE} | Updated: {DATE}*\n*Π: {PHASE} | Ω: {MODE}*\n\n## 🏛️ Architecture Overview\n[Architecture description]\n\n## 📐 Design Patterns\n- Pattern 1: [Description]\n- Pattern 2: [Description]\n- Pattern 3: [Description]\n- Test-First Development: Design guided by test requirements\n- Interface Segregation: Clear boundaries between test and implementation\n\n## 📝 Code Conventions\n### Import Order\n1. Standard library imports\n2. Third-party libraries\n3. Local components\n4. Utilities\n\n### Naming Conventions\n- Components: [Naming convention]\n- Functions: [Naming convention]\n- Constants: [Naming convention]\n- Files: [Naming convention]\n- Test Files: *_test.* or test_*.*\n- Implementation Files: Clear business intent names\n\n### Error Handling\n[Error handling patterns]\n\n## 🔄 TDD Planning Storage\n### Selected Approach\n[TDD methodology selection]\n\n### TDD Cycles\n```\nPhase0: Create minimal interface definitions\n□ TDD₁: Interface.MethodA() → ℜ→ℜᴳ→ℜᶠ\n□ TDD₂: Interface.MethodB() → ℜ→ℜᴳ→ℜᶠ\n□ TDD₃: AnotherInterface.MethodC() → ℜ→ℜᴳ→ℜᶠ\n```\n\n### Cycle Dependencies\n[Method dependency graph]\n\n## 🔗 Cross-References\n- Tech Context: [↗️σ₃:Stack]\n- Project Brief: [↗️σ₁:Requirements]\n- Active Context: [↗️σ₄:TDD_State]
+**σ₂ systemPatterns.md (Lightweight):** # σ₂: System Patterns\n*v1.0 | Created: {DATE} | Updated: {DATE}*\n*Π: {PHASE} | Ω: {MODE}*\n\n## 🏛️ Architecture Overview\n[System architecture description - layered/microservices/monolithic approach]\n\n## 📊 System Data Flow\n[High-level data flow between major components]\n\n## 📐 Design Patterns\n- [Core Pattern 1]: [Brief description]\n- [Core Pattern 2]: [Brief description]\n- Test-First Development: Design guided by test requirements\n- Interface Segregation: Clear boundaries between test and implementation\n\n## 🏗️ Module Structure\n- @modules/registration/ - User/service registration functionality\n- @modules/sse-connection/ - Server-Sent Events connection management\n- @modules/test-execution/ - Test execution engine and scheduling\n- @modules/timeout-control/ - Timeout and lifecycle management\n- @modules/state-management/ - Session and state persistence\n- @modules/message-broadcast/ - Message routing and broadcasting\n\n## 📝 Code Conventions\n### Basic Standards\n- Language: [Primary language] + [Version]\n- Style: [Style guide reference]\n- Testing: [Test file patterns]\n- Error Handling: [Error handling approach]\n\n## 🔄 TDD Planning Storage\n### Selected Approach\n[TDD methodology selection]\n\n## 🔗 Cross-References\n- Tech Context: [↗️σ₃:Stack]\n- Project Brief: [↗️σ₁:Requirements]\n- Active Context: [↗️σ₄:TDD_State]\n- Module Details: @modules/[module-name]/design.md
 
 **σ₃ techContext.md:** # σ₃: Technical Context\n*v1.0 | Created: {DATE} | Updated: {DATE}*\n*Π: {PHASE} | Ω: {MODE}*\n\n## 🛠️ Technology Stack\n- 🖥️ Frontend: [Technologies]\n- 🔙 Backend: [Technologies]\n- 💾 Database: [Technologies]\n- ☁️ Cloud: [Technologies]\n- 🔧 DevOps: [Technologies]\n\n## 📦 Dependencies\n### Core Dependencies\n- Dependency 1: version\n- Dependency 2: version\n- Dependency 3: version\n\n### Development Dependencies\n- Dev Dep 1: version\n- Dev Dep 2: version\n- Dev Dep 3: version\n\n## 🔗 Cross-References\n- System Patterns: [↗️σ₂:Architecture]\n- Project Brief: [↗️σ₁:Overview]
 
@@ -220,44 +248,49 @@ For each σ file:
 
 **symbols.md:** # 🔣 Symbol Reference Guide\n*v1.0 | Created: {DATE} | Updated: {DATE}*\n\n## 📁 File Symbols\n- 📂 = /memory-bank/\n- 📦 = /memory-bank/backups/\n- 📄 = .md files\n- 📊 = data files\n- 📋 = configuration files\n\n## 🤖 RIPER Symbols\n- Ω₁ = Research Mode\n- Ω₂ = Innovate Mode\n- Ω₃ = Plan Mode\n- Ω₄ = Execute Mode\n- Ω₅ = Review Mode\n\n## 📚 Memory Symbols\n- σ₁ = projectbrief.md\n- σ₂ = systemPatterns.md\n- σ₃ = techContext.md\n- σ₄ = activeContext.md\n- σ₅ = progress.md\n- σ₆ = protection.md\n\n## 🔗 Reference Symbols\n- [↗️σₓ:Rₓ] = Cross-reference to memory file section\n- Γ₁ = Files, Γ₂ = Folders, Γ₃ = Code\n- Γ₄ = Commands, Γ₅ = Modify, Γ₆ = Web\n\n## 🛡️ Protection Symbols\n- Ψ₁-₃ = Proceed (Low risk)\n- Ψ₄-₆ = Caution + Confirm (High risk)
 
-## CLAUDE.md Integration
+**modules/[module-name]/design.md:** # [ModuleName] Module Design\n*v1.0 | Created: {DATE} | Updated: {DATE}*\n*Module: [module-name] | Status: [design|development|testing|complete]*\n\n## 🎯 Core Responsibilities\n- [Primary responsibility 1]\n- [Primary responsibility 2]\n- [Primary responsibility 3]\n\n## 🔗 Key Interfaces\n### Public APIs\n```\n[Interface/API definitions]\n```\n### Internal Interfaces\n```\n[Internal interface definitions]\n```\n\n## 📊 Data Structures\n### Primary Models\n```\n[Core data structures/models]\n```\n### State Management\n[State management approach if applicable]\n\n## ⚙️ Technical Decisions\n### Architecture Choices\n- [Decision 1]: [Reasoning]\n- [Decision 2]: [Reasoning]\n### Dependencies\n- Internal: [List internal module dependencies]\n- External: [List external library dependencies]\n\n## 🔄 Integration Points\n- Input: [What this module receives]\n- Output: [What this module produces]\n- Events: [Events this module emits/listens to]\n\n## 🧪 Testing Strategy\n[Module-specific testing approach and key test scenarios]
 
-**Memory-bank reference block to add (if missing):**
+**Project-Level CLAUDE.md:** # Tech Stack\n- Language: [Primary Language] [Version]\n- Framework: [Main Framework/Library]\n- Testing: [Testing Framework]\n- Database: [Database if applicable]\n- Build: [Build system]\n\n# Project Structure\n```\n[Project directory structure]\n```\n\n# Commands\n- `[build-command]`: Build the project\n- `[test-command]`: Run test suite\n- `[dev-command]`: Start development server\n- `[lint-command]`: Run linter/formatter\n- `[deploy-command]`: Deploy application\n\n# TDD-RIPER Integration\n**IMPORTANT**: This project uses TDD-RIPER workflow\n- Read memory-bank files before starting any work\n- Follow memory-bank/progress.md for current TDD cycles\n- All design decisions recorded in memory-bank/systemPatterns.md\n\n# Code Style\n- [Language-specific conventions]\n- [Naming conventions]\n- [File organization rules]\n- [Testing patterns]\n\n# Do Not\n- Skip TDD phases (Red→Green→Refactor)\n- Maintain design decisions outside memory-bank\n- [Project-specific constraints]\n\n# Memory Integration\nProject memory stored in:\n- Brief: memory-bank/projectbrief.md\n- Architecture: memory-bank/systemPatterns.md\n- Tech Stack: memory-bank/techContext.md\n- Current State: memory-bank/activeContext.md\n- Progress: memory-bank/progress.md\n- Protection: memory-bank/protection.md\n- Module Details: memory-bank/modules/[module]/design.md\n\n**Start every session by reading relevant memory-bank files**
 
-## 🧠 Memory Bank Integration
+## Implementation Instructions
 
-Detailed project memory stored in:
+**Module Generation Logic:**
+1. Scan project structure to identify functional modules
+2. Create memory-bank/modules/[module-name]/ directories
+3. Generate design.md for each identified module
+4. Update σ₂ systemPatterns.md with @modules/ references
 
-- Project Brief: [memory-bank/projectbrief.md](memory-bank/projectbrief.md)
-- System Patterns: [memory-bank/systemPatterns.md](memory-bank/systemPatterns.md)  
-- Tech Context: [memory-bank/techContext.md](memory-bank/techContext.md)
-- Active Context: [memory-bank/activeContext.md](memory-bank/activeContext.md)
-- Progress: [memory-bank/progress.md](memory-bank/progress.md)
-- Protection: [memory-bank/protection.md](memory-bank/protection.md)
+**Project-Level CLAUDE.md Generation:**
+1. Replace any existing CLAUDE.md (not append)
+2. Extract actual tech stack from project files
+3. Identify real build/test commands from package.json/Makefile/etc
+4. Generate project-specific constraints and conventions
 
-## Memory Protocol Reference
-σ₁=brief | σ₂=patterns | σ₃=tech | σ₄=context | σ₅=progress | σ₆=protection
-
-## Usage
-
-```
-/init-riper
-```
+**Quality Assurance:**
+- Verify all @modules/ references in σ₂ point to existing files
+- Ensure project-level CLAUDE.md contains memory-bank integration
+- Validate module design.md files contain all required sections
+- Confirm σ₂ systemPatterns.md stays under 3000 characters
 
 **This enhanced version provides:**
+- Modular memory-bank architecture with lightweight core files
+- Module-specific design documents in memory-bank/modules/
+- Project-level CLAUDE.md generation with TDD-RIPER integration
 - Incremental update strategy with user content protection
-- Systematic task planning with 59 structured tasks
-- Quality assurance through multi-stage auditing  
-- Complete template compliance verification (no missing chapters)
+- Systematic task planning with 79 structured tasks (vs 59 in v3.0)
+- Quality assurance through multi-stage auditing
+- Complete template compliance verification
 - Automatic backup and safety mechanisms
-- Cross-reference integrity management
+- Cross-reference integrity management including @modules/ references
 - Error correction with targeted fixes
 - Progress tracking via TodoWrite integration
-- Improved content accuracy and completeness
+- Improved content accuracy and modular organization
 
 **Expected outcomes:**
+- Modular memory-bank architecture preventing σ₂ overload
 - Higher quality memory-bank initialization with user protection
 - Significantly fewer manual corrections required
 - Preserved user customizations and enhancements
-- Better project context capture with incremental improvements
+- Better project context capture with modular organization
 - Reliable cross-reference integrity and structure compliance
+- Project-specific CLAUDE.md for immediate team alignment

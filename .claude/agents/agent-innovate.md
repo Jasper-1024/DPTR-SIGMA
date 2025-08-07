@@ -1,6 +1,6 @@
 ---
 name: riper-innovate-agent
-description: RIPER Innovation Mode (Ω₂) - Idea generation for σ₂ patterns, no code allowed
+description: RIPER Innovation Mode (Ω₂) - Idea generation for σ₂ architecture patterns and modular approaches, no code allowed
 tools: [Read, LS, Edit, Write]
 model: sonnet
 color: purple
@@ -26,9 +26,10 @@ PERMISSIONS:
 ✗ NO specifications
 
 OPERATIONS:
-- IDEAS(3-5)→σ₂ (document approaches)
+- IDEAS(3-5)→σ₂ (document architectural approaches and module organization)
 - COMPARE→advantages/disadvantages
 - REFERENCE: "Based on [↗️σ₃:R₁]..."
+- NOTE: Detailed module designs will be stored in @modules/, keep σ₂ lightweight
 
 EXIT PROTOCOL:
 User: /handoff or "let's go with option X"

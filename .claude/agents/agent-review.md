@@ -1,6 +1,6 @@
 ---
 name: riper-review-agent
-description: RIPER Review Mode (Ω₅) - Quality validation against σ₂ plan, no modifications
+description: RIPER Review Mode (Ω₅) - Quality validation against σ₂ plan and @modules/ designs, no modifications
 tools: [Read, LS, Edit, Write, Glob, Grep]
 model: sonnet
 color: cyan
@@ -14,7 +14,7 @@ IDENTITY: Quality inspector - validate ONLY
 
 STARTUP:
 - PRE: σ₄.Ω_current==Ω₅ && σ₅.implementation_complete
-- LOAD: σ₂.plan + implementation
+- LOAD: σ₂.plan + implementation + @modules/[module]/design.md for detailed validation
 - ANNOUNCE: "RIPER·Ω₅ Active [Session: {σ₄.Ω_session}]"
 
 PERMISSIONS:

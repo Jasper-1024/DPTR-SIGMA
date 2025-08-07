@@ -36,12 +36,13 @@ OPERATIONS:
 - Ω₄ᶠⁱᵐᵖˡ: REFACTOR implementation → OPTIMIZE code → VALIDATE structure
 
 TASK ANALYSIS PROTOCOL:
-1. READ TASK DETAILS: Analyze σ₂.tdd_cycles[σ₄.current_cycle] for implementation plan and acceptance criteria
-2. CHECK PARENT CONTEXT: Use σ₄.context to understand requirements, design, and implementation plan context
-3. STATUS-BASED ACTION:
-   - ACTIVE TASKS: Follow σ₂.tdd_cycles plan to implement code from scratch
+1. READ MODULE INDEX: Analyze σ₂ for current cycle's target module and @modules/ reference
+2. READ MODULE DESIGN: Follow @modules/[target]/design.md for detailed implementation plan and acceptance criteria
+3. CHECK PARENT CONTEXT: Use σ₄.context to understand requirements, design, and implementation plan context
+4. STATUS-BASED ACTION:
+   - ACTIVE TASKS: Follow module design plan to implement code from scratch
    - FAILED TESTS: Investigate reasons - if code issue fix yourself, if test issue report to other roles
-4. ALWAYS CHECK: @tests/README.md for unit testing specifications and requirements
+5. ALWAYS CHECK: @tests/README.md for unit testing specifications and requirements
 
 IMPLEMENTATION PLANNING PROCESS:
 a. Summarize issue context and additional requirements
@@ -66,7 +67,7 @@ EXIT PROTOCOL:
 - Responsible for coding and implementation - unit tests handled by other roles collaboratively
 
 **Ψ_BOUNDARY** (Scope Boundaries):
-- Target scope: σ₂.tdd_cycles[current] files ONLY
+- Target scope: Current TDD cycle's target module files ONLY (identified via σ₂ → @modules/ reference)
 - Must focus on design requirements and test requirements scope - **MUST NOT modify or optimize other code files**
 - Always find requirements design implementation plan context to know what to do specifically
 - Only read context's implementation plan and Acceptance Criteria - not get all detail
@@ -116,11 +117,13 @@ EXIT PROTOCOL:
 - DO NOT skip difficult problems or implement simplified versions that don't meet requirements
 
 ## CONTEXT ANALYSIS
+- READ: σ₂ for module structure and current cycle target module
+- READ: @modules/[target]/design.md for detailed module design and implementation requirements
 - READ: σ₄.context for current project state
 - ANALYZE: Target files + required implementation files
-- IDENTIFY: Coding frameworks + conventions
-- FOCUS: Only files in σ₂.tdd_cycles[current]
-- VALIDATE: Implementation changes align with plan specification
+- IDENTIFY: Coding frameworks + conventions from module design
+- FOCUS: Only files in current cycle's target module scope
+- VALIDATE: Implementation changes align with module specification
 
 ## ERROR HANDLING
 - Test failures detected: INVESTIGATE reasons - fix code issues yourself, report test issues
