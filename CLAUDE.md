@@ -1,15 +1,16 @@
 # RIPER·Σ Core Protocol
 
 ## Modes & Permissions
-Ω₁·R: READ-ONLY (Γ₁₋₃,₆)
-Ω₂·I: IDEATE (no code)
-Ω₃·P: SPECIFY (exact plans)
-Ω₄·E: EXECUTE (plan only)
-Ω₅·V: VALIDATE (no fix)
+Ω₁ᴾ: CC PLAN MODE (Γ₁₋₃,₆) - architecture & module design
+Ω₂ᴬ: ARCH CRITIC (review only) - design quality validation  
+Ω₃·P: SPECIFY (exact plans) - implementation planning
+Ω₄ᶜ: PLAN CRITIC (review only) - execution feasibility validation
+Ω₅ᵀ: EXECUTE (TDD cycles) - implementation with testing
+Ω₆·V: VALIDATE (no fix) - final quality verification
 
 ## State Machine
-σ₄.Ω_current ∈ [Ω₁..Ω₅]
-FLOW: Ω₁→Ω₂→Ω₃→Ω₄→Ω₅
+σ₄.Ω_current ∈ [Ω₁ᴾ,Ω₂ᴬ,Ω₃·P,Ω₄ᶜ,Ω₅ᵀ,Ω₆·V]
+FLOW: Ω₁ᴾ→Ω₂ᴬ↑↓→Ω₃·P→Ω₄ᶜ↑↓→Ω₅ᵀ→Ω₆·V
 ENFORCE: current==agent_mode
 
 ## Memory Protocol
@@ -24,8 +25,8 @@ ENTRY: CHECK(σ₄.Ω_current==my_mode)
 Ψ₁-₃: proceed | Ψ₄-₆: caution+confirm
 
 ## Commands
-/r=Ω₁ /i=Ω₂ /p=Ω₃ /e=Ω₄ /rev=Ω₅
-/tdd-execute=Ω₄ᵀ (TDD-Enhanced Execution Mode)
+/plan=Ω₁ᴾ /arch-critic=Ω₂ᴬ /p=Ω₃·P /plan-critic=Ω₄ᶜ /tdd-execute=Ω₅ᵀ /rev=Ω₆·V
+/tdd-execute=Ω₅ᵀ (TDD-Enhanced Execution Mode)
 
 ## Cross-Reference Notation
 [↗️σₓ:Rₓ] = Reference to memory file section
@@ -35,26 +36,51 @@ ENTRY: CHECK(σ₄.Ω_current==my_mode)
 SESSION: @σ₄.Ω_session (maintained across modes)
 LOCK: σ₄.locked_by (prevent concurrent updates)
 
+## CC Plan Mode Integration
+Ω₁ᴾ: CC Plan Mode (replaces original Ω₁+Ω₂)
+TRIGGER: User uses CC native Plan Mode
+OUTPUT: Direct to memory bank
+  ├─ σ₂.architecture_design (overall architecture)
+  ├─ σ₂.module_specifications (module details)
+  └─ σ₂.tech_stack (technology choices)
+HANDOFF: Automatic transition to Ω₂ᴬ for design audit
+
+## Dual Loop Protocol
+
+### Design Quality Loop (Ω₁ᴾ ↔ Ω₂ᴬ)
+DESIGN_LOOP: Ω₁ᴾ → Ω₂ᴬ audit → σ₄.arch_critique → decision
+DECISION: 
+├─ APPROVED → UPDATE σ₄.design_approved=true → Ω₃·P
+└─ REVISION → σ₄.design_feedback → re-enter Ω₁ᴾ
+ITERATIONS: Individual developer optimized (avoid over-engineering)
+
+### Plan Quality Loop (Ω₃·P ↔ Ω₄ᶜ)  
+PLAN_LOOP: Ω₃·P → Ω₄ᶜ audit → σ₄.plan_critique → decision
+DECISION:
+├─ FEASIBLE → UPDATE σ₄.plan_approved=true → Ω₅ᵀ
+└─ ADJUSTMENT → σ₄.plan_feedback → modify in Ω₃·P
+ITERATIONS: Reality-based assessment for personal projects
+
 ## TDD Protocol Extension
-Ω₄ᵀ: TDD-Enhanced Execution (replaces Ω₄ when enabled)
+Ω₅ᵀ: TDD-Enhanced Execution (replaces Ω₅ᵀ when enabled)
 ℜ→ℜᴳ→ℜᶠ: Complete TDD cycle (Red→Green→Refactor)
-QA∨DE: Role alternation within Ω₄ᵀ
+QA∨DE: Role alternation within Ω₅ᵀ
 ⟲[method]: Cycle iteration marker
 
 ### TDD Sub-phase Symbols
-Ω₄ᴿ: RED phase (QA writes failing tests)  
-Ω₄ᴳ: GREEN phase (DE minimal implementation)
-Ω₄ᶠᵗᵉˢᵗ: Refactor phase for test code
-Ω₄ᶠⁱᵐᵖˡ: Refactor phase for implementation code
+Ω₅ᵀᴿ: RED phase (QA writes failing tests)  
+Ω₅ᵀᴳ: GREEN phase (DE minimal implementation)
+Ω₅ᵀᶠᵗᵉˢᵗ: Refactor phase for test code
+Ω₅ᵀᶠⁱᵐᵖˡ: Refactor phase for implementation code
 
 ### TDD State Machine
-Ω₄ᵀ.state ∈ [ℜ,ℜᴳ,ℜᶠ]
+Ω₅ᵀ.state ∈ [ℜ,ℜᴳ,ℜᶠ]
 FLOW: ℜ→ℜᴳ→ℜᶠ→next_cycle
 ROLES: ℜ=QA | ℜᴳ=DE | ℜᶠ=QA∨DE
 
 ### TDD State Transitions
-ENTRY: Ω₄ → Ω₄ᵀ (when σ₂.tdd_cycles exists)
-EXIT: Ω₄ᵀ → Ω₅ (when ALL cycles complete)
+ENTRY: Ω₅ᵀ → Ω₅ᵀ (when σ₂.tdd_cycles exists)
+EXIT: Ω₅ᵀ → Ω₆·V (when ALL cycles complete)
 
 #### Cycle Transitions
 ℜ→ℜᴳ: WHEN test_fails AND qa_complete
