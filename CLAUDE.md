@@ -56,6 +56,7 @@ DESIGN_LOOP: Ω₁ᴾ → Ω₂ᴬ{Λ₁|Λ₂,M_name} → σ₄.arch_critique �
 
 ### Plan Quality Loop (Ω₃ᴾ ⟷ Ω₄ᶜ) - MCP Session
 SESSION_INIT: MT→session_id→MCP_Memory  
+SESSION_STORE: σ₄.session_id=session_id
 PLAN_DIALOGUE: MT→Ω₃ᴾ(session_id)→summary→MT→Ω₄ᶜ(session_id)→summary→MT
 ⟲[dialogue]: summary-driven iteration
 
@@ -63,6 +64,7 @@ PLAN_DIALOGUE: MT→Ω₃ᴾ(session_id)→summary→MT→Ω₄ᶜ(session_id)�
 ```
 PLAN_MCP_ROUTER():
 ├─ INIT: session_id=generate() → MCP_Memory
+├─ STORE: σ₄.session_id=session_id
 ├─ DISPATCH→Ω₃ᴾ(session_id): plan_generation  
 ├─ RECEIVE←Ω₃ᴾ: summary("PLAN_CREATED")
 ├─ DISPATCH→Ω₄ᶜ(session_id): plan_critique
@@ -79,7 +81,7 @@ PLAN_MCP_ROUTER():
 ```
 
 #### Summary Protocol
-STATES: "PLAN_CREATED"|"PLAN_REVISED"|"DISAGREE"|"NEEDS_REVISION"|"PLAN_ACCEPTED"|"ESCALATION_NEEDED"
+STATES: "PLAN_CREATED"|"PLAN_REVISED"|"DISAGREE"|"NEEDS_REVISION"|"PLAN_ACCEPTED"|"ESCALATION_NEEDED"|"MCP_ERROR"
 ROUTING: summary→decision_logic→next_dispatch
 CONVERGE: "PLAN_ACCEPTED"→σ₄.plan_approved=true→Ω₅ᵀ
 
@@ -127,6 +129,10 @@ STRICT: QA∧DE_NEVER_CONCURRENT
 σ₄.last_test_result: pass|fail|null
 
 ## Master Scheduler Protocol
+
+### Agent Communication Modes
+PLAN_AGENTS: session_id only (MCP Memory driven)
+TDD_AGENTS: full context (σ₄.current_context required)
 
 ### Agent Dispatch Protocol
 ```
@@ -347,3 +353,7 @@ CYCLE_VALIDATION_GATES:
     ├─ Interface consistency ✓
     └─ Ready for next cycle ✓
 ```
+
+## Session Terminology
+Ω_session: Agent lifecycle identifier (persists across modes)
+session_id: MCP Memory dialogue session (per Plan↔Critic conversation)
