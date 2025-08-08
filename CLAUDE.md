@@ -132,7 +132,31 @@ STRICT: QA∧DE_NEVER_CONCURRENT
 
 ### Agent Communication Modes
 PLAN_AGENTS: session_id only (MCP Memory driven)
-TDD_AGENTS: full context (σ₄.current_context required)
+TDD_AGENTS: session_id only (MCP Memory driven)
+
+## TDD Dialogue Protocol (Ω₅ᵀ Extension)
+SESSION: tdd_session_id→MCP_Memory (per-cycle isolation)
+QA∨DE: Natural dialogue through MCP observations
+SUMMARY: Agent→summary→MT decision routing
+
+### TDD MCP Router (Ω₅ᵀ.router)
+```
+∀cycle ∈ σ₂.tdd_cycles:
+├─ INIT: sid=TDD_{timestamp}_C{i}
+├─ STORE: σ₄.tdd_session_id=sid
+├─ ADD: mcp.observation(sid, cycle.task)
+├─ ⟲[phase]: 
+│   ├─ ℜ: QA(sid)→summary→decide
+│   ├─ ℜᴳ: DE(sid)→summary→decide
+│   └─ ℜᶠ: QA↔DE(sid)→converge
+└─ σ₅.progress[i] = ✓
+```
+
+### TDD Summary States
+ℜ_states: RED_COMPLETE|TEST_ADJUSTED
+ℜᴳ_states: GREEN_COMPLETE|TEST_ISSUE  
+ℜᶠ_states: REFACTOR_{TEST|IMPL|COMPLETE}
+CONVERGE: QA∧DE both report REFACTOR_COMPLETE
 
 ### Agent Dispatch Protocol
 ```
@@ -356,4 +380,5 @@ CYCLE_VALIDATION_GATES:
 
 ## Session Terminology
 Ω_session: Agent lifecycle identifier (persists across modes)
-session_id: MCP Memory dialogue session (per Plan↔Critic conversation)
+session_id: MCP Memory dialogue session (Plan↔Critic conversation)
+tdd_session_id: MCP Memory dialogue session (QA↔DE per cycle)
