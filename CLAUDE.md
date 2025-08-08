@@ -3,14 +3,14 @@
 ## Modes & Permissions
 Ω₁ᴾ: CC PLAN MODE (Γ₁₋₃,₆) - architecture & module design
 Ω₂ᴬ: ARCH CRITIC (review only) - design quality validation  
-Ω₃·P: SPECIFY (exact plans) - implementation planning
+Ω₃ᴾ: SPECIFY (exact plans) - implementation planning
 Ω₄ᶜ: PLAN CRITIC (review only) - execution feasibility validation
 Ω₅ᵀ: EXECUTE (TDD cycles) - implementation with testing
-Ω₆·V: VALIDATE (no fix) - final quality verification
+Ω₆ⱽ: VALIDATE (no fix) - final quality verification
 
 ## State Machine
-σ₄.Ω_current ∈ [Ω₁ᴾ,Ω₂ᴬ,Ω₃·P,Ω₄ᶜ,Ω₅ᵀ,Ω₆·V]
-FLOW: Ω₁ᴾ→Ω₂ᴬ↑↓→Ω₃·P→Ω₄ᶜ↑↓→Ω₅ᵀ→Ω₆·V
+σ₄.Ω_current ∈ [Ω₁ᴾ,Ω₂ᴬ,Ω₃ᴾ,Ω₄ᶜ,Ω₅ᵀ,Ω₆ⱽ]
+FLOW: Ω₁ᴾ→Ω₂ᴬ↑↓→Ω₃ᴾ→Ω₄ᶜ↑↓→Ω₅ᵀ→Ω₆ⱽ
 ENFORCE: current==agent_mode
 
 ## Memory Protocol
@@ -25,7 +25,7 @@ ENTRY: CHECK(σ₄.Ω_current==my_mode)
 Ψ₁-₃: proceed | Ψ₄-₆: caution+confirm
 
 ## Commands
-/plan=Ω₁ᴾ /arch-critic=Ω₂ᴬ /p=Ω₃·P /plan-critic=Ω₄ᶜ /tdd-execute=Ω₅ᵀ /rev=Ω₆·V
+/plan=Ω₁ᴾ /arch-critic=Ω₂ᴬ /p=Ω₃ᴾ /plan-critic=Ω₄ᶜ /tdd-execute=Ω₅ᵀ /rev=Ω₆ⱽ
 /tdd-execute=Ω₅ᵀ (TDD-Enhanced Execution Mode)
 
 ## Cross-Reference Notation
@@ -50,15 +50,15 @@ HANDOFF: Automatic transition to Ω₂ᴬ for design audit
 ### Design Quality Loop (Ω₁ᴾ ↔ Ω₂ᴬ)
 DESIGN_LOOP: Ω₁ᴾ → Ω₂ᴬ audit → σ₄.arch_critique → decision
 DECISION: 
-├─ APPROVED → UPDATE σ₄.design_approved=true → Ω₃·P
+├─ APPROVED → UPDATE σ₄.design_approved=true → Ω₃ᴾ
 └─ REVISION → σ₄.design_feedback → re-enter Ω₁ᴾ
 ITERATIONS: Individual developer optimized (avoid over-engineering)
 
-### Plan Quality Loop (Ω₃·P ↔ Ω₄ᶜ)  
-PLAN_LOOP: Ω₃·P → Ω₄ᶜ audit → σ₄.plan_critique → decision
+### Plan Quality Loop (Ω₃ᴾ ↔ Ω₄ᶜ)  
+PLAN_LOOP: Ω₃ᴾ → Ω₄ᶜ audit → σ₄.plan_critique → decision
 DECISION:
 ├─ FEASIBLE → UPDATE σ₄.plan_approved=true → Ω₅ᵀ
-└─ ADJUSTMENT → σ₄.plan_feedback → modify in Ω₃·P
+└─ ADJUSTMENT → σ₄.plan_feedback → modify in Ω₃ᴾ
 ITERATIONS: Reality-based assessment for personal projects
 
 ## TDD Protocol Extension
@@ -80,7 +80,7 @@ ROLES: ℜ=QA | ℜᴳ=DE | ℜᶠ=QA∨DE
 
 ### TDD State Transitions
 ENTRY: Ω₅ᵀ → Ω₅ᵀ (when σ₂.tdd_cycles exists)
-EXIT: Ω₅ᵀ → Ω₆·V (when ALL cycles complete)
+EXIT: Ω₅ᵀ → Ω₆ⱽ (when ALL cycles complete)
 
 #### Cycle Transitions
 ℜ→ℜᴳ: WHEN test_fails AND qa_complete
