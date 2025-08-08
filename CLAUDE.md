@@ -1,17 +1,12 @@
 # RIPER·Σ Core Protocol
 
 ## Modes & Permissions
-Ω₁ᴾ: CC PLAN MODE (Γ₁₋₃,₆) - architecture & module design
-Ω₂ᴬ: ARCH CRITIC (review only) - design quality validation  
+Ω₁ᴾ: CC PLAN MODE (Γ₁₋₃,₆) - architecture & module design *(CC native, NOT subagent)*
+Ω₂ᴬ: ARCH DEVIL'S ADVOCATE (Λ₁|Λ₂) - dual-layer design opposition  
 Ω₃ᴾ: SPECIFY (exact plans) - implementation planning
 Ω₄ᶜ: PLAN CRITIC (review only) - execution feasibility validation
 Ω₅ᵀ: EXECUTE (TDD cycles) - implementation with testing
 Ω₆ⱽ: VALIDATE (no fix) - final quality verification
-
-## State Machine
-σ₄.Ω_current ∈ [Ω₁ᴾ,Ω₂ᴬ,Ω₃ᴾ,Ω₄ᶜ,Ω₅ᵀ,Ω₆ⱽ]
-FLOW: Ω₁ᴾ→Ω₂ᴬ↑↓→Ω₃ᴾ→Ω₄ᶜ↑↓→Ω₅ᵀ→Ω₆ⱽ
-ENFORCE: current==agent_mode
 
 ## Memory Protocol
 σ₁: brief | σ₂: patterns | σ₃: tech
@@ -25,7 +20,7 @@ ENTRY: CHECK(σ₄.Ω_current==my_mode)
 Ψ₁-₃: proceed | Ψ₄-₆: caution+confirm
 
 ## Commands
-/plan=Ω₁ᴾ /arch-critic=Ω₂ᴬ /p=Ω₃ᴾ /plan-critic=Ω₄ᶜ /tdd-execute=Ω₅ᵀ /rev=Ω₆ⱽ
+/arch-critic=Ω₂ᴬ{Λ₁|Λ₂,M_name} /p=Ω₃ᴾ /plan-critic=Ω₄ᶜ /tdd-execute=Ω₅ᵀ /rev=Ω₆ⱽ
 /tdd-execute=Ω₅ᵀ (TDD-Enhanced Execution Mode)
 
 ## Cross-Reference Notation
@@ -33,8 +28,8 @@ ENTRY: CHECK(σ₄.Ω_current==my_mode)
 Γ₁=Files Γ₂=Folders Γ₃=Code Γ₄=Commands Γ₅=Modify Γ₆=Web
 
 ## Session Protocol
-SESSION: @σ₄.Ω_session (maintained across modes)
-LOCK: σ₄.locked_by (prevent concurrent updates)
+SESSION: session_id→MCP_Memory (per-dialogue isolation)
+STATE: σ₄.Ω_current (maintained by main thread)
 
 ## CC Plan Mode Integration
 Ω₁ᴾ: CC Plan Mode (replaces original Ω₁+Ω₂)
@@ -45,21 +40,50 @@ OUTPUT: Direct to memory bank
   └─ σ₂.tech_stack (technology choices)
 HANDOFF: Automatic transition to Ω₂ᴬ for design audit
 
+## State Machine
+σ₄.Ω_current ∈ [Ω₁ᴾ,Ω₂ᴬ,Ω₃ᴾ,Ω₄ᶜ,Ω₅ᵀ,Ω₆ⱽ]
+FLOW: Ω₁ᴾ→Ω₂ᴬ→Ω₃ᴾ→Ω₄ᶜ→Ω₅ᵀ→Ω₆ⱽ
+ENFORCE: current==agent_mode
+
 ## Dual Loop Protocol
 
 ### Design Quality Loop (Ω₁ᴾ ↔ Ω₂ᴬ)
-DESIGN_LOOP: Ω₁ᴾ → Ω₂ᴬ audit → σ₄.arch_critique → decision
-DECISION: 
-├─ APPROVED → UPDATE σ₄.design_approved=true → Ω₃ᴾ
-└─ REVISION → σ₄.design_feedback → re-enter Ω₁ᴾ
-ITERATIONS: Individual developer optimized (avoid over-engineering)
+DESIGN_LOOP: Ω₁ᴾ → Ω₂ᴬ{Λ₁|Λ₂,M_name} → σ₄.arch_critique → ∇decision
+∇decision: 
+├─ ACCEPT → σ₄.design_approved=true → Ω₃ᴾ
+├─ REVISE → σ₄.design_feedback → re-enter Ω₁ᴾ
+└─ REJECT → σ₄.design_rejected → HALT
 
-### Plan Quality Loop (Ω₃ᴾ ↔ Ω₄ᶜ)  
-PLAN_LOOP: Ω₃ᴾ → Ω₄ᶜ audit → σ₄.plan_critique → decision
-DECISION:
-├─ FEASIBLE → UPDATE σ₄.plan_approved=true → Ω₅ᵀ
-└─ ADJUSTMENT → σ₄.plan_feedback → modify in Ω₃ᴾ
-ITERATIONS: Reality-based assessment for personal projects
+### Plan Quality Loop (Ω₃ᴾ ⟷ Ω₄ᶜ) - MCP Session
+SESSION_INIT: MT→session_id→MCP_Memory  
+PLAN_DIALOGUE: MT→Ω₃ᴾ(session_id)→summary→MT→Ω₄ᶜ(session_id)→summary→MT
+⟲[dialogue]: summary-driven iteration
+
+#### Plan MCP Router (Main Thread)
+```
+PLAN_MCP_ROUTER():
+├─ INIT: session_id=generate() → MCP_Memory
+├─ DISPATCH→Ω₃ᴾ(session_id): plan_generation  
+├─ RECEIVE←Ω₃ᴾ: summary("PLAN_CREATED")
+├─ DISPATCH→Ω₄ᶜ(session_id): plan_critique
+├─ RECEIVE←Ω₄ᶜ: summary("NEEDS_REVISION"|"PLAN_ACCEPTED")  
+├─ DECISION_ROUTING:
+│   ├─ IF summary=="PLAN_ACCEPTED" → ADVANCE→Ω₅ᵀ
+│   └─ IF summary=="NEEDS_REVISION" → CONTINUE_LOOP
+└─ LOOP_CONTINUE:
+    ├─ DISPATCH→Ω₃ᴾ(session_id): revision_request
+    ├─ RECEIVE←Ω₃ᴾ: summary("PLAN_REVISED"|"DISAGREE")
+    ├─ IF "PLAN_REVISED" → DISPATCH→Ω₄ᶜ(session_id) 
+    ├─ IF "DISAGREE" → DISPATCH→Ω₄ᶜ(session_id)
+    └─ ⟲ until convergence
+```
+
+#### Summary Protocol
+STATES: "PLAN_CREATED"|"PLAN_REVISED"|"DISAGREE"|"NEEDS_REVISION"|"PLAN_ACCEPTED"|"ESCALATION_NEEDED"
+ROUTING: summary→decision_logic→next_dispatch
+CONVERGE: "PLAN_ACCEPTED"→σ₄.plan_approved=true→Ω₅ᵀ
+
+ITERATIONS: MCP Memory dialogue optimized for individual developers
 
 ## TDD Protocol Extension
 Ω₅ᵀ: TDD-Enhanced Execution (replaces Ω₅ᵀ when enabled)
