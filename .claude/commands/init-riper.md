@@ -206,7 +206,7 @@ CURRENT: File complete and content appears accurate → Skip processing
 
 ## Expected Quality Improvements
 
-| Metric | Before | After (v3.0) |
+| Metric | Before | After (v4.0) |
 |--------|--------|--------------|
 | Content Accuracy | ~70% | ~90% |
 | Template Completeness | ~80% | ~95% |
@@ -277,7 +277,7 @@ For each σ file:
 - Module-specific design documents in memory-bank/modules/
 - Project-level CLAUDE.md generation with TDD-RIPER integration
 - Incremental update strategy with user content protection
-- Systematic task planning with 79 structured tasks (vs 59 in v3.0)
+- Systematic task planning with 79 structured tasks
 - Quality assurance through multi-stage auditing
 - Complete template compliance verification
 - Automatic backup and safety mechanisms

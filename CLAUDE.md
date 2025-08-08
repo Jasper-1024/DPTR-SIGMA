@@ -1,7 +1,7 @@
 # RIPER·Σ Core Protocol
 
 ## Modes & Permissions
-Ω₁ᴾ: CC PLAN MODE (Γ₁₋₃,₆) - architecture & module design *(CC native, NOT subagent)*
+Ω₁ᴾ: CC PLAN MODE (Γ₁₋₃,₆) - architecture & module design *(CC native plan mode)*
 Ω₂ᴬ: ARCH DEVIL'S ADVOCATE (Λ₁|Λ₂) - dual-layer design opposition  
 Ω₃ᴾ: SPECIFY (exact plans) - implementation planning
 Ω₄ᶜ: PLAN CRITIC (review only) - execution feasibility validation
@@ -20,8 +20,7 @@ ENTRY: CHECK(σ₄.Ω_current==my_mode)
 Ψ₁-₃: proceed | Ψ₄-₆: caution+confirm
 
 ## Commands
-/arch-critic=Ω₂ᴬ{Λ₁|Λ₂,M_name} /p=Ω₃ᴾ /plan-critic=Ω₄ᶜ /tdd-execute=Ω₅ᵀ /rev=Ω₆ⱽ
-/tdd-execute=Ω₅ᵀ (TDD-Enhanced Execution Mode)
+/arch-critic=Ω₂ᴬ{Λ₁|Λ₂,module_name} /p=Ω₃ᴾ /plan-critic=Ω₄ᶜ /tdd-execute=Ω₅ᵀ /rev=Ω₆ⱽ
 
 ## Cross-Reference Notation
 [↗️σₓ:Rₓ] = Reference to memory file section
@@ -29,7 +28,7 @@ ENTRY: CHECK(σ₄.Ω_current==my_mode)
 
 ## Session Protocol
 SESSION: session_id→MCP_Memory (per-dialogue isolation)
-STATE: σ₄.Ω_current (maintained by main thread)
+STATE: σ₄.Ω_current (maintained by Main Thread/MT)
 
 ## CC Plan Mode Integration
 Ω₁ᴾ: CC Plan Mode (replaces original Ω₁+Ω₂)
@@ -42,13 +41,13 @@ HANDOFF: Automatic transition to Ω₂ᴬ for design audit
 
 ## State Machine
 σ₄.Ω_current ∈ [Ω₁ᴾ,Ω₂ᴬ,Ω₃ᴾ,Ω₄ᶜ,Ω₅ᵀ,Ω₆ⱽ]
-FLOW: Ω₁ᴾ→Ω₂ᴬ→Ω₃ᴾ→Ω₄ᶜ→Ω₅ᵀ→Ω₆ⱽ
+FLOW: Ω₁ᴾ→Ω₂ᴬ→(Ω₃ᴾ⟷Ω₄ᶜ)→Ω₅ᵀ→Ω₆ⱽ
 ENFORCE: current==agent_mode
 
 ## Dual Loop Protocol
 
 ### Design Quality Loop (Ω₁ᴾ ↔ Ω₂ᴬ)
-DESIGN_LOOP: Ω₁ᴾ → Ω₂ᴬ{Λ₁|Λ₂,M_name} → σ₄.arch_critique → ∇decision
+DESIGN_LOOP: Ω₁ᴾ → Ω₂ᴬ{Λ₁|Λ₂,module_name} → σ₄.arch_critique → ∇decision
 ∇decision: 
 ├─ ACCEPT → σ₄.design_approved=true → Ω₃ᴾ
 ├─ REVISE → σ₄.design_feedback → re-enter Ω₁ᴾ
@@ -88,24 +87,24 @@ CONVERGE: "PLAN_ACCEPTED"→σ₄.plan_approved=true→Ω₅ᵀ
 ITERATIONS: MCP Memory dialogue optimized for individual developers
 
 ## TDD Protocol Extension
-Ω₅ᵀ: TDD-Enhanced Execution (replaces Ω₅ᵀ when enabled)
+Ω₅ᵀ: TDD-Enhanced Execution (replaces Ω₅ when enabled)
 ℜ→ℜᴳ→ℜᶠ: Complete TDD cycle (Red→Green→Refactor)
-QA∨DE: Role alternation within Ω₅ᵀ
+QA↔DE: Role interaction within Ω₅ᵀ
 ⟲[method]: Cycle iteration marker
 
 ### TDD Sub-phase Symbols
-Ω₅ᵀᴿ: RED phase (QA writes failing tests)  
-Ω₅ᵀᴳ: GREEN phase (DE minimal implementation)
-Ω₅ᵀᶠᵗᵉˢᵗ: Refactor phase for test code
-Ω₅ᵀᶠⁱᵐᵖˡ: Refactor phase for implementation code
+Ω₅ᴿ: RED phase (QA writes failing tests)  
+Ω₅ᴳ: GREEN phase (DE minimal implementation)
+Ω₅ᶠᵗᵉˢᵗ: Refactor phase for test code
+Ω₅ᶠⁱᵐᵖˡ: Refactor phase for implementation code
 
 ### TDD State Machine
 Ω₅ᵀ.state ∈ [ℜ,ℜᴳ,ℜᶠ]
 FLOW: ℜ→ℜᴳ→ℜᶠ→next_cycle
-ROLES: ℜ=QA | ℜᴳ=DE | ℜᶠ=QA∨DE
+ROLES: ℜ=QA | ℜᴳ=DE | ℜᶠ=QA↔DE
 
 ### TDD State Transitions
-ENTRY: Ω₅ᵀ → Ω₅ᵀ (when σ₂.tdd_cycles exists)
+ENTRY: Ω₅ → Ω₅ᵀ (when σ₂.tdd_cycles exists)
 EXIT: Ω₅ᵀ → Ω₆ⱽ (when ALL cycles complete)
 
 #### Cycle Transitions
@@ -136,7 +135,7 @@ TDD_AGENTS: session_id only (MCP Memory driven)
 
 ## TDD Dialogue Protocol (Ω₅ᵀ Extension)
 SESSION: tdd_session_id→MCP_Memory (per-cycle isolation)
-QA∨DE: Natural dialogue through MCP observations
+QA↔DE: Natural dialogue through MCP observations
 SUMMARY: Agent→summary→MT decision routing
 
 ### TDD MCP Router (Ω₅ᵀ.router)
@@ -152,188 +151,49 @@ SUMMARY: Agent→summary→MT decision routing
 └─ σ₅.progress[i] = ✓
 ```
 
+### TDD Cycle Execution (Main Thread)
+```
+TDD_EXECUTE_COMMAND():
+├─ VALIDATE: σ₂.tdd_cycles exists
+├─ INIT: σ₄.STATE(tdd_mode=true, current_cycle=0)
+└─ FOR each cycle IN σ₂.tdd_cycles:
+    └─ EXECUTE_RGR_CYCLE(cycle)
+
+EXECUTE_RGR_CYCLE(cycle):
+├─ RED_PHASE:
+│   ├─ INIT: sid=TDD_{timestamp}_C{i}
+│   ├─ UPDATE: σ₄.STATE(phase="red", tdd_session_id=sid)
+│   ├─ ADD: mcp.observation(sid, cycle.task + "phase:RED")
+│   ├─ DISPATCH: riper-tdd-qa-agent(sid)
+│   ├─ WAIT: summary response
+│   └─ IF summary="RED_COMPLETE" → GREEN_PHASE
+├─ GREEN_PHASE:
+│   ├─ UPDATE: σ₄.STATE(phase="green")
+│   ├─ ADD: mcp.observation(sid, "phase:GREEN")
+│   ├─ DISPATCH: riper-tdd-de-agent(sid)
+│   ├─ WAIT: summary response
+│   └─ IF summary="GREEN_COMPLETE" → REFACTOR_PHASE
+└─ REFACTOR_PHASE:
+    ├─ UPDATE: σ₄.STATE(phase="refactor")
+    ├─ ADD: mcp.observation(sid, "phase:REFACTOR")
+    ├─ SEQUENTIAL_REFACTOR:
+    │   ├─ DISPATCH: riper-tdd-qa-agent(sid) // Test refactor
+    │   ├─ WAIT: "REFACTOR_TEST_COMPLETE"
+    │   ├─ DISPATCH: riper-tdd-de-agent(sid) // Impl refactor
+    │   ├─ WAIT: "REFACTOR_IMPL_COMPLETE"
+    │   └─ COLLABORATION_VERIFY:
+    │       ├─ RUN: Test suite verification
+    │       ├─ CHECK: Code quality review
+    │       └─ GATE: All tests pass → continue
+    └─ UPDATE: σ₅.progress[cycle] = ✓
+```
+
 ### TDD Summary States
 ℜ_states: RED_COMPLETE|TEST_ADJUSTED
 ℜᴳ_states: GREEN_COMPLETE|TEST_ISSUE  
 ℜᶠ_states: REFACTOR_{TEST|IMPL|COMPLETE}
 CONVERGE: QA∧DE both report REFACTOR_COMPLETE
 
-### Agent Dispatch Protocol
-```
-Master Scheduler → Sub-Agent Transfer Protocol:
-{
-  plan_step: σ₂.tdd_cycles[i],            // Specific plan in memory-bank
-  quality_rules: @agent-tdd-*.md#rules,   // Reference to quality rules
-  context: σ₄.current_context,            // Current context state
-  cycle_phase: σ₄.STATE.tdd_phase         // RGR phase identifier
-}
-```
-
-### TDD Cycle Execution Flow
-```
-Ω₄ᵀ.cycle_execution:
-FOREACH σ₂.tdd_cycles[i]:
-  ├─ UPDATE σ₄.STATE(current_cycle=i, phase="red")
-  ├─ ℜ: QA∨Agent(σ₂.tdd_cycles[i], σ₄.context)
-  ├─ UPDATE σ₄.STATE(phase="green")
-  ├─ ℜᴳ: DE∨Agent(σ₂.tdd_cycles[i], σ₄.context) 
-  ├─ UPDATE σ₄.STATE(phase="refactor")
-  ├─ ℜᶠ: {
-  │   ├─ QA∨Ω₄ᶠᵗᵉˢᵗ(current_cycle, Ψ_quality_rules)
-  │   ├─ DE∨Ω₄ᶠⁱᵐᵖˡ(current_cycle, Ψ_quality_rules)  
-  │   └─ Sequential_Validation∨✓(qa_validation + de_validation + cross_review + integration_test)
-  │   }
-  └─ UPDATE σ₅.progress[i] = ✓
-```
-
-### Refactor Collaboration Flow
-```
-ℜᶠ.flow: QA∨ℜᶠᵗᵉˢᵗ → DE∨ℜᶠⁱᵐᵖˡ → QA_validation → DE_validation → Cross_Review → Integration_Test → next_cycle
-
-Sequential_Validation.sequence:
-├─ QA_validation: QA validates refactored test quality (QA_active, DE_inactive)
-├─ DE_validation: DE validates refactored implementation quality (QA_inactive, DE_active)
-├─ QA_cross_review: QA reviews DE's implementation changes (QA_active, DE_inactive)
-├─ DE_cross_review: DE reviews QA's test changes (QA_inactive, DE_active)
-├─ interface_check: Automated interface consistency validation (both_inactive)
-├─ integration_test: Complete test suite execution (both_inactive)
-└─ commit_ready: Quality standards met, proceed to next cycle
-```
-
-## TDD Master Scheduler Implementation
-
-### TDD Execute Command
-`/tdd-execute` - Initiates TDD-Enhanced Execution Mode
-
-PREREQUISITES:
-- σ₂.tdd_cycles must exist (from Ω₃ Plan Agent)
-- σ₄.Ω_current must be Ω₄ or transitioning to Ω₄ᵀ
-
-### Scheduler Execution Logic
-```
-TDD_SCHEDULER_MAIN():
-├─ VALIDATE: σ₂.tdd_cycles exists
-├─ INIT: σ₄.STATE(tdd_mode=true, current_cycle=0, tdd_phase="red")
-├─ FOR cycle_index IN σ₂.tdd_cycles:
-│   ├─ EXECUTE_RGR_CYCLE(cycle_index)
-│   └─ IF FAILURE → TERMINATE(error_summary)
-└─ COMPLETE: σ₄.Ω_current → Ω₅
-
-EXECUTE_RGR_CYCLE(i):
-├─ RED_PHASE(i):
-│   ├─ UPDATE: σ₄.STATE(current_cycle=i, phase="red", qa_agent_active=true)
-│   ├─ DISPATCH: riper-tdd-qa-agent with context={
-│   │     plan_step: σ₂.tdd_cycles[i],
-│   │     context: σ₄.current_context,
-│   │     cycle_phase: "red"
-│   │   }
-│   ├─ WAIT: Agent completion or failure
-│   ├─ VALIDATE: Tests written and failing
-│   └─ IF SUCCESS → GREEN_PHASE(i) ELSE → TERMINATE
-├─ GREEN_PHASE(i):
-│   ├─ UPDATE: σ₄.STATE(phase="green", qa_agent_active=false, de_agent_active=true)
-│   ├─ DISPATCH: riper-tdd-de-agent with context={
-│   │     plan_step: σ₂.tdd_cycles[i],
-│   │     context: σ₄.current_context,
-│   │     cycle_phase: "green"
-│   │   }
-│   ├─ WAIT: Agent completion or failure
-│   ├─ VALIDATE: Tests passing with minimal implementation
-│   └─ IF SUCCESS → REFACTOR_PHASE(i) ELSE → TERMINATE
-└─ REFACTOR_PHASE(i):
-    ├─ UPDATE: σ₄.STATE(phase="refactor")
-    ├─ SEQUENTIAL_REFACTOR_DISPATCH:
-    │   ├─ STEP_1_QA_TEST_REFACTOR:
-    │   │   ├─ UPDATE: σ₄.STATE(qa_agent_active=true, de_agent_active=false, refactor_stage="test")
-    │   │   ├─ DISPATCH: riper-tdd-qa-agent with context={
-    │   │   │     plan_step: σ₂.tdd_cycles[i],
-    │   │   │     cycle_phase: "refactor",
-    │   │   │     refactor_focus: "test_code",
-    │   │   │     quality_rules: Ψ_quality_rules
-    │   │   │   }
-    │   │   ├─ WAIT: QA test refactoring completion
-    │   │   ├─ VALIDATE: Test refactoring complete, logic preserved
-    │   │   └─ IF FAILURE → TERMINATE
-    │   ├─ STEP_2_DE_IMPL_REFACTOR:
-    │   │   ├─ UPDATE: σ₄.STATE(qa_agent_active=false, de_agent_active=true, refactor_stage="impl")
-    │   │   ├─ DISPATCH: riper-tdd-de-agent with context={
-    │   │   │     plan_step: σ₂.tdd_cycles[i],
-    │   │   │     cycle_phase: "refactor",
-    │   │   │     refactor_focus: "implementation_code",
-    │   │   │     quality_rules: Ψ_quality_rules
-    │   │   │   }
-    │   │   ├─ WAIT: DE implementation refactoring completion
-    │   │   ├─ VALIDATE: Code refactoring complete, behavior preserved
-    │   │   └─ IF FAILURE → TERMINATE
-    │   └─ STEP_3_COLLABORATION_VALIDATION:
-    │       ├─ STEP_3A_QA_VALIDATION:
-    │       │   ├─ UPDATE: σ₄.STATE(qa_agent_active=true, de_agent_active=false, refactor_stage="qa_validation")
-    │       │   ├─ DISPATCH: riper-tdd-qa-agent with context={
-    │       │   │     plan_step: σ₂.tdd_cycles[i],
-    │       │   │     cycle_phase: "collaboration_qa_review",
-    │       │   │     validation_focus: "test_quality_and_coverage"
-    │       │   │   }
-    │       │   ├─ QA_TASKS:
-    │       │   │   ├─ VERIFY: Tests still validate correct business logic
-    │       │   │   ├─ CHECK: Test coverage maintained or improved
-    │       │   │   └─ CONFIRM: Refactored tests can still detect bugs
-    │       │   └─ IF FAILURE → TERMINATE
-    │       ├─ STEP_3B_DE_VALIDATION:
-    │       │   ├─ UPDATE: σ₄.STATE(qa_agent_active=false, de_agent_active=true, refactor_stage="de_validation")
-    │       │   ├─ DISPATCH: riper-tdd-de-agent with context={
-    │       │   │     plan_step: σ₂.tdd_cycles[i],
-    │       │   │     cycle_phase: "collaboration_de_review",
-    │       │   │     validation_focus: "implementation_quality_and_behavior"
-    │       │   │   }
-    │       │   ├─ DE_TASKS:
-    │       │   │   ├─ VERIFY: Implementation behavior unchanged
-    │       │   │   ├─ CHECK: Code quality improved (naming, structure, performance)
-    │       │   │   └─ CONFIRM: All improvement opportunities handled
-    │       │   └─ IF FAILURE → TERMINATE
-    │       ├─ STEP_3C_CROSS_REVIEW:
-    │       │   ├─ QA_CROSS_REVIEW:
-    │       │   │   ├─ UPDATE: σ₄.STATE(qa_agent_active=true, de_agent_active=false, refactor_stage="qa_cross_review")
-    │       │   │   ├─ TASK: Review DE's implementation changes for test compatibility
-    │       │   │   └─ IF FAILURE → TERMINATE
-    │       │   ├─ DE_CROSS_REVIEW:
-    │       │   │   ├─ UPDATE: σ₄.STATE(qa_agent_active=false, de_agent_active=true, refactor_stage="de_cross_review")
-    │       │   │   ├─ TASK: Review QA's test changes for implementation alignment
-    │       │   │   └─ IF FAILURE → TERMINATE
-    │       │   └─ INTERFACE_CHECK:
-    │       │       ├─ UPDATE: σ₄.STATE(qa_agent_active=false, de_agent_active=false, refactor_stage="interface_check")
-    │       │       └─ AUTOMATED: Interface design consistency validation
-    │       ├─ STEP_3D_INTEGRATION_TEST:
-    │       │   ├─ UPDATE: σ₄.STATE(qa_agent_active=false, de_agent_active=false, refactor_stage="integration_test")
-    │       │   └─ AUTOMATED_TASKS:
-    │       │       ├─ ∀tests_pass: Run complete test suite ✓
-    │       │       ├─ interface_check: Interface design consistency ✓
-    │       │       └─ commit_ready: Quality standards met ✓
-    │       └─ CYCLE_COMPLETION:
-    │           ├─ UPDATE: σ₅.progress[i] = ✓
-    │           ├─ UPDATE: σ₄.STATE(qa_agent_active=false, de_agent_active=false)
-    │           └─ IF ALL_GATES_PASS → next_cycle ELSE → TERMINATE
-```
-
-### Agent Dispatch Mechanism
-```
-DISPATCH_AGENT(agent_name, context_data):
-├─ LOCK: σ₄.locked_by = agent_name
-├─ PREPARE: Agent context package
-├─ LAUNCH: @agent_name with context_data
-├─ MONITOR: Agent execution
-├─ HANDLE: Success/Failure response
-└─ UNLOCK: σ₄.locked_by = null
-
-Context Package Structure:
-{
-  current_cycle: σ₄.current_cycle,
-  cycle_method: σ₂.tdd_cycles[current_cycle],
-  tdd_phase: σ₄.tdd_phase,
-  project_context: σ₄.current_context,
-  quality_rules: @agent-tdd-*.md#constraints,
-  memory_state: {σ₁, σ₂, σ₃, σ₄, σ₅, σ₆}
-}
-```
 
 ### Error Handling & Termination
 ```
@@ -342,7 +202,7 @@ FAILURE_PROTOCOLS:
 │   ├─ LOG: Error details in σ₅.progress
 │   ├─ CAPTURE: Current state snapshot
 │   ├─ CREATE: Handoff summary for σ₄
-│   └─ EXIT: Ω₄ᵀ → Ω₅ with FAILED status
+│   └─ EXIT: Ω₅ᵀ → Ω₆ⱽ with FAILED status
 ├─ TEST_FAILURE:
 │   ├─ ANALYZE: Root cause (QA vs DE issue)
 │   ├─ REPORT: Issue classification  
@@ -357,28 +217,44 @@ TERMINATION_PROCEDURE:
 ├─ CLEAR: Agent activation flags
 ├─ SUMMARY: Create failure analysis
 ├─ HANDOFF: Prepare σ₄ for next mode
-└─ TRANSITION: σ₄.Ω_current → Ω₅
+└─ TRANSITION: σ₄.Ω_current → Ω₆ⱽ
 ```
 
 ### Quality Gates
 ```
 CYCLE_VALIDATION_GATES:
 ├─ RED_GATE:
-│   ├─ Tests written ✓
-│   ├─ Tests failing ✓ 
-│   └─ Test quality meets Ψ standards ✓
+│   ├─ Tests written ✅
+│   ├─ Tests failing ✅ 
+│   └─ Test quality meets Ψ standards ✅
 ├─ GREEN_GATE:
-│   ├─ Tests passing ✓
-│   ├─ Minimal implementation ✓
-│   └─ No test modifications ✓
+│   ├─ Tests passing ✅
+│   ├─ Minimal implementation ✅
+│   └─ No test modifications ✅
 └─ REFACTOR_GATE:
-    ├─ All tests still passing ✓
-    ├─ Code quality improved ✓
-    ├─ Interface consistency ✓
-    └─ Ready for next cycle ✓
+    ├─ All tests still passing ✅
+    ├─ Code quality improved ✅
+    ├─ Interface consistency ✅
+    ├─ QA refactor: Test code optimized ✅
+    ├─ DE refactor: Implementation optimized ✅
+    ├─ Collaboration: Code review completed ✅
+    ├─ Verification: Test suite fully passes ✅
+    └─ Ready for next cycle ✅
 ```
 
 ## Session Terminology
 Ω_session: Agent lifecycle identifier (persists across modes)
 session_id: MCP Memory dialogue session (Plan↔Critic conversation)
 tdd_session_id: MCP Memory dialogue session (QA↔DE per cycle)
+
+## Symbol System
+Ω[Modes]: Ω₁ᴾ=CC-Plan, Ω₂ᴬ=Arch-Critic(Λ₁|Λ₂), Ω₃ᴾ=Plan, Ω₄ᶜ=Plan-Critic, Ω₅ᵀ=TDD-Execute, Ω₆ⱽ=Review
+  └─ TDD-Phases: Ω₅ᴿ=RED, Ω₅ᴳ=GREEN, Ω₅ᶠ=REFACTOR
+σ[Memory]: σ₁=Brief, σ₂=Patterns, σ₃=Tech, σ₄=Context/State, σ₅=Progress, σ₆=Protection
+Γ[Perms]: Γ₁=Files, Γ₂=Folders, Γ₃=Code, Γ₄=Commands, Γ₅=Modify, Γ₆=Web
+Ψ[Guard]: Ψ₁₋₃=low-risk(proceed), Ψ₄₋₆=high-risk(caution)
+Λ[Audit]: Λ₁=Architecture-Level, Λ₂=Module-Level(LLD)
+S[Session]: S_p=plan-session(session_id), S_t=tdd-session(tdd_session_id)
+∇[Decision]: ACCEPT|REVISE|REJECT; →[Flow], ↔[Interact], ⟷[Loop], ⟲[Iterate]
+Logic: ∈(member), ∃(exists), ∧(AND), ∨(OR), ¬(NOT)
+Status: ✅(success), ❌(failure), ⚠️(warning), 🔄(processing)
