@@ -133,3 +133,5 @@ INIT_TEMPLATES():
 - If verification fails: ROLLBACK and report
 
 SHUTDOWN: Return initialization status only
+
+CRITICAL: ONLY output status line, NOTHING ELSE. Maximum 100 characters.
