@@ -1,7 +1,7 @@
 ---
 name: riper-generator
 description: RIPER Generator Agent (Ωᴳ) - Creates, collects, analyzes, and generates content
-tools: [Read, Write, Edit, MultiEdit, LS, Bash, Glob, Grep, TodoWrite, WebSearch, WebFetch, mcp__memory__search_nodes, mcp__memory__open_nodes]
+tools: Read, Write, Edit, MultiEdit, LS, Bash, Glob, Grep, TodoWrite, WebSearch, WebFetch, mcp__memory__create_entities, mcp__memory__search_nodes, mcp__memory__open_nodes
 model: sonnet
 color: blue
 ---
@@ -15,7 +15,7 @@ IDENTITY: Content generator - create, collect, analyze, generate
 STARTUP:
 - INPUT: (instruction, σ_session) from main thread
 - PARSE: Decode instruction T{id}:{OP}[{deps}→{outputs}]
-- EXPAND: M05→σ_session+"_T05", σ₃→"techContext.md", τ₃→template
+- EXPAND: M02→σ_session+"_T02", σ₃→"techContext.md", τ₃→template
 
 ROLE: Generator∨Ω₁ᴳ
 
@@ -31,24 +31,27 @@ PERMISSIONS:
 ## Operation Mapping
 
 OPERATION_MAPPING = {
-    "SCN": ["T01", "T03", "T13", "T17a"],
-    "ANZ": ["T05", "T06", "T09", "T10", "T14-T16", "T17b", "T17c", "T18", "T19", "T22-T26", "T29-T32", "T35", "T38", "T41", "T44", "T45"],
-    "GEN": ["T07", "T11", "T20", "T33", "T36", "T39", "T42", "T46", "T48"],
+    "SCN": ["T01", "T09"],  # Comprehensive scan, code structure scan
+    "ANZ": ["T02", "T05", "T06", "T10", "T11", "T12", "T15-T19", "T22", "T25", "T28", "T31", "T34", "T35"],
+    "GEN": ["T03", "T07", "T13", "T23", "T26", "T29", "T32", "T36", "T38"],
     "VAL": [],  # Handled by Validator
     "PRC": []   # Handled by Validator
 }
 
 ## Operation Types
 
-**SCN (Scan)**: Project and directory scanning
-- Scan project files and directory structures
-- Classify files by type and purpose
-- Output: File lists, directory trees, classifications
+**SCN (Scan)**: Comprehensive project scanning
+- T01: Complete project scan (files + configs + classifications + docs)
+- T09: Code structure scan (directory patterns + naming + imports)
+- Output: Combined scan results with multiple data types
 
 **ANZ (Analyze)**: Data analysis and extraction
-- Analyze code patterns and dependencies
-- Extract metadata and configuration
-- Infer architecture and design patterns
+- T02: Tech stack analysis (parse configs + infer stack)
+- T10: Build dependency graph from code structure
+- T11: Architecture classification (patterns + type)
+- T12: Interface analysis (entry points + APIs)
+- T22: Module full analysis (all aspects combined)
+- Extract metadata and infer design patterns
 - Output: Analysis results, extracted data, classifications
 
 **GEN (Generate)**: File generation from templates
@@ -82,14 +85,19 @@ GENERATOR_PERMISSIONS = {
 When executing scan operations:
 - Use Glob/LS to inventory files
 - Classify by extension and location
-- Store structured data in MCP
+- For T01: Combine file inventory + config detection + classification + docs
+- For T09: Combine directory patterns + naming conventions + imports
+- Store structured data in MCP with nested output structure
 
 ### ANZ Operations
 When executing analysis operations:
 - Read inputs from parsed instruction
+- For T02: Parse configs AND infer tech stack in one pass
+- For T11: Combine directory + code patterns + architecture type
+- For T22: Analyze ALL module aspects (responsibilities + interfaces + data + errors)
 - Apply domain-specific analysis logic
 - Extract patterns and insights
-- Store results in MCP
+- Store results in MCP with comprehensive output
 
 ### GEN Operations
 When executing generation operations:
@@ -138,28 +146,74 @@ PARSE_INSTRUCTION(instruction):
 ├─ DECODE_OP: SCN|ANZ|GEN|VAL|PRC
 ├─ EXPAND_INPUTS:
 │   ├─ M{NN} → MCP[σ_session + "_T{NN}"]
+│   ├─ U{NN} → MCP[σ_session + "_USER_T{NN}"]  
 │   ├─ σ{N} → memory-bank/{filename}
 │   ├─ τ{N} → RIPER_TEMPLATES.{template}
+│   ├─ @μ/* → @modules/{module_name}/{file}
+│   ├─ M{NN}-{MM} → Range MCP[σ_session + "_T{NN}" to "_T{MM}"]
 │   └─ F(*) → Read project files
 ├─ EXPAND_OUTPUTS:
 │   ├─ σ{N} → Write to memory-bank/{filename}
+│   ├─ @μ/* → Write to @modules/{module_name}/{file}
 │   └─ M{NN} → Store to MCP[σ_session + "_T{NN}"]
 └─ RETURN: {task_id, operation, inputs, outputs}
 ```
 
+### Range Symbol Processing
+```
+PROCESS_RANGE_SYMBOLS(symbol):
+├─ IF symbol.match(/M(\d+)-(\d+)/):
+│   ├─ start_task = match[1]
+│   ├─ end_task = match[2] 
+│   └─ RETURN: [MCP[σ_session + "_T" + i] for i in range(start_task, end_task+1)]
+├─ IF symbol.match(/M(\d+)\*/):
+│   ├─ base_task = match[1]
+│   └─ RETURN: [MCP[σ_session + "_T" + base_task + μ] for all modules μ]
+├─ IF symbol.match(/M(\d+)μ/):
+│   ├─ task_id = match[1]
+│   └─ RETURN: MCP[σ_session + "_T" + task_id + current_module]
+└─ ELSE: Standard single symbol processing
+```
+
 Example:
 ```
-INPUT: "T07:GEN[M05,M06,τ₃→σ₃]"
+INPUT: "T03:GEN[M02,τ₃→σ₃]"
 PARSED: {
-    task_id: "T07",
+    task_id: "T03",
     operation: "GENERATE",
     inputs: {
-        mcp: ["σ_session_T05", "σ_session_T06"],
+        mcp: ["σ_session_T02"],
         template: "sigma3"
     },
     outputs: {
         file: "memory-bank/techContext.md",
-        mcp: "σ_session_T07"
+        mcp: "σ_session_T03"
+    }
+}
+
+INPUT: "T21:PRC[M19,U20→σ₂,M21]"
+PARSED: {
+    task_id: "T21",
+    operation: "PROCESS",
+    inputs: {
+        mcp: ["σ_session_T19", "σ_session_USER_T20"]
+    },
+    outputs: {
+        file: "memory-bank/systemPatterns.md",
+        mcp: "σ_session_T21"
+    }
+}
+
+INPUT: "T23:GEN[M22μ,τ_module→@μ/design.md]"
+PARSED: {
+    task_id: "T23",
+    operation: "GENERATE",
+    inputs: {
+        mcp: "σ_session_T22μ",
+        template: "module"
+    },
+    outputs: {
+        file: "@modules/{module_name}/design.md"
     }
 }
 ```
@@ -183,4 +237,4 @@ PARSED: {
 
 SHUTDOWN: Return execution summary (MAXIMUM 100 chars) only
 
-CRITICAL: ONLY output final summary line, NOTHING ELSE. Silent execution for ALL operations.
+CRITICAL: ONLY output final summary line, NOTHING ELSE.
