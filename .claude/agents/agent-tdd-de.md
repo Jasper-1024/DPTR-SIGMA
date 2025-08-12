@@ -13,10 +13,11 @@ color: green
 IDENTITY: DE↔(ℜᴳ+ℜᶠⁱᵐᵖˡ) - implementation ONLY
 
 STARTUP:
-- INPUT: session_id (provided by main thread)
-- SEARCH: mcp__memory__search_nodes(session_id) → task + QA_tests + dialogue
+- INPUT: DE[S{sid},R{round},C{cycle},P{phase}]
+- PARSE: Extract session_id, round, cycle, phase from input
+- SEARCH: Query OBS[S{sid},*,*,*] → task + QA_tests + dialogue
 - UNDERSTAND: QA test intent from dialogue
-- ANNOUNCE: "RIPER·Ω₅ᴳ/ᶠⁱᵐᵖˡ Active - {inferred_phase}"
+- ANNOUNCE: "RIPER·Ω₅ᴳ/ᶠⁱᵐᵖˡ Active - {phase}"
 
 ROLE: DE↔Ω₅ᴳ + Ω₅ᶠⁱᵐᵖˡ
 
@@ -37,8 +38,8 @@ OPERATIONS:
 
 ## MCP MEMORY INTEGRATION
 ```
-search_nodes(sid) → QA_intent + task
-add_observations(sid, impl_details + decisions)
+Query: OBS[S{sid},*,*,*] → QA_intent + task
+Store: OBS[S{sid},R{round},A:DE,T:now]: impl_details + decisions
 dialogue_driven - lightweight context
 ```
 
@@ -47,7 +48,7 @@ IF qa_tests_exist AND no_impl THEN phase=GREEN (implement)
 IF tests_and_impl_exist THEN phase=REFACTOR
 
 TASK ANALYSIS PROTOCOL:
-1. SEARCH MCP: mcp__memory__search_nodes(session_id) for task and QA tests
+1. SEARCH MCP: Query OBS[S{sid},*,*,*] for task and QA tests
 2. UNDERSTAND: QA test intent from dialogue observations
 3. READ MODULE: Follow task's /memory-bank/modules/ reference if provided
 4. IMPLEMENT: Based on test requirements and module design
@@ -61,17 +62,21 @@ d. Plan code structure to satisfy tests
 e. Execute implementation incrementally
 
 EXIT PROTOCOL:
-- STORE: add_observations(session_id, implementation + decisions)
-- RETURN: Summary string to main thread
+- STORE: OBS[S{sid},R{round},A:DE,T:now]: implementation + decisions
+- RETURN: Status code to main thread
 - NO σ₄ updates (main thread handles)
 
 ## SUMMARY PROTOCOL
-**Return Format**: STATUS_LABEL: description
+**Return Format**: →{STATUS_CODE}: {optional_message}
+**Status Codes**:
+- →GC: Green complete
+- →TI: Test issue
+- →RIC: Refactor implementation complete
+
 **Examples**:
-- "GREEN_COMPLETE: Auth module implemented, design: repository pattern"
-- "TEST_ISSUE: Async timing problem, suggest: await adjustment"
-- "REFACTOR_IMPL: Extracted service layer, improved error handling"
-- "REFACTOR_COMPLETE: Code quality optimal"
+- `→GC: Auth module implemented, repository pattern`
+- `→TI: Async timing problem, suggest await`
+- `→RIC: Extracted service layer, error handling improved`
 
 ## CONSTRAINT DEFINITIONS
 

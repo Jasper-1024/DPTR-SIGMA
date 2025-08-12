@@ -4,7 +4,7 @@
 Ω₁ᴾ: CC PLAN MODE (Γ₁₋₃,₆) - architecture & module design *(CC native plan mode)*
 Ω₂ᴬ: ARCH DEVIL'S ADVOCATE (Λ₁|Λ₂) - dual-layer design opposition  
 Ω₃ᴾ: SPECIFY (exact plans) - implementation planning
-Ω₄ᶜ: PLAN CRITIC (review only) - execution feasibility validation
+Ω₄ᶜ: PLAN CRITIC (review only) - practical feasibility validation
 Ω₅ᵀ: EXECUTE (TDD cycles) - implementation with testing
 Ω₆ⱽ: VALIDATE (no fix) - final quality verification
 
@@ -30,6 +30,25 @@ ENTRY: CHECK(σ₄.Ω_current==my_mode)
 SESSION: session_id→MCP_Memory (per-dialogue isolation)
 STATE: σ₄.Ω_current (maintained by Main Thread/MT)
 
+## Communication Protocol
+
+### Symbolic Format
+DISPATCH: Agent[S{sid},R{round},C{cycle},P{phase},CTX{context}]
+RESPONSE: →{STATUS_CODE}: {optional_message}
+
+### Status Codes
+Plan Loop: →PC|→PR|→NR|→PA|→DG
+TDD Loop: →RC|→GC|→RTC|→RIC
+Errors: →ME|→TO|→EX|→BL
+
+### MCP Storage Format
+OBS[S{sid},R{n},A:{agent},T:{timestamp}]: {content}
+
+### Query Patterns
+QUERY: OBS[S{sid},R{current},*,*]      # Current round
+QUERY: OBS[S{sid},R{n-1},*,*]          # Previous round  
+QUERY: OBS[S{sid},*,A:{agent},*]       # All from agent
+
 ## CC Plan Mode Integration
 Ω₁ᴾ: CC Plan Mode (replaces original Ω₁+Ω₂)
 TRIGGER: User uses CC native Plan Mode
@@ -54,35 +73,36 @@ DESIGN_LOOP: Ω₁ᴾ → Ω₂ᴬ{Λ₁|Λ₂,module_name} → σ₄.arch_criti
 └─ REJECT → σ₄.design_rejected → HALT
 
 ### Plan Quality Loop (Ω₃ᴾ ⟷ Ω₄ᶜ) - MCP Session
-SESSION_INIT: MT→session_id→MCP_Memory  
-SESSION_STORE: σ₄.session_id=session_id
-PLAN_DIALOGUE: MT→Ω₃ᴾ(session_id)→summary→MT→Ω₄ᶜ(session_id)→summary→MT
-⟲[dialogue]: summary-driven iteration
+SESSION_INIT: MT→sid→MCP_Memory  
+SESSION_STORE: σ₄.session_id=sid
+PLAN_LOOP: MT→Ω₃ᴾ[S,R]→status→MT→Ω₄ᶜ[S,R]→status→MT
+⟲[round]: status-driven iteration
 
 #### Plan MCP Router (Main Thread)
 ```
 PLAN_MCP_ROUTER():
-├─ INIT: session_id=generate() → MCP_Memory
-├─ STORE: σ₄.session_id=session_id
-├─ DISPATCH→Ω₃ᴾ(session_id): plan_generation  
-├─ RECEIVE←Ω₃ᴾ: summary("PLAN_CREATED")
-├─ DISPATCH→Ω₄ᶜ(session_id): plan_critique
-├─ RECEIVE←Ω₄ᶜ: summary("NEEDS_REVISION"|"PLAN_ACCEPTED")  
+├─ INIT: sid=generate() → MCP_Memory
+├─ STORE: σ₄.session_id=sid, r=0
+├─ DISPATCH: Ω₃ᴾ[S{sid},R{r}]  
+├─ RECEIVE: →PC|→PR
+├─ DISPATCH: Ω₄ᶜ[S{sid},R{r}]
+├─ RECEIVE: →NR|→PA  
 ├─ DECISION_ROUTING:
-│   ├─ IF summary=="PLAN_ACCEPTED" → ADVANCE→Ω₅ᵀ
-│   └─ IF summary=="NEEDS_REVISION" → CONTINUE_LOOP
+│   ├─ IF →PA → ADVANCE→Ω₅ᵀ
+│   └─ IF →NR → CONTINUE_LOOP
 └─ LOOP_CONTINUE:
-    ├─ DISPATCH→Ω₃ᴾ(session_id): revision_request
-    ├─ RECEIVE←Ω₃ᴾ: summary("PLAN_REVISED"|"DISAGREE")
-    ├─ IF "PLAN_REVISED" → DISPATCH→Ω₄ᶜ(session_id) 
-    ├─ IF "DISAGREE" → DISPATCH→Ω₄ᶜ(session_id)
-    └─ ⟲ until convergence
+    ├─ r++
+    ├─ DISPATCH: Ω₃ᴾ[S{sid},R{r},CTX:revise]
+    ├─ RECEIVE: →PR|→DG
+    ├─ IF →PR → DISPATCH: Ω₄ᶜ[S{sid},R{r}] 
+    ├─ IF →DG → DISPATCH: Ω₄ᶜ[S{sid},R{r},CTX:disagree]
+    └─ ⟲ until →PA
 ```
 
-#### Summary Protocol
-STATES: "PLAN_CREATED"|"PLAN_REVISED"|"DISAGREE"|"NEEDS_REVISION"|"PLAN_ACCEPTED"|"ESCALATION_NEEDED"|"MCP_ERROR"
-ROUTING: summary→decision_logic→next_dispatch
-CONVERGE: "PLAN_ACCEPTED"→σ₄.plan_approved=true→Ω₅ᵀ
+#### Summary Protocol  
+STATES: →PC|→PR|→DG|→NR|→PA|→EN|→ME
+ROUTING: status_code→decision_logic→next_dispatch
+CONVERGE: →PA→σ₄.plan_approved=true→Ω₅ᵀ
 
 ITERATIONS: MCP Memory dialogue optimized for individual developers
 
@@ -135,19 +155,19 @@ TDD_AGENTS: session_id only (MCP Memory driven)
 
 ## TDD Dialogue Protocol (Ω₅ᵀ Extension)
 SESSION: tdd_session_id→MCP_Memory (per-cycle isolation)
-QA↔DE: Natural dialogue through MCP observations
-SUMMARY: Agent→summary→MT decision routing
+QA↔DE: Communication through MCP observations
+SUMMARY: Agent→status→MT decision routing
 
 ### TDD MCP Router (Ω₅ᵀ.router)
 ```
 ∀cycle ∈ σ₅.tdd_cycles:
-├─ INIT: sid=TDD_{timestamp}_C{i}
+├─ INIT: sid=TDD_{timestamp}_C{i}, r=0
 ├─ STORE: σ₄.tdd_session_id=sid
-├─ ADD: mcp.observation(sid, cycle.task)
+├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: cycle.task
 ├─ ⟲[phase]: 
-│   ├─ ℜ: QA(sid)→summary→decide
-│   ├─ ℜᴳ: DE(sid)→summary→decide
-│   └─ ℜᶠ: QA↔DE(sid)→converge
+│   ├─ ℜ: DISPATCH: QA[S{sid},R{r},C{i},P:ℜ]→status
+│   ├─ ℜᴳ: DISPATCH: DE[S{sid},R{r},C{i},P:ℜᴳ]→status
+│   └─ ℜᶠ: r++ → QA[S{sid},R{r},C{i},P:ℜᶠᵗ]→DE[S{sid},R{r},C{i},P:ℜᶠⁱ]
 └─ σ₅.progress[i] = ✓
 ```
 
@@ -161,26 +181,26 @@ TDD_EXECUTE_COMMAND():
 
 EXECUTE_RGR_CYCLE(cycle):
 ├─ RED_PHASE:
-│   ├─ INIT: sid=TDD_{timestamp}_C{i}
+│   ├─ INIT: sid=TDD_{timestamp}_C{i}, r=0
 │   ├─ UPDATE: σ₄.STATE(phase="red", tdd_session_id=sid)
-│   ├─ ADD: mcp.observation(sid, cycle.task + "phase:RED")
-│   ├─ DISPATCH: riper-tdd-qa-agent(sid)
-│   ├─ WAIT: summary response
-│   └─ IF summary="RED_COMPLETE" → GREEN_PHASE
+│   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: cycle.task + "phase:RED"
+│   ├─ DISPATCH: QA[S{sid},R{r},C{i},P:ℜ]
+│   ├─ WAIT: status response
+│   └─ IF →RC → GREEN_PHASE
 ├─ GREEN_PHASE:
 │   ├─ UPDATE: σ₄.STATE(phase="green")
-│   ├─ ADD: mcp.observation(sid, "phase:GREEN")
-│   ├─ DISPATCH: riper-tdd-de-agent(sid)
-│   ├─ WAIT: summary response
-│   └─ IF summary="GREEN_COMPLETE" → REFACTOR_PHASE
+│   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "phase:GREEN"
+│   ├─ DISPATCH: DE[S{sid},R{r},C{i},P:ℜᴳ]
+│   ├─ WAIT: status response
+│   └─ IF →GC → REFACTOR_PHASE
 └─ REFACTOR_PHASE:
-    ├─ UPDATE: σ₄.STATE(phase="refactor")
-    ├─ ADD: mcp.observation(sid, "phase:REFACTOR")
+    ├─ UPDATE: σ₄.STATE(phase="refactor"), r++
+    ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "phase:REFACTOR"
     ├─ SEQUENTIAL_REFACTOR:
-    │   ├─ DISPATCH: riper-tdd-qa-agent(sid) // Test refactor
-    │   ├─ WAIT: "REFACTOR_TEST_COMPLETE"
-    │   ├─ DISPATCH: riper-tdd-de-agent(sid) // Impl refactor
-    │   ├─ WAIT: "REFACTOR_IMPL_COMPLETE"
+    │   ├─ DISPATCH: QA[S{sid},R{r},C{i},P:ℜᶠᵗ]
+    │   ├─ WAIT: →RTC
+    │   ├─ DISPATCH: DE[S{sid},R{r},C{i},P:ℜᶠⁱ]
+    │   ├─ WAIT: →RIC
     │   └─ COLLABORATION_VERIFY:
     │       ├─ RUN: Test suite verification
     │       ├─ CHECK: Code quality review
@@ -189,10 +209,10 @@ EXECUTE_RGR_CYCLE(cycle):
 ```
 
 ### TDD Summary States
-ℜ_states: RED_COMPLETE|TEST_ADJUSTED
-ℜᴳ_states: GREEN_COMPLETE|TEST_ISSUE  
-ℜᶠ_states: REFACTOR_{TEST|IMPL|COMPLETE}
-CONVERGE: QA∧DE both report REFACTOR_COMPLETE
+ℜ_states: →RC|→TA
+ℜᴳ_states: →GC|→TI  
+ℜᶠ_states: →RTC|→RIC|→RFC
+CONVERGE: QA∧DE both report →RFC
 
 
 ### Error Handling & Termination

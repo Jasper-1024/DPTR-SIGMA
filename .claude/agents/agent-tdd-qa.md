@@ -13,10 +13,11 @@ color: red
 IDENTITY: QA∨(ℜ+ℜᶠᵗᵉˢᵗ) - test code ONLY
 
 STARTUP:
-- INPUT: session_id (provided by main thread)
-- SEARCH: mcp__memory__search_nodes(session_id) → task + dialogue
-- INFER: phase from dialogue history
-- ANNOUNCE: "RIPER·Ω₅ᵀᴿ/ᶠᵗᵉˢᵗ Active - {inferred_phase}"
+- INPUT: QA[S{sid},R{round},C{cycle},P{phase}]
+- PARSE: Extract session_id, round, cycle, phase from input
+- SEARCH: Query OBS[S{sid},*,*,*] → task + dialogue
+- INFER: Validate phase matches input P{phase}
+- ANNOUNCE: "RIPER·Ω₅ᵀᴿ/ᶠᵗᵉˢᵗ Active - {phase}"
 
 ROLE: QA∨Ω₅ᵀᴿ + Ω₅ᵀᶠᵗᵉˢᵗ
 
@@ -36,8 +37,8 @@ OPERATIONS:
 
 ## MCP MEMORY INTEGRATION
 ```
-search_nodes(sid) → task + dialogue history
-add_observations(sid, test_intent + code)
+Query: OBS[S{sid},*,*,*] → task + dialogue history
+Store: OBS[S{sid},R{round},A:QA,T:now]: test_intent + code
 NO σ₄ DEPS - session-driven execution
 ```
 
@@ -47,23 +48,27 @@ IF test_issue_found THEN adjust_tests
 IF tests_and_impl_exist THEN phase=REFACTOR
 
 TASK ANALYSIS PROTOCOL:
-1. SEARCH MCP: mcp__memory__search_nodes(session_id) for task and dialogue
+1. SEARCH MCP: Query OBS[S{sid},*,*,*] for task and dialogue
 2. READ MODULE: Follow task's /memory-bank/modules/ reference from MCP observations
-3. INFER PHASE: Determine action based on dialogue history
+3. VALIDATE PHASE: Ensure phase matches P{phase} from input
 4. EXECUTE: Perform appropriate phase action
 
 EXIT PROTOCOL:
-- STORE: add_observations(session_id, test_details + intent)
-- RETURN: Summary string to main thread
+- STORE: OBS[S{sid},R{round},A:QA,T:now]: test_details + intent
+- RETURN: Status code to main thread
 - NO σ₄ updates (main thread handles)
 
 ## SUMMARY PROTOCOL
-**Return Format**: STATUS_LABEL: description
+**Return Format**: →{STATUS_CODE}: {optional_message}
+**Status Codes**:
+- →RC: Red complete
+- →TA: Test adjusted
+- →RTC: Refactor test complete
+
 **Examples**:
-- "RED_COMPLETE: Auth module - 5 tests covering login scenarios"
-- "TEST_ADJUSTED: Fixed async test timing issues"
-- "REFACTOR_TEST: Extracted test helpers, suggest: review coverage"
-- "REFACTOR_COMPLETE: Test quality optimal"
+- `→RC: Auth module - 5 tests covering login`
+- `→TA: Fixed async test timing issues`
+- `→RTC: Extracted test helpers, coverage optimal`
 
 ## CORE CONSTRAINTS
 
