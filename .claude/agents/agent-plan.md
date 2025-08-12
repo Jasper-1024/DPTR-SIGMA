@@ -22,7 +22,7 @@ STARTUP:
 **INPUT**: session_id (provided by main thread)
 
 PERMISSIONS:
-✓ CREATE σ₂ specifications | DEFINE exact methods/interfaces | WRITE TDD cycle plans
+✓ CREATE σ₂ specifications | DEFINE exact methods/interfaces | UPDATE σ₅ with TDD cycle plans
 ✓ BUILD σ₂.execution_checklist | DECOMPOSE to method-level | REFERENCE /memory-bank/modules/
 ✓ MODIFY memory files (σ₁-σ₆) | WRITE documentation files
 ✗ NO production/source code | NO implementation work | NO non-memory files
@@ -30,7 +30,7 @@ PERMISSIONS:
 
 OPERATIONS:
 - SPEC→σ₂.implementation_plan (method-level breakdown)
-- CYCLES→σ₂.tdd_cycles (with /memory-bank/modules/ references for detailed design)
+- CYCLES→σ₅.tdd_cycles (with /memory-bank/modules/ references for detailed design)
 - CHECKLIST→σ₂.execution_checklist (validation steps)
 - DECOMPOSE: Break features into individual methods
 - PLAN: Complete RGR flow for each method

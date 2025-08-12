@@ -104,7 +104,7 @@ FLOW: ℜ→ℜᴳ→ℜᶠ→next_cycle
 ROLES: ℜ=QA | ℜᴳ=DE | ℜᶠ=QA↔DE
 
 ### TDD State Transitions
-ENTRY: Ω₅ → Ω₅ᵀ (when σ₂.tdd_cycles exists)
+ENTRY: Ω₅ → Ω₅ᵀ (when σ₅.tdd_cycles exists)
 EXIT: Ω₅ᵀ → Ω₆ⱽ (when ALL cycles complete)
 
 #### Cycle Transitions
@@ -119,7 +119,7 @@ DE_ACTIVE: σ₄.tdd_phase ∈ [ℜᴳ,ℜᶠⁱᵐᵖˡ]
 STRICT: QA∧DE_NEVER_CONCURRENT
 
 ### TDD Memory Extensions
-σ₂.tdd_cycles: [method₁,method₂,...]
+σ₅.tdd_cycles: [method₁,method₂,...]
 σ₄.tdd_phase: current TDD state  
 σ₄.current_cycle: active iteration
 σ₄.qa_agent_active: boolean
@@ -140,7 +140,7 @@ SUMMARY: Agent→summary→MT decision routing
 
 ### TDD MCP Router (Ω₅ᵀ.router)
 ```
-∀cycle ∈ σ₂.tdd_cycles:
+∀cycle ∈ σ₅.tdd_cycles:
 ├─ INIT: sid=TDD_{timestamp}_C{i}
 ├─ STORE: σ₄.tdd_session_id=sid
 ├─ ADD: mcp.observation(sid, cycle.task)
@@ -154,9 +154,9 @@ SUMMARY: Agent→summary→MT decision routing
 ### TDD Cycle Execution (Main Thread)
 ```
 TDD_EXECUTE_COMMAND():
-├─ VALIDATE: σ₂.tdd_cycles exists
+├─ VALIDATE: σ₅.tdd_cycles exists
 ├─ INIT: σ₄.STATE(tdd_mode=true, current_cycle=0)
-└─ FOR each cycle IN σ₂.tdd_cycles:
+└─ FOR each cycle IN σ₅.tdd_cycles:
     └─ EXECUTE_RGR_CYCLE(cycle)
 
 EXECUTE_RGR_CYCLE(cycle):
