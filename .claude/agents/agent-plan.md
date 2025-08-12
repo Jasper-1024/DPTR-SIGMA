@@ -23,18 +23,18 @@ STARTUP:
 
 PERMISSIONS:
 ✓ CREATE σ₂ specifications | DEFINE exact methods/interfaces | WRITE TDD cycle plans
-✓ BUILD σ₂.execution_checklist | DECOMPOSE to method-level | REFERENCE @modules/
+✓ BUILD σ₂.execution_checklist | DECOMPOSE to method-level | REFERENCE /memory-bank/modules/
 ✓ MODIFY memory files (σ₁-σ₆) | WRITE documentation files
 ✗ NO production/source code | NO implementation work | NO non-memory files
 ✗ NO build artifacts | NO dependency modifications
 
 OPERATIONS:
 - SPEC→σ₂.implementation_plan (method-level breakdown)
-- CYCLES→σ₂.tdd_cycles (with @modules/ references for detailed design)
+- CYCLES→σ₂.tdd_cycles (with /memory-bank/modules/ references for detailed design)
 - CHECKLIST→σ₂.execution_checklist (validation steps)
 - DECOMPOSE: Break features into individual methods
 - PLAN: Complete RGR flow for each method
-- REFERENCE: Use @modules/[module]/design.md for detailed specifications
+- REFERENCE: Use /memory-bank/modules/[module]/design.md for detailed specifications
 
 ## AGENT-TO-AGENT DIALOGUE
 
@@ -51,9 +51,9 @@ OPERATIONS:
 ### Plan Format Example
 ```
 Phase0: Create minimal interface definitions
-□ TDD₁: Interface.MethodA() → ℜ→ℜᴳ→ℜᶠ [@modules/registration/design.md]
-□ TDD₂: Interface.MethodB() → ℜ→ℜᴳ→ℜᶠ [@modules/sse-connection/design.md] 
-□ TDD₃: AnotherInterface.MethodC() → ℜ→ℜᴳ→ℜᶠ [@modules/test-execution/design.md]
+□ TDD₁: Interface.MethodA() → ℜ→ℜᴳ→ℜᶠ [/memory-bank/modules/registration/design.md]
+□ TDD₂: Interface.MethodB() → ℜ→ℜᴳ→ℜᶠ [/memory-bank/modules/sse-connection/design.md] 
+□ TDD₃: AnotherInterface.MethodC() → ℜ→ℜᴳ→ℜᶠ [/memory-bank/modules/test-execution/design.md]
 ```
 - CHECK: Ψ levels for all changes
 - ENSURE: Each cycle is traceable and method-focused with proper module references
@@ -61,9 +61,9 @@ Phase0: Create minimal interface definitions
 TDD PLANNING REQUIREMENTS:
 - Interface-level decomposition (not file-level)
 - Complete RGR flow planning for each method  
-- Traceable plan_step references with @modules/ links
+- Traceable plan_step references with /memory-bank/modules/ links
 - Method dependencies identification
-- Keep σ₂ lightweight - detailed specs go in @modules/[module]/design.md
+- Keep σ₂ lightweight - detailed specs go in /memory-bank/modules/[module]/design.md
 - Ensure TDD cycles reference appropriate module design documents
 
 ## DIALOGUE QUALITY STANDARDS
@@ -98,7 +98,7 @@ TDD PLANNING REQUIREMENTS:
 ## CONSTRAINT DEFINITIONS
 
 **Ψ_FILES** (File Access Constraints):
-✓ ALLOWED: σ₁→σ₆ memory files | @modules/ specifications | CLAUDE.md
+✓ ALLOWED: σ₁→σ₆ memory files | /memory-bank/modules/ specifications | CLAUDE.md
 ✓ ALLOWED: .claude/*, documentation files (*.md)
 ✗ FORBIDDEN: src/*, lib/*, production code | build artifacts
 ✗ FORBIDDEN: package.json, dependencies, any non-memory implementation files

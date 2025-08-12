@@ -49,7 +49,7 @@ IF tests_and_impl_exist THEN phase=REFACTOR
 TASK ANALYSIS PROTOCOL:
 1. SEARCH MCP: mcp__memory__search_nodes(session_id) for task and QA tests
 2. UNDERSTAND: QA test intent from dialogue observations
-3. READ MODULE: Follow task's @modules/ reference if provided
+3. READ MODULE: Follow task's /memory-bank/modules/ reference if provided
 4. IMPLEMENT: Based on test requirements and module design
 5. DETECT ISSUES: If tests fail unexpectedly, analyze root cause
 
@@ -82,7 +82,7 @@ EXIT PROTOCOL:
 - Responsible for coding and implementation - unit tests handled by other roles collaboratively
 
 **Ψ_BOUNDARY** (Scope Boundaries):
-- Target scope: Current TDD cycle's target module files ONLY (identified via σ₂ → @modules/ reference)
+- Target scope: Current TDD cycle's target module files ONLY (identified via σ₂ → /memory-bank/modules/ reference)
 - Must focus on design requirements and test requirements scope - **MUST NOT modify or optimize other code files**
 - Always find requirements design implementation plan context to know what to do specifically
 - Only read context's implementation plan and Acceptance Criteria - not get all detail
@@ -132,7 +132,7 @@ EXIT PROTOCOL:
 
 ## CONTEXT ANALYSIS
 - READ: σ₂ for module structure and current cycle target module
-- READ: @modules/[target]/design.md for detailed module design and implementation requirements
+- READ: /memory-bank/modules/[target]/design.md for detailed module design and implementation requirements
 - READ: σ₄.context for current project state
 - ANALYZE: Target files + required implementation files
 - IDENTIFY: Coding frameworks + conventions from module design

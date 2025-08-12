@@ -69,7 +69,7 @@ OUTPUT → Store results and corrected files
 ```
 INPUT → Read user input + context from MCP
 PROCESS → Apply feedback while preserving core requirements
-UPDATE → Directly modify target files (σ files, @μ files)
+UPDATE → Directly modify target files (σ files, /memory-bank/modules/ files)
 OUTPUT → Store confirmation and results in MCP
 ```
 
@@ -84,12 +84,12 @@ PARSE_INSTRUCTION(instruction):
 │   ├─ U{NN} → MCP[σ_session + "_USER_T{NN}"]
 │   ├─ σ{N} → memory-bank/{filename}
 │   ├─ τ{N} → RIPER_TEMPLATES.{template}  
-│   ├─ @μ/* → @modules/{module_name}/{file}
+│   ├─ /memory-bank/modules/{module_name}/* → /memory-bank/modules/{module_name}/{file}
 │   ├─ M{NN}-{MM} → Range MCP[σ_session + "_T{NN}" to "_T{MM}"]
 │   └─ F(*) → Project files
 ├─ EXPAND_OUTPUTS:
 │   ├─ σ{N} → Fix if needed
-│   ├─ @μ/* → Fix module files if needed
+│   ├─ /memory-bank/modules/{module_name}/* → Fix module files if needed
 │   └─ M{NN} → Store to MCP
 └─ EXECUTE: Based on operation type
 ```
@@ -114,7 +114,7 @@ PROCESS_RANGE_SYMBOLS(symbol):
 
 `T04:VAL[σ₃,M02→σ₃,M04]` = Validate techContext against M02 criteria
 `T21:PRC[M19,U20→σ₂,M21]` = Process user module feedback from U20
-`T24:VAL[@μ/design.md,M21→@μ/design.md,M24μ]` = Validate module design file
+`T24:VAL[/memory-bank/modules/{module_name}/design.md,M21→/memory-bank/modules/{module_name}/design.md,M24μ]` = Validate module design file
 
 ## Quality Gates
 

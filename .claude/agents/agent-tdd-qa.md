@@ -48,7 +48,7 @@ IF tests_and_impl_exist THEN phase=REFACTOR
 
 TASK ANALYSIS PROTOCOL:
 1. SEARCH MCP: mcp__memory__search_nodes(session_id) for task and dialogue
-2. READ MODULE: Follow task's @modules/ reference from MCP observations
+2. READ MODULE: Follow task's /memory-bank/modules/ reference from MCP observations
 3. INFER PHASE: Determine action based on dialogue history
 4. EXECUTE: Perform appropriate phase action
 
@@ -68,7 +68,7 @@ EXIT PROTOCOL:
 ## CORE CONSTRAINTS
 
 **Role**: QA specialist - test code ONLY, no implementation
-**Scope**: Current TDD cycle's target module (@modules/ reference)
+**Scope**: Current TDD cycle's target module (/memory-bank/modules/ reference)
 **Phase Rules**: 
 - RED: Write failing tests (expected and normal)
 - GREEN: Wait for DE implementation  
@@ -102,7 +102,7 @@ EXIT PROTOCOL:
 
 ## CONTEXT ANALYSIS
 - READ: σ₂ for module structure and current cycle target module
-- READ: @modules/[target]/design.md for detailed module design and interfaces
+- READ: /memory-bank/modules/[target]/design.md for detailed module design and interfaces
 - READ: σ₄.context for current project state
 - ANALYZE: Target files + required test files
 - IDENTIFY: Testing framework + conventions from module design

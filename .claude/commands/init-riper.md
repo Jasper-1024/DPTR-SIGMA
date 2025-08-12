@@ -12,6 +12,13 @@ Use 4-Opus model, if Opus model is not available, this command will fallback to 
 
 Initialize complete TDD-RIPER framework: memory-bank files + project-level CLAUDE.md integration.
 
+## 📁 CRITICAL: Memory-Bank File Location
+**ALL memory-bank files MUST be created in `./memory-bank/` directory relative to project root**
+- Create directory if it doesn't exist: `./memory-bank/`
+- Module files go in: `./memory-bank/modules/{module_name}/`
+- Never use `@` notation - it conflicts with Claude Code directives
+- Always use explicit paths: `/memory-bank/` for references
+
 ## Session-Based Execution Framework
 
 **Zero-Assumption Principle**: No pre-existing project structure, documentation, or configuration assumptions.
@@ -94,12 +101,12 @@ State: MCP[σ_session + "_STATE"]
 **R5: Module Detailed Design** `[3×N tasks where N = confirmed modules]`
 ∀μ ∈ modules:
 - T22: MODULE_FULL_ANALYSIS → Comprehensive module analysis (responsibilities + interfaces + data + errors)
-  └─ `ANZ[M21,F(@μ/*)→M22μ]`
+  └─ `ANZ[M21,F(/memory-bank/modules/{module_name}/*)→M22μ]`
   └─ Output includes: {responsibilities, public_interfaces, data_structures, error_strategies}
 - T23: GENERATE_MODULE_DESIGN → Create design.md
-  └─ `GEN[M22μ,τ_module→@μ/design.md]`
+  └─ `GEN[M22μ,τ_module→/memory-bank/modules/{module_name}/design.md]`
 - T24: VALIDATE_MODULE_DESIGN → Verify module quality and LLD compliance
-  └─ `VAL[@μ/design.md,M21→@μ/design.md,M24μ]`
+  └─ `VAL[/memory-bank/modules/{module_name}/design.md,M21→/memory-bank/modules/{module_name}/design.md,M24μ]`
 
 **R6: Auxiliary Memory-Bank Files** `[9 tasks]`
 - T25: ANALYZE_ACTIVE_CONTEXT → Analyze current state and focus
@@ -152,7 +159,7 @@ State: MCP[σ_session + "_STATE"]
 - `M{NN}`: MCP node T{NN} (e.g., M05 = σ_session + "_T05")
 - `σ{N}`: Memory-bank file (σ₁=projectbrief, σ₂=systemPatterns, σ₃=techContext, etc.)
 - `τ{N}`: Template (τ₁=sigma1, τ₂=sigma2, τ₃=sigma3, etc.)
-- `@μ/*`: Module files (@modules/*/design.md)
+- `/memory-bank/modules/{module_name}/*`: Module files (/memory-bank/modules/*/design.md)
 - `F(*)`: Project files (package.json, README.md, etc.)
 - `∅`: No dependencies
 - `U{NN}`: User input from T{NN} → stored in MCP[σ_session + "_USER_T{NN}"]
@@ -175,7 +182,7 @@ T21:PRC[M19,U20→σ₂,M21]          # Process user feedback, update σ₂
 **Generator Agent** (instruction, σ_session):
 - Tasks: T01, T02, T05-T07, T09-T13, T15-T19, T22-T23, T25-T26, T28-T29, T31-T32, T34-T36, T38
 - Input: Symbolic instruction (e.g., "T01:SCN[∅→M01]", "T09:SCN[M01,F(src/*)→M09]")
-- Output: memory-bank/*.md + MCP[σ_session + "_" + task_id]
+- Output: ./memory-bank/*.md + MCP[σ_session + "_" + task_id] (MUST create in project root's memory-bank directory)
 
 **Validator Agent** (instruction, σ_session):
 - Tasks: T04, T08, T14, T21, T24+, T27, T30, T33, T37, T39
@@ -208,7 +215,7 @@ T21:PRC[M19,U20→σ₂,M21]          # Process user feedback, update σ₂
 ## Data Flow Protocol
 
 **Agent-MCP Memory**: Agents read dependencies from MCP, write results to MCP  
-**File Generation**: GENERATE tasks write to memory-bank/*.md  
+**File Generation**: GENERATE tasks write to ./memory-bank/*.md (relative to project root)  
 **User Interaction Storage**: Main Thread stores user feedback in MCP[σ_session + "_USER_T{NN}"]  
 **State Management**: All intermediate data in MCP Memory
 

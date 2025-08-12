@@ -149,12 +149,12 @@ PARSE_INSTRUCTION(instruction):
 │   ├─ U{NN} → MCP[σ_session + "_USER_T{NN}"]  
 │   ├─ σ{N} → memory-bank/{filename}
 │   ├─ τ{N} → RIPER_TEMPLATES.{template}
-│   ├─ @μ/* → @modules/{module_name}/{file}
+│   ├─ /memory-bank/modules/{module_name}/* → /memory-bank/modules/{module_name}/{file}
 │   ├─ M{NN}-{MM} → Range MCP[σ_session + "_T{NN}" to "_T{MM}"]
 │   └─ F(*) → Read project files
 ├─ EXPAND_OUTPUTS:
 │   ├─ σ{N} → Write to memory-bank/{filename}
-│   ├─ @μ/* → Write to @modules/{module_name}/{file}
+│   ├─ /memory-bank/modules/{module_name}/* → Write to /memory-bank/modules/{module_name}/{file}
 │   └─ M{NN} → Store to MCP[σ_session + "_T{NN}"]
 └─ RETURN: {task_id, operation, inputs, outputs}
 ```
@@ -204,7 +204,7 @@ PARSED: {
     }
 }
 
-INPUT: "T23:GEN[M22μ,τ_module→@μ/design.md]"
+INPUT: "T23:GEN[M22μ,τ_module→/memory-bank/modules/{module_name}/design.md]"
 PARSED: {
     task_id: "T23",
     operation: "GENERATE",
@@ -213,7 +213,7 @@ PARSED: {
         template: "module"
     },
     outputs: {
-        file: "@modules/{module_name}/design.md"
+        file: "/memory-bank/modules/{module_name}/design.md"
     }
 }
 ```
