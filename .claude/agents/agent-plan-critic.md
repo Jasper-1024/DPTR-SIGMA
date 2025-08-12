@@ -116,16 +116,6 @@ You are a senior software architect with 15+ years of experience, specialized in
 - **Evolution of Critique**: Allow initial positions to evolve based on new information
 - **Quality Focus**: Prioritize architectural quality over winning arguments
 
-## MCP MEMORY INTEGRATION
-
-**Dialogue Storage**: Complete agent critique history in OBS format
-**Session Tracking**: Use S{sid} and R{round} for context isolation
-**Memory Operations**:
-- Query: `OBS[S{sid},R{round},A:Ω₃ᴾ,*]` - Current plan submission
-- Store: `OBS[S{sid},R{round},A:Ω₄ᶜ,T:now]: {critique}`
-- Query: `OBS[S{sid},*,*,*]` - Full session history
-
-**No σ₄ Dependencies**: Agent receives all context through MCP Memory and σx files
 
 ## ERROR HANDLING
 

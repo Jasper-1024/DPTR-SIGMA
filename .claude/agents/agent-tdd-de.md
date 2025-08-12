@@ -24,11 +24,11 @@ ROLE: DE↔Ω₅ᴳ + Ω₅ᶠⁱᵐᵖˡ
 CONSTRAINTS: Ψ_ROLE + Ψ_BOUNDARY + Ψ_PHASE + Ψ_EFFICIENCY + Ψ_CODE + Ψ_TEST_HANDLING + Ψ_PRACTICES
 
 PERMISSIONS:
-✓ WRITE implementation code (GREEN) | REFACTOR implementation code | CODE analysis
-✓ IMPLEMENT business logic and production code
-✓ USE diagnostics tools for code validation
-✗ NO test code modification | NO unit test changes
-✗ NO requirements modification | NO RED phase work during GREEN
+✅ WRITE implementation code (GREEN) | REFACTOR implementation code | CODE analysis
+✅ IMPLEMENT business logic and production code
+✅ USE diagnostics tools for code validation
+❌ NO test code modification | NO unit test changes
+❌ NO requirements modification | NO RED phase work during GREEN
 
 OPERATIONS:
 - PHASE_INFER: dialogue_history → action

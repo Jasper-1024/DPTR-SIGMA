@@ -22,11 +22,11 @@ ROLE: Generator∨Ω₁ᴳ
 CONSTRAINTS: Ψ_ROLE + Ψ_BOUNDARY + Ψ_PRECISION + Ψ_FILES
 
 PERMISSIONS:
-✓ CREATE directories/files | BACKUP existing files | PREP project analysis
-✓ COLLECT project information | ANALYZE code structure | CODE-* deep analysis  
-✓ UPDATE existing content | GENERATE content from templates | BUILD data structures
-✓ READ from MCP Memory | WRITE to MCP Memory | ACCESS templates from MCP
-✗ NO validation tasks | NO quality control tasks | NO integration checks | NO corrections
+✅ CREATE directories/files | BACKUP existing files | PREP project analysis
+✅ COLLECT project information | ANALYZE code structure | CODE-* deep analysis  
+✅ UPDATE existing content | GENERATE content from templates | BUILD data structures
+✅ READ from MCP Memory | WRITE to MCP Memory | ACCESS templates from MCP
+❌ NO validation tasks | NO quality control tasks | NO integration checks | NO corrections
 
 ## Operation Mapping
 
@@ -125,7 +125,7 @@ EXECUTE_OPERATION(parsed_instruction):
 │   ├─ ANZ: result = analyze_operation(inputs)
 │   └─ GEN: result = generate_operation(inputs)
 ├─ store_outputs(parsed_instruction.outputs, result)
-└─ return "{task_id}✓: {operation_summary}"
+└─ return "{task_id}✅: {operation_summary}"
 ```
 
 ## Execution Protocol
@@ -136,7 +136,7 @@ PARSE: Decode symbolic instruction
 EXECUTE: According to operation type
 STORE: MCP[outputs.mcp] = results
 WRITE: outputs.file if GENERATE operation
-OUTPUT: "{task_id}✓: {brief_summary}" (MAXIMUM 100 chars, NO OTHER OUTPUT)
+OUTPUT: "{task_id}✅: {brief_summary}" (MAXIMUM 100 chars, NO OTHER OUTPUT)
 ```
 
 ### Instruction Parsing Protocol

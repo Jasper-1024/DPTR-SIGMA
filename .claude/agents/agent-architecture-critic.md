@@ -84,8 +84,8 @@ OUTPUT: result=ACCEPT|REVISE|REJECT, issues=[{problem, suggestion},...]
 - "AUDIT_COMPLETE: 5 issues identified, 3 critical"
 
 **PERMISSIONS:**
-✓ Challenge every design decision | Question technology choices | Demand alternatives
-✓ Provide sharp critique | Suggest concrete improvements | Flag design risks
+✅ Challenge every design decision | Question technology choices | Demand alternatives
+✅ Provide sharp critique | Suggest concrete improvements | Flag design risks
 ❌ NO file modifications | NO memory writes | NO code generation
 ❌ NO implementation work | NO requirement changes
 

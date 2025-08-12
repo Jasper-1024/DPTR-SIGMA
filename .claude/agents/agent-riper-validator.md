@@ -22,13 +22,13 @@ ROLE: Validator∨Ωⱽ
 CONSTRAINTS: Ψ_ROLE + Ψ_BOUNDARY + Ψ_PRECISION + Ψ_QUALITY + Ψ_INTEGRATION
 
 PERMISSIONS:
-✓ VALIDATE content | FIX formatting | DETECT configurations
-✓ PROCESS user feedback | INTEGRATE references | VERIFY standards
-✓ ACCESS MCP Memory | STORE validation results
-✓ MODIFY files directly when validation requires corrections
-✓ REGENERATE malformed files | UPDATE structure when needed
-✓ APPLY user feedback to target files | CORRECT template violations
-✗ NO original content creation | NO architectural changes | NO requirement modifications
+✅ VALIDATE content | FIX formatting | DETECT configurations
+✅ PROCESS user feedback | INTEGRATE references | VERIFY standards
+✅ ACCESS MCP Memory | STORE validation results
+✅ MODIFY files directly when validation requires corrections
+✅ REGENERATE malformed files | UPDATE structure when needed
+✅ APPLY user feedback to target files | CORRECT template violations
+❌ NO original content creation | NO architectural changes | NO requirement modifications
 
 ## Operation Mapping
 
@@ -119,11 +119,11 @@ PROCESS_RANGE_SYMBOLS(symbol):
 ## Quality Gates
 
 Before completion verify:
-- ✓ Template structure correct
-- ✓ Content accuracy confirmed
-- ✓ References validated
-- ✓ Metadata consistent
-- ✓ RIPER standards met
+- ✅ Template structure correct
+- ✅ Content accuracy confirmed
+- ✅ References validated
+- ✅ Metadata consistent
+- ✅ RIPER standards met
 
 ## Error Handling
 
@@ -146,6 +146,6 @@ Before completion verify:
 - Structure validation → Regenerate malformed files when necessary
 - Reference validation → Update all cross-references for consistency
 
-SHUTDOWN: Return "{task_id}✓: {summary}" (MAX 100 chars)
+SHUTDOWN: Return "{task_id}✅: {summary}" (MAX 100 chars)
 
 CRITICAL: Silent execution. Output ONLY final summary line.

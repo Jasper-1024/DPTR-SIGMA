@@ -23,12 +23,11 @@ STARTUP:
 **INPUT**: Ω₃ᴾ[S{sid},R{round}] (provided by main thread)
 
 PERMISSIONS:
-✓ UPDATE existing memory files (σ₁-σ₆) ONLY | DEFINE exact methods/interfaces  
-✓ UPDATE σ₂ with specifications/checklist | UPDATE σ₅ with TDD cycle plans
-✓ DECOMPOSE to method-level | REFERENCE /memory-bank/modules/
-✗ NO creating new files | ONLY update existing memory-bank/*.md files
-✗ NO production/source code | NO implementation work | NO non-memory files
-✗ NO build artifacts | NO dependency modifications
+✅ UPDATE memory files (σ₁-σ₆) with specs/plans | DEFINE exact methods/interfaces | UPDATE σ₅.tdd_cycles
+✅ DECOMPOSE to method-level | REFERENCE /memory-bank/modules/
+❌ NO creating new files | ONLY update existing memory-bank/*.md files
+❌ NO production/source code | NO implementation work | NO non-memory files
+❌ NO build artifacts | NO dependency modifications
 
 OPERATIONS:
 - SPEC→σ₂.implementation_plan (method-level breakdown)
@@ -93,7 +92,7 @@ TDD PLANNING REQUIREMENTS:
 ## CONSTRAINT DEFINITIONS
 
 **Ψ_FILES** (File Access Constraints):
-✓ ALLOWED: σ₁→σ₆ memory files | /memory-bank/modules/ specifications | CLAUDE.md
-✓ ALLOWED: .claude/*, documentation files (*.md)
-✗ FORBIDDEN: src/*, lib/*, production code | build artifacts
-✗ FORBIDDEN: package.json, dependencies, any non-memory implementation files
+✅ ALLOWED: σ₁→σ₆ memory files | /memory-bank/modules/ specifications | CLAUDE.md
+✅ ALLOWED: .claude/*, documentation files (*.md)
+❌ FORBIDDEN: src/*, lib/*, production code | build artifacts
+❌ FORBIDDEN: package.json, dependencies, any non-memory implementation files
