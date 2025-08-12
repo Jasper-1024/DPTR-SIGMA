@@ -29,6 +29,7 @@ ENTRY: CHECK(σ₄.Ω_current==my_mode)
 ## Session Protocol
 SESSION: session_id→MCP_Memory (per-dialogue isolation)
 STATE: σ₄.Ω_current (maintained by Main Thread/MT)
+MT: Main Thread (RIPER mode coordinator)
 
 ## Communication Protocol
 
@@ -50,7 +51,7 @@ QUERY: OBS[S{sid},R{n-1},*,*]          # Previous round
 QUERY: OBS[S{sid},*,A:{agent},*]       # All from agent
 
 ## CC Plan Mode Integration
-Ω₁ᴾ: CC Plan Mode (replaces original Ω₁+Ω₂)
+Ω₁ᴾ: CC Plan Mode - architecture & module design *(CC native plan mode)*
 TRIGGER: User uses CC native Plan Mode
 OUTPUT: Direct to memory bank
   ├─ σ₂.architecture_design (overall architecture)
@@ -65,7 +66,7 @@ ENFORCE: current==agent_mode
 
 ## Dual Loop Protocol
 
-### Design Quality Loop (Ω₁ᴾ ↔ Ω₂ᴬ)
+### Design Quality Loop (Ω₁ᴾ → Ω₂ᴬ)
 DESIGN_LOOP: Ω₁ᴾ → Ω₂ᴬ{Λ₁|Λ₂,module_name} → σ₄.arch_critique → ∇decision
 ∇decision: 
 ├─ ACCEPT → σ₄.design_approved=true → Ω₃ᴾ
@@ -101,6 +102,7 @@ PLAN_MCP_ROUTER():
 
 #### Summary Protocol  
 STATES: →PC|→PR|→DG|→NR|→PA|→EN|→ME
+  →EN: Error/Not-converging (dialogue failed to reach agreement)
 ROUTING: status_code→decision_logic→next_dispatch
 CONVERGE: →PA→σ₄.plan_approved=true→Ω₅ᵀ
 
@@ -168,7 +170,7 @@ SUMMARY: Agent→status→MT decision routing
 │   ├─ ℜ: DISPATCH: QA[S{sid},R{r},C{i},P:ℜ]→status
 │   ├─ ℜᴳ: DISPATCH: DE[S{sid},R{r},C{i},P:ℜᴳ]→status
 │   └─ ℜᶠ: r++ → QA[S{sid},R{r},C{i},P:ℜᶠᵗ]→DE[S{sid},R{r},C{i},P:ℜᶠⁱ]
-└─ σ₅.progress[i] = ✓
+└─ σ₅.progress[i] = ✅
 ```
 
 ### TDD Cycle Execution (Main Thread)
@@ -182,20 +184,20 @@ TDD_EXECUTE_COMMAND():
 EXECUTE_RGR_CYCLE(cycle):
 ├─ RED_PHASE:
 │   ├─ INIT: sid=TDD_{timestamp}_C{i}, r=0
-│   ├─ UPDATE: σ₄.STATE(phase="red", tdd_session_id=sid)
-│   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: cycle.task + "phase:RED"
+│   ├─ UPDATE: σ₄.STATE(phase=red, tdd_session_id=sid)
+│   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: cycle.task + phase:RED
 │   ├─ DISPATCH: QA[S{sid},R{r},C{i},P:ℜ]
 │   ├─ WAIT: status response
 │   └─ IF →RC → GREEN_PHASE
 ├─ GREEN_PHASE:
-│   ├─ UPDATE: σ₄.STATE(phase="green")
-│   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "phase:GREEN"
+│   ├─ UPDATE: σ₄.STATE(phase=green)
+│   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: phase:GREEN
 │   ├─ DISPATCH: DE[S{sid},R{r},C{i},P:ℜᴳ]
 │   ├─ WAIT: status response
 │   └─ IF →GC → REFACTOR_PHASE
 └─ REFACTOR_PHASE:
-    ├─ UPDATE: σ₄.STATE(phase="refactor"), r++
-    ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "phase:REFACTOR"
+    ├─ UPDATE: σ₄.STATE(phase=refactor), r++
+    ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: phase:REFACTOR
     ├─ SEQUENTIAL_REFACTOR:
     │   ├─ DISPATCH: QA[S{sid},R{r},C{i},P:ℜᶠᵗ]
     │   ├─ WAIT: →RTC
@@ -205,7 +207,7 @@ EXECUTE_RGR_CYCLE(cycle):
     │       ├─ RUN: Test suite verification
     │       ├─ CHECK: Code quality review
     │       └─ GATE: All tests pass → continue
-    └─ UPDATE: σ₅.progress[cycle] = ✓
+    └─ UPDATE: σ₅.progress[cycle] = ✅
 ```
 
 ### TDD Summary States
@@ -230,7 +232,7 @@ FAILURE_PROTOCOLS:
 └─ QUALITY_FAILURE:
     ├─ DOCUMENT: Quality gate that failed
     ├─ PRESERVE: Current implementation state
-    └─ HANDOFF: To manual review (Ω₅)
+    └─ HANDOFF: To manual review (Ω₆ᵛ)
 
 TERMINATION_PROCEDURE:
 ├─ UPDATE: σ₄.tdd_mode = false
