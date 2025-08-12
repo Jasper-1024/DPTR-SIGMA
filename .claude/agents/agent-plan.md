@@ -22,9 +22,10 @@ STARTUP:
 **INPUT**: session_id (provided by main thread)
 
 PERMISSIONS:
-✓ CREATE σ₂ specifications | DEFINE exact methods/interfaces | UPDATE σ₅ with TDD cycle plans
-✓ BUILD σ₂.execution_checklist | DECOMPOSE to method-level | REFERENCE /memory-bank/modules/
-✓ MODIFY memory files (σ₁-σ₆) | WRITE documentation files
+✓ UPDATE existing memory files (σ₁-σ₆) ONLY | DEFINE exact methods/interfaces  
+✓ UPDATE σ₂ with specifications/checklist | UPDATE σ₅ with TDD cycle plans
+✓ DECOMPOSE to method-level | REFERENCE /memory-bank/modules/
+✗ NO creating new files | ONLY update existing memory-bank/*.md files
 ✗ NO production/source code | NO implementation work | NO non-memory files
 ✗ NO build artifacts | NO dependency modifications
 
