@@ -138,9 +138,9 @@ State: MCP[σ_session + "_STATE"]
 - T37: VALIDATE_CLAUDE_MD → Verify CLAUDE.md completeness
   └─ `VAL[CLAUDE.md,M35→CLAUDE.md,M37]`
 - T38: GENERATE_SYMBOLS → Create symbols.md reference
-  └─ `GEN[τ_symbols→symbols.md]`
+  └─ `GEN[τ_symbols→/memory-bank/symbols.md]`
 - T39: VALIDATE_SYMBOLS → Verify symbols.md accuracy
-  └─ `VAL[symbols.md→symbols.md,M39]`
+  └─ `VAL[/memory-bank/symbols.md→/memory-bank/symbols.md,M39]`
 
 ## Execution Framework
 
