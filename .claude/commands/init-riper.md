@@ -8,7 +8,7 @@ version: "3.0"
 
 Use 4-Opus model, if Opus model is not available, this command will fallback to Sonnet for reliable performance.
 
-**ultrathink** - Session-based atomic task framework with MCP Memory data flow. 8-stage dependency-driven execution with minimal context usage. Scales 28-55 tasks based on project complexity.
+**ultrathink** - Session-based atomic task framework with MCP Memory data flow. 8-stage dependency-driven execution with minimal context usage. Scales 25-52 tasks based on project complexity.
 
 Initialize complete TDD-RIPER framework: memory-bank files + project-level CLAUDE.md integration.
 
@@ -32,9 +32,9 @@ State: MCP[σ_session + "_STATE"]
 ```
 
 ### 📊 Task Distribution
-**Base Tasks**: 25 fixed tasks
+**Base Tasks**: 22 fixed tasks
 **Module Tasks**: 3 × N (N = confirmed modules)  
-**Total Range**: 28-55 tasks
+**Total Range**: 25-52 tasks
 
 ### 🔄 Execution Stages
 
@@ -108,7 +108,7 @@ State: MCP[σ_session + "_STATE"]
 - T24: VALIDATE_MODULE_DESIGN → Verify module quality and LLD compliance
   └─ `VAL[/memory-bank/modules/{module_name}/design.md,M21→/memory-bank/modules/{module_name}/design.md,M24μ]`
 
-**R6: Auxiliary Memory-Bank Files** `[9 tasks]`
+**R6: Auxiliary Memory-Bank Files** `[6 tasks]`
 - T25: ANALYZE_ACTIVE_CONTEXT → Analyze current state and focus
   └─ `ANZ[M21,σ₂→M25]`
 - T26: GENERATE_ACTIVE_CONTEXT → Create activeContext.md
@@ -121,26 +121,20 @@ State: MCP[σ_session + "_STATE"]
   └─ `GEN[M28,τ₅→σ₅]`
 - T30: VALIDATE_PROGRESS → Verify σ₅ accuracy
   └─ `VAL[σ₅,M28→σ₅,M30]`
-- T31: ANALYZE_PROTECTION → Identify protected regions
-  └─ `ANZ[σ₁,σ₂→M31]`
-- T32: GENERATE_PROTECTION → Create protection.md
-  └─ `GEN[M31,τ₆→σ₆]`
-- T33: VALIDATE_PROTECTION → Verify σ₆ validity
-  └─ `VAL[σ₆,M31→σ₆,M33]`
 
 **R7: Project Configuration Files** `[6 tasks]`
-- T34: EXTRACT_COMMANDS → Identify build/test/run commands
-  └─ `ANZ[M02,F(package.json,Makefile)→M34]`
-- T35: DEFINE_CONSTRAINTS → Project-specific constraints
-  └─ `ANZ[σ₂,σ₆→M35]`
-- T36: GENERATE_CLAUDE_MD → Create project CLAUDE.md
-  └─ `GEN[M34,M35,τ_claude→CLAUDE.md]`
-- T37: VALIDATE_CLAUDE_MD → Verify CLAUDE.md completeness
-  └─ `VAL[CLAUDE.md,M35→CLAUDE.md,M37]`
-- T38: GENERATE_SYMBOLS → Create symbols.md reference
+- T31: EXTRACT_COMMANDS → Identify build/test/run commands
+  └─ `ANZ[M02,F(package.json,Makefile)→M31]`
+- T32: DEFINE_CONSTRAINTS → Project-specific constraints
+  └─ `ANZ[σ₂→M32]`
+- T33: GENERATE_CLAUDE_MD → Create project CLAUDE.md
+  └─ `GEN[M31,M32,τ_claude→CLAUDE.md]`
+- T34: VALIDATE_CLAUDE_MD → Verify CLAUDE.md completeness
+  └─ `VAL[CLAUDE.md,M32→CLAUDE.md,M34]`
+- T35: GENERATE_SYMBOLS → Create symbols.md reference
   └─ `GEN[τ_symbols→/memory-bank/symbols.md]`
-- T39: VALIDATE_SYMBOLS → Verify symbols.md accuracy
-  └─ `VAL[/memory-bank/symbols.md→/memory-bank/symbols.md,M39]`
+- T36: VALIDATE_SYMBOLS → Verify symbols.md accuracy
+  └─ `VAL[/memory-bank/symbols.md→/memory-bank/symbols.md,M36]`
 
 ## Execution Framework
 
@@ -157,8 +151,8 @@ State: MCP[σ_session + "_STATE"]
 
 **Input/Output Symbols:**
 - `M{NN}`: MCP node T{NN} (e.g., M05 = σ_session + "_T05")
-- `σ{N}`: Memory-bank file (σ₁=projectbrief, σ₂=systemPatterns, σ₃=techContext, etc.)
-- `τ{N}`: Template (τ₁=sigma1, τ₂=sigma2, τ₃=sigma3, etc.)
+- `σ{N}`: Memory-bank file (σ₁=projectbrief, σ₂=systemPatterns, σ₃=techContext, σ₄=activeContext, σ₅=progress)
+- `τ{N}`: Template (τ₁=sigma1, τ₂=sigma2, τ₃=sigma3, τ₄=sigma4, τ₅=sigma5, τ_claude=claude, τ_symbols=symbols)
 - `/memory-bank/modules/{module_name}/*`: Module files (/memory-bank/modules/*/design.md)
 - `F(*)`: Project files (package.json, README.md, etc.)
 - `∅`: No dependencies
@@ -173,6 +167,7 @@ T04:VAL[σ₃,M02→σ₃,M04]           # Validate σ₃ against M02, may fix �
 T09:SCN[M01,F(src/*)→M09]        # Scan code structure from M01 + source files
 T13:GEN[M09-12,τ₂→σ₂]            # Generate σ₂ from T09-T12 analysis
 T21:PRC[M19,U20→σ₂,M21]          # Process user feedback, update σ₂
+T33:GEN[M31,M32,τ_claude→CLAUDE.md] # Generate CLAUDE.md from commands + constraints
 ```
 
 ### 🤖 Agent Assignment
@@ -180,12 +175,12 @@ T21:PRC[M19,U20→σ₂,M21]          # Process user feedback, update σ₂
 **Template Manager**: T00 → Initialize templates to MCP["RIPER_TEMPLATES"]
 
 **Generator Agent** (instruction, σ_session):
-- Tasks: T01, T02, T05-T07, T09-T13, T15-T19, T22-T23, T25-T26, T28-T29, T31-T32, T34-T36, T38
+- Tasks: T01, T02, T05-T07, T09-T13, T15-T19, T22-T23, T25-T26, T28-T29, T31-T33, T35
 - Input: Symbolic instruction (e.g., "T01:SCN[∅→M01]", "T09:SCN[M01,F(src/*)→M09]")
 - Output: ./memory-bank/*.md + MCP[σ_session + "_" + task_id] (MUST create in project root's memory-bank directory)
 
 **Validator Agent** (instruction, σ_session):
-- Tasks: T04, T08, T14, T21, T24+, T27, T30, T33, T37, T39
+- Tasks: T04, T08, T14, T21, T24+, T27, T30, T34, T36
 - Input: Symbolic instruction (e.g., "T04:VAL[σ₃,M02→σ₃,M04]")
 - Output: Validation results + corrections
 
@@ -197,13 +192,12 @@ T21:PRC[M19,U20→σ₂,M21]          # Process user feedback, update σ₂
 **Task Dependencies**: Within-stage tasks may have dependencies
 **Parallel Opportunities**:
 - R5: Module tasks can run in parallel (max 3 concurrent)  
-- R6: Three auxiliary files can be processed in parallel
+- R6: Two auxiliary file groups can be processed in parallel
 
 ### ⚡ Error Handling
 
-**Critical Tasks**: `[T04, T08, T14, T21, T36]` → Failure terminates execution
-**Retry Tasks**: `[T02, T10, T11, T24+ series]` → Failure triggers 3 retries  
-**Degrade Tasks**: `[T31]` → Failure allows graceful degradation
+**Critical Tasks**: `[T04, T08, T14, T21, T33]` → Failure terminates execution
+**Retry Tasks**: `[T02, T10, T11, T24+ series]` → Failure triggers 3 retries
 
 ### 💾 State Management
 
@@ -237,5 +231,10 @@ TASK_DEPENDENCIES = {
   "T21": ["T19", "T20"],
   "T24+": ["T23+ per module"],
   "T28": ["T21", "T24*"],
+  "T32": ["T31"],
+  "T33": ["T31", "T32"],
+  "T34": ["T33"],
+  "T35": ["T30"],
+  "T36": ["T35"]
 }
 ```
