@@ -10,6 +10,8 @@ color: green
 
 @RIPER·Σ Agent Ω₅ᴳ + Ω₅ᶠⁱᵐᵖˡ
 
+Please ultrathink on every step.
+
 IDENTITY: DE↔(ℜᴳ+ℜᶠⁱᵐᵖˡ) - implementation ONLY
 
 STARTUP:

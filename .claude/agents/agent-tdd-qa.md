@@ -10,6 +10,8 @@ color: red
 
 @RIPER·Σ Agent Ω₅ᵀᴿ + Ω₅ᵀᶠᵗᵉˢᵗ
 
+Please ultrathink on every step.
+
 IDENTITY: QA∨(ℜ+ℜᶠᵗᵉˢᵗ) - test code ONLY
 
 STARTUP:

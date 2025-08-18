@@ -196,25 +196,66 @@ EXECUTE_RGR_CYCLE(cycle):
 │   ├─ WAIT: status response
 │   └─ IF →GC → REFACTOR_PHASE
 └─ REFACTOR_PHASE:
-    ├─ UPDATE: σ₄.STATE(phase=refactor), r++
-    ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: phase:REFACTOR
-    ├─ SEQUENTIAL_REFACTOR:
-    │   ├─ DISPATCH: QA[S{sid},R{r},C{i},P:ℜᶠᵗ]
-    │   ├─ WAIT: →RTC
-    │   ├─ DISPATCH: DE[S{sid},R{r},C{i},P:ℜᶠⁱ]
-    │   ├─ WAIT: →RIC
-    │   └─ COLLABORATION_VERIFY:
-    │       ├─ RUN: Test suite verification
-    │       ├─ CHECK: Code quality review
-    │       └─ GATE: All tests pass → continue
+    ├─ UPDATE: σ₄.STATE(phase=refactor, refactor_stage=test)
+    ├─ r++ # 进入REFACTOR新round
+    ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "REFACTOR phase started"
+    ├─ converged = false
+    └─ REFACTOR_DIALOGUE_LOOP:
+        └─ WHILE NOT converged:
+            ├─ SWITCH refactor_stage:
+            │
+            ├─ CASE test: # QA重构测试代码
+            │   ├─ DISPATCH: QA[S{sid},R{r},C{i},P:ℜᶠᵗ]
+            │   ├─ WAIT: →RTC
+            │   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "QA refactor complete"
+            │   ├─ r++ # 关键：让DE能读到QA的重构
+            │   └─ UPDATE: refactor_stage→impl
+            │
+            ├─ CASE impl: # DE重构实现代码（基于QA的重构）
+            │   ├─ DISPATCH: DE[S{sid},R{r},C{i},P:ℜᶠⁱ]
+            │   ├─ WAIT: →RIC
+            │   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "DE refactor complete"
+            │   ├─ r++ # 准备交叉审查
+            │   └─ UPDATE: refactor_stage→de_cross_review
+            │
+            ├─ CASE de_cross_review: # DE审查QA的测试代码
+            │   ├─ DISPATCH: DE[S{sid},R{r},C{i},P:review_tests,CTX:review_qa_work]
+            │   ├─ WAIT: status (→APPROVED|→NEEDS_CHANGE)
+            │   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "DE review of tests: {status}"
+            │   ├─ r++
+            │   └─ UPDATE: refactor_stage→qa_cross_review
+            │
+            ├─ CASE qa_cross_review: # QA审查DE的实现代码
+            │   ├─ DISPATCH: QA[S{sid},R{r},C{i},P:review_impl,CTX:review_de_work]
+            │   ├─ WAIT: status (→APPROVED|→NEEDS_CHANGE)
+            │   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "QA review of impl: {status}"
+            │   ├─ r++
+            │   └─ UPDATE: refactor_stage→integration_test
+            │
+            ├─ CASE integration_test: # 运行完整测试套件
+            │   ├─ RUN: Full test suite
+            │   ├─ CHECK: All tests pass
+            │   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "Test results: {pass/fail}"
+            │   ├─ r++
+            │   └─ UPDATE: refactor_stage→interface_check
+            │
+            └─ CASE interface_check: # 最终协商和确认
+                ├─ CHECK: Both QA and DE satisfied with refactoring
+                ├─ IF tests_pass AND both_approved:
+                │   ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "REFACTOR converged"
+                │   └─ converged = true
+                └─ ELSE: # 需要重新循环
+                    ├─ ADD: OBS[S{sid},R{r},A:MT,T:now]: "Need another iteration"
+                    ├─ r++
+                    └─ UPDATE: refactor_stage→test # 重新开始
     └─ UPDATE: σ₅.progress[cycle] = ✅
 ```
 
 ### TDD Summary States
 ℜ_states: →RC|→TA
 ℜᴳ_states: →GC|→TI  
-ℜᶠ_states: →RTC|→RIC|→RFC
-CONVERGE: QA∧DE both report →RFC
+ℜᶠ_states: →RTC|→RIC|→APPROVED|→NEEDS_CHANGE
+CONVERGE: All tests pass AND both QA∧DE approved
 
 
 ### Error Handling & Termination
