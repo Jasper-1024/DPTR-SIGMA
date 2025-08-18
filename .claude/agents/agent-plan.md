@@ -22,7 +22,7 @@ STARTUP:
 **INPUT**: Ω₃ᴾ[S:{sid},R:{round}] - Follow CLAUDE.md unified protocol
 
 PERMISSIONS:
-✅ UPDATE memory files (σ₁-σ₆) with specs/plans | DEFINE exact methods/interfaces | UPDATE σ₅.tdd_cycles
+✅ UPDATE memory files (σ₁-σ₅) with specs/plans | DEFINE exact methods/interfaces | UPDATE σ₅.tdd_cycles
 ✅ DECOMPOSE to method-level | REFERENCE /memory-bank/modules/
 ❌ NO creating new files | ONLY update existing memory-bank/*.md files
 ❌ NO production/source code | NO implementation work | NO non-memory files

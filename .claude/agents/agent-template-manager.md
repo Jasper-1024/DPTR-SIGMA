@@ -14,7 +14,7 @@ IDENTITY: Template initialization specialist
 
 STARTUP:
 - INPUT: "init_templates" - Simple command format for template initialization (not standard Agent protocol)
-- EXECUTE: Store all 8 RIPER templates to MCP Memory
+- EXECUTE: Store all 7 RIPER templates to MCP Memory
 - RETURN: "✓Templates initialized in RIPER_TEMPLATES"
 
 ROLE: Template Manager
@@ -29,7 +29,7 @@ PERMISSIONS:
 
 ```
 STORE_TEMPLATES():
-├─ ATOMIC: All 8 templates in single transaction
+├─ ATOMIC: All 7 templates in single transaction
 ├─ KEY: "RIPER_TEMPLATES"
 ├─ VERIFY: All templates accessible
 └─ RETURN: Success confirmation
@@ -65,7 +65,7 @@ STORE_TEMPLATES():
 ```
 {
   "name": "sigma4",
-  "# σ₄: Active Context\\n*v1.0 | Created: {DATE} | Updated: {DATE}*\\n*Π: {PHASE} | Ω: {MODE}*\\n\\n## 🔮 Current Focus\\n[Current focus]\\n\\n## 📎 Context References\\n- 📄 Active Files: []\\n- 💻 Active Code: []\\n- 📚 Active Docs: []\\n- 📁 Active Folders: []\\n- 🔄 Git References: []\\n- 📏 Active Rules: []\\n- 🧪 TDD Cycles: []\\n- 🔴 Test Files: []\\n- 🟢 Implementation Files: []\\n\\n## 📡 Context Status\\n- 🟢 Active: []\\n- 🟡 Partially Relevant: []\\n- 🟣 Essential: []\\n- 🔴 Deprecated: []\\n\\n## 🤖 RIPER Agent State\\nΩ_current: Ω₁ᴾ              # Current RIPER mode (Ω₁ᴾ|Ω₂ᴬ|Ω₃ᴾ|Ω₄ᶜ|Ω₅ᵀ|Ω₆ⱽ)\\nΩ_session: AGT_2025_001     # Agent lifecycle identifier\\nsession_id: null            # MCP Memory dialogue session (Plan↔Critic)\\ntdd_session_id: null        # MCP Memory dialogue session (QA↔DE)\\nplan_approved: false        # Ω₄ᶜ Plan Critic approval\\ndesign_approved: false      # Ω₂ᴬ Architecture Critic approval\\narch_critique: null         # Architecture critique result\\nΩ_transitions: []           # Mode transition history\\n\\n# TDD Execution State\\ntdd_mode: false             # TDD mode enabled (Ω₅ᵀ)\\ntdd_phase: null             # current: 'red'|'green'|'refactor'\\ncurrent_cycle: 0            # active iteration index\\ntarget_method: null         # method being developed\\nqa_agent_active: false      # QA role active\\nde_agent_active: false      # DE role active\\nlast_test_result: null      # 'pass'|'fail'|null\\nrefactor_stage: null        # test|impl|qa_validation|de_validation|qa_cross_review|de_cross_review|interface_check|integration_test\\n\\n## 🤝 Agent Handoff\\nhandoff_from: null          # Previous mode\\nhandoff_to: null            # Expected next mode\\nhandoff_summary: |          # Context for next agent\\n  [Handoff details here]\\nhandoff_timestamp: null\\n\\n## 📊 Mode History\\n| Time | From | To | Trigger | Summary |\\n|------|------|----|---------|---------|  \\n| -    | -    | -  | -       | -       |\\n\\n## 🔗 Cross-References\\n- Brief: [↗️σ₁:Overview]\\n- Patterns: [↗️σ₂:Architecture]\\n- Tech: [↗️σ₃:Stack]\\n- Progress: [↗️σ₅:Status]\\n- Protection: [↗️σ₆:Registry]"
+  "# σ₄: Active Context\\n*v1.0 | Created: {DATE} | Updated: {DATE}*\\n*Π: {PHASE} | Ω: {MODE}*\\n\\n## 🔮 Current Focus\\n[Current focus]\\n\\n## 📎 Context References\\n- 📄 Active Files: []\\n- 💻 Active Code: []\\n- 📚 Active Docs: []\\n- 📁 Active Folders: []\\n- 🔄 Git References: []\\n- 📏 Active Rules: []\\n- 🧪 TDD Cycles: []\\n- 🔴 Test Files: []\\n- 🟢 Implementation Files: []\\n\\n## 📡 Context Status\\n- 🟢 Active: []\\n- 🟡 Partially Relevant: []\\n- 🟣 Essential: []\\n- 🔴 Deprecated: []\\n\\n## 🤖 RIPER Agent State\\nΩ_current: Ω₁ᴾ              # Current RIPER mode (Ω₁ᴾ|Ω₂ᴬ|Ω₃ᴾ|Ω₄ᶜ|Ω₅ᵀ|Ω₆ⱽ)\\nΩ_session: AGT_2025_001     # Agent lifecycle identifier\\nsession_id: null            # MCP Memory dialogue session (Plan↔Critic)\\ntdd_session_id: null        # MCP Memory dialogue session (QA↔DE)\\nplan_approved: false        # Ω₄ᶜ Plan Critic approval\\ndesign_approved: false      # Ω₂ᴬ Architecture Critic approval\\narch_critique: null         # Architecture critique result\\nΩ_transitions: []           # Mode transition history\\n\\n# TDD Execution State\\ntdd_mode: false             # TDD mode enabled (Ω₅ᵀ)\\ntdd_phase: null             # current: 'red'|'green'|'refactor'\\ncurrent_cycle: 0            # active iteration index\\ntarget_method: null         # method being developed\\nqa_agent_active: false      # QA role active\\nde_agent_active: false      # DE role active\\nlast_test_result: null      # 'pass'|'fail'|null\\nrefactor_stage: null        # test|impl|qa_validation|de_validation|qa_cross_review|de_cross_review|interface_check|integration_test\\n\\n## 🤝 Agent Handoff\\nhandoff_from: null          # Previous mode\\nhandoff_to: null            # Expected next mode\\nhandoff_summary: |          # Context for next agent\\n  [Handoff details here]\\nhandoff_timestamp: null\\n\\n## 📊 Mode History\\n| Time | From | To | Trigger | Summary |\\n|------|------|----|---------|---------|  \\n| -    | -    | -  | -       | -       |\\n\\n## 🔗 Cross-References\\n- Brief: [↗️σ₁:Overview]\\n- Patterns: [↗️σ₂:Architecture]\\n- Tech: [↗️σ₃:Stack]\\n- Progress: [↗️σ₅:Status]\"
 }
 ```
 
@@ -74,14 +74,6 @@ STORE_TEMPLATES():
 {
   "name": "sigma5",
   "# σ₅: Progress Tracker\\n*v1.0 | Created: {DATE} | Updated: {DATE}*\\n*Π: {PHASE} | Ω: {MODE}*\\n\\n## 📈 Project Status\\nCompletion: 0%\\nCurrent Phase: {PHASE}\\nCurrent Mode: {MODE}\\nTDD Mode: false\\nTDD Cycles Completed: 0/0\\n\\n## ✅ Completed Tasks\\n- [ ] Task 1\\n- [ ] Task 2\\n- [ ] Task 3\\n\\n## 🧪 TDD Cycle Progress\\n### TDD Cycles Plan\\nσ₅.tdd_cycles: []  # Complete TDD cycle plan from Ω₃ᴾ\\n\\n### Completed Cycles\\n- [ ] Cycle 1: [method_name] (ℜ→ℜᴳ→ℜᶠ) ✓\\n- [ ] Cycle 2: [method_name] (ℜ→ℜᴳ→ℜᶠ) ✓\\n\\n### Current Cycle\\n- [ ] Cycle N: [method_name]\\n  - [ ] RED Phase (QA): Write failing tests\\n  - [ ] GREEN Phase (DE): Minimal implementation\\n  - [ ] REFACTOR Phase: Quality improvement\\n\\n### Pending Cycles\\n- [ ] Cycle N+1: [method_name] → ℜ→ℜᴳ→ℜᶠ\\n- [ ] Cycle N+2: [method_name] → ℜ→ℜᴳ→ℜᶠ\\n\\n## 🚧 In Progress\\n- [ ] Current Task 1\\n- [ ] Current Task 2\\n\\n## 📋 Pending Tasks\\n- [ ] Future Task 1\\n- [ ] Future Task 2\\n\\n## 🏁 Milestones\\n- [ ] Milestone 1\\n- [ ] Milestone 2\\n- [ ] Milestone 3\\n- [ ] TDD Integration Complete\\n- [ ] All Cycles Verified\\n\\n## 📊 Quality Metrics\\n- Test Coverage: 0%\\n- Cycles with Refactor: 0/0\\n- Failed Cycles: 0\\n- Refactor Improvements Made: 0\\n\\n## 🔗 Cross-References\\n- Active Context: [↗️σ₄:Focus]\\n- Project Brief: [↗️σ₁:Goals]\\n- TDD State: [↗️σ₄:TDD_Execution_State]"
-}
-```
-
-### σ₆: Protection Registry
-```
-{
-  "name": "sigma6",
-  "# σ₆: Protection Registry\\n*v1.0 | Created: {DATE} | Updated: {DATE}*\\n*Π: {PHASE} | Ω: {MODE}*\\n\\n## 🛡️ Protected Regions\\n[Protected code registry]\\n\\n### Critical Files\\n- File 1: [Protection reason]\\n- File 2: [Protection reason]\\n\\n### Protected Functions\\n- Function 1: [Protection reason]\\n- Function 2: [Protection reason]\\n\\n## 📜 Protection History\\n[History and changes]\\n\\n## ✅ Approvals\\n[Modification approvals]\\n\\n## ⚠️ Permission Violations\\n[Violation logs]\\n\\n## 🔗 Cross-References\\n- Active Context: [↗️σ₄:Status]\\n- System Patterns: [↗️σ₂:Architecture]"
 }
 ```
 
@@ -97,7 +89,7 @@ STORE_TEMPLATES():
 ```
 {
   "name": "claude",
-  "# Tech Stack\\n- Language: [Primary Language] [Version]\\n- Framework: [Main Framework/Library]\\n- Testing: [Testing Framework]\\n- Database: [Database if applicable]\\n- Build: [Build system]\\n\\n# Project Structure\\n```\\n[Project directory structure]\\n```\\n\\n# Commands\\n- `[build-command]`: Build the project\\n- `[test-command]`: Run test suite\\n- `[dev-command]`: Start development server\\n- `[lint-command]`: Run linter/formatter\\n- `[deploy-command]`: Deploy application\\n\\n# TDD-RIPER Integration\\n**IMPORTANT**: This project uses TDD-RIPER workflow\\n- Read memory-bank files before starting any work\\n- Follow memory-bank/progress.md for TDD cycle plans and execution\\n- All design decisions recorded in memory-bank/systemPatterns.md\\n\\n# Code Style\\n- [Language-specific conventions]\\n- [Naming conventions]\\n- [File organization rules]\\n- [Testing patterns]\\n\\n# Do Not\\n- Skip TDD phases (Red→Green→Refactor)\\n- Maintain design decisions outside memory-bank\\n- [Project-specific constraints]\\n\\n# Memory Integration\\nProject memory stored in:\\n- Brief: memory-bank/projectbrief.md\\n- Architecture: memory-bank/systemPatterns.md\\n- Tech Stack: memory-bank/techContext.md\\n- Current State: memory-bank/activeContext.md\\n- Progress: memory-bank/progress.md\\n- Protection: memory-bank/protection.md\\n- Module Details: /memory-bank/modules/[module]/design.md\\n\\n**Start every session by reading relevant memory-bank files**"
+  "# Tech Stack\\n- Language: [Primary Language] [Version]\\n- Framework: [Main Framework/Library]\\n- Testing: [Testing Framework]\\n- Database: [Database if applicable]\\n- Build: [Build system]\\n\\n# Project Structure\\n```\\n[Project directory structure]\\n```\\n\\n# Commands\\n- `[build-command]`: Build the project\\n- `[test-command]`: Run test suite\\n- `[dev-command]`: Start development server\\n- `[lint-command]`: Run linter/formatter\\n- `[deploy-command]`: Deploy application\\n\\n# TDD-RIPER Integration\\n**IMPORTANT**: This project uses TDD-RIPER workflow\\n- Read memory-bank files before starting any work\\n- Follow memory-bank/progress.md for TDD cycle plans and execution\\n- All design decisions recorded in memory-bank/systemPatterns.md\\n\\n# Code Style\\n- [Language-specific conventions]\\n- [Naming conventions]\\n- [File organization rules]\\n- [Testing patterns]\\n\\n# Do Not\\n- Skip TDD phases (Red→Green→Refactor)\\n- Maintain design decisions outside memory-bank\\n- [Project-specific constraints]\\n\\n# Memory Integration\\nProject memory stored in:\\n- Brief: memory-bank/projectbrief.md\\n- Architecture: memory-bank/systemPatterns.md\\n- Tech Stack: memory-bank/techContext.md\\n- Current State: memory-bank/activeContext.md\\n- Progress: memory-bank/progress.md\\\n- Module Details: /memory-bank/modules/[module]/design.md\\n\\n**Start every session by reading relevant memory-bank files**"
 }
 ```
 
@@ -105,7 +97,7 @@ STORE_TEMPLATES():
 ```
 {
   "name": "symbols",
-  "# 🔣 Symbol Reference Guide\\n*v1.0 | Created: {DATE} | Updated: {DATE}*\\n\\n## 📁 File Symbols\\n- 📂 = /memory-bank/\\n- 📦 = /memory-bank/backups/\\n- 📄 = .md files\\n- 📊 = data files\\n- 📋 = configuration files\\n- 📁 = /memory-bank/modules/ (module designs)\\n\\n## 🤖 RIPER Symbols\\n- Ω₁ᴾ = CC Plan Mode (architecture & module design)\\n- Ω₂ᴬ = Architecture Critic (dual-layer audit Λ₁|Λ₂)\\n- Ω₃ᴾ = Plan Mode (implementation specification)\\n- Ω₄ᶜ = Plan Critic (feasibility validation)\\n- Ω₅ᵀ = TDD Execute (QA↔DE collaboration)\\n- Ω₆ⱽ = Review Mode (final validation)\\n  └─ TDD Phases: Ω₅ᴿ=RED, Ω₅ᴳ=GREEN, Ω₅ᶠ=REFACTOR\\n\\n## 📚 Memory Symbols\\n- σ₁ = projectbrief.md (requirements)\\n- σ₂ = systemPatterns.md (architecture + TDD cycles)\\n- σ₃ = techContext.md (technology stack)\\n- σ₄ = activeContext.md (state + sessions)\\n- σ₅ = progress.md (tracking)\\n- σ₆ = protection.md (registry)\\n\\n## 🔗 Reference Symbols\\n- [↗️σₓ:Rₓ] = Cross-reference to memory file section\\n\\n## 🔄 Session Types\\n- Ω_session = Agent lifecycle ID (persists across modes)\\n- session_id = Plan↔Critic dialogue (MCP Memory)\\n- tdd_session_id = QA↔DE dialogue (per TDD cycle)"
+  "# 🔣 Symbol Reference Guide\\n*v1.0 | Created: {DATE} | Updated: {DATE}*\\n\\n## 📁 File Symbols\\n- 📂 = /memory-bank/\\n- 📦 = /memory-bank/backups/\\n- 📄 = .md files\\n- 📊 = data files\\n- 📋 = configuration files\\n- 📁 = /memory-bank/modules/ (module designs)\\n\\n## 🤖 RIPER Symbols\\n- Ω₁ᴾ = CC Plan Mode (architecture & module design)\\n- Ω₂ᴬ = Architecture Critic (dual-layer audit Λ₁|Λ₂)\\n- Ω₃ᴾ = Plan Mode (implementation specification)\\n- Ω₄ᶜ = Plan Critic (feasibility validation)\\n- Ω₅ᵀ = TDD Execute (QA↔DE collaboration)\\n- Ω₆ⱽ = Review Mode (final validation)\\n  └─ TDD Phases: Ω₅ᴿ=RED, Ω₅ᴳ=GREEN, Ω₅ᶠ=REFACTOR\\n\\n## 📚 Memory Symbols\\n- σ₁ = projectbrief.md (requirements)\\n- σ₂ = systemPatterns.md (architecture + TDD cycles)\\n- σ₃ = techContext.md (technology stack)\\n- σ₄ = activeContext.md (state + sessions)\\n- σ₅ = progress.md (tracking)\\\n\\n## 🔗 Reference Symbols\\n- [↗️σₓ:Rₓ] = Cross-reference to memory file section\\n\\n## 🔄 Session Types\\n- Ω_session = Agent lifecycle ID (persists across modes)\\n- session_id = Plan↔Critic dialogue (MCP Memory)\\n- tdd_session_id = QA↔DE dialogue (per TDD cycle)"
 }
 ```
 
@@ -156,7 +148,7 @@ After storing templates, MUST verify using:
 ```
 
 ### Quality Standards
-- Check all 8 templates before creating any new ones
+- Check all 7 templates before creating any new ones
 - Only create/update templates that are missing or have content differences
 - Each template must be a separate entity with entityType "RIPER_TEMPLATE"
 - Template names must follow pattern: sigma1_template, sigma2_template, etc.
@@ -170,4 +162,4 @@ After storing templates, MUST verify using:
 - If verification fails: Report missing templates
 - Never fallback to simulation or mock responses
 
-**SUCCESS CRITERIA**: All 8 templates verified in MCP Memory (existing templates confirmed up-to-date, new/modified templates created successfully) using actual function calls.
+**SUCCESS CRITERIA**: All 7 templates verified in MCP Memory (existing templates confirmed up-to-date, new/modified templates created successfully) using actual function calls.
