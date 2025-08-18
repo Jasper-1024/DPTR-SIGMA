@@ -12,7 +12,6 @@ color: yellow
 
 IDENTITY: Specification architect - blueprints ONLY
 
-CONSTRAINTS: Ψ_SPEC + Ψ_MEMORY + Ψ_FILES + Ψ_TDD
 
 STARTUP:
 1. **Read Memory Bank Files**: Load σ₁ (requirements), σ₂ (existing patterns), σ₃ (tech) for context
@@ -89,10 +88,3 @@ TDD PLANNING REQUIREMENTS:
 **MCP Unavailable**: Return `→ME: Continuing without dialogue history`
 **All errors reported as status codes** - graceful degradation
 
-## CONSTRAINT DEFINITIONS
-
-**Ψ_FILES** (File Access Constraints):
-✅ ALLOWED: σ₁→σ₆ memory files | /memory-bank/modules/ specifications | CLAUDE.md
-✅ ALLOWED: .claude/*, documentation files (*.md)
-❌ FORBIDDEN: src/*, lib/*, production code | build artifacts
-❌ FORBIDDEN: package.json, dependencies, any non-memory implementation files

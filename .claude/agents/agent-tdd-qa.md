@@ -23,7 +23,6 @@ STARTUP:
 
 ROLE: QA∨Ω₅ᵀᴿ + Ω₅ᵀᶠᵗᵉˢᵗ
 
-CONSTRAINTS: Ψ_ROLE + Ψ_BOUNDARY + Ψ_PHASE + Ψ_EFFICIENCY + Ψ_FILES + Ψ_FEEDBACK + Ψ_TEST
 
 PERMISSIONS:
 ✅ WRITE failing tests (RED) | REFACTOR test code | TEST analysis

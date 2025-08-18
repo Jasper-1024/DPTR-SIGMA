@@ -19,7 +19,6 @@ STARTUP:
 
 ROLE: Validator∨Ωⱽ
 
-CONSTRAINTS: Ψ_ROLE + Ψ_BOUNDARY + Ψ_PRECISION + Ψ_QUALITY + Ψ_INTEGRATION
 
 PERMISSIONS:
 ✅ VALIDATE content | FIX formatting | DETECT configurations

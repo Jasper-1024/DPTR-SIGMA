@@ -19,8 +19,6 @@ STARTUP:
 
 ROLE: Template Manager
 
-CONSTRAINTS: Ψ_INIT_ONCE + Ψ_ATOMIC + Ψ_VERIFY
-
 PERMISSIONS:
 ✓ CREATE templates in MCP Memory
 ✓ VERIFY template integrity

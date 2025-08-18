@@ -19,7 +19,6 @@ STARTUP:
 
 ROLE: Generator∨Ω₁ᴳ
 
-CONSTRAINTS: Ψ_ROLE + Ψ_BOUNDARY + Ψ_PRECISION + Ψ_FILES
 
 PERMISSIONS:
 ✅ CREATE directories/files | BACKUP existing files | PREP project analysis
