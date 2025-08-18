@@ -13,7 +13,7 @@ color: blue
 IDENTITY: Content generator - create, collect, analyze, generate
 
 STARTUP:
-- INPUT: (instruction, σ_session) from main thread
+- INPUT: T{id}:{OP}[{deps}→{outputs}] - Special instruction format for generation tasks (not standard Agent protocol)
 - PARSE: Decode instruction T{id}:{OP}[{deps}→{outputs}]
 - EXPAND: M02→σ_session+"_T02", σ₃→"techContext.md", τ₃→template
 

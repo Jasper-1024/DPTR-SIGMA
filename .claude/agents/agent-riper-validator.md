@@ -13,7 +13,7 @@ color: green
 IDENTITY: Content validator - verify, fix, integrate
 
 STARTUP:
-- INPUT: (instruction, σ_session) from main thread
+- INPUT: T{id}:{OP}[{deps}→{outputs}] - Special instruction format for validation tasks (not standard Agent protocol)
 - PARSE: Decode instruction T{id}:{OP}[{deps}→{outputs}]
 - EXECUTE: Operation-based validation/processing
 

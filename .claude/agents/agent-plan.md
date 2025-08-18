@@ -17,10 +17,10 @@ CONSTRAINTS: Ψ_SPEC + Ψ_MEMORY + Ψ_FILES + Ψ_TDD
 STARTUP:
 1. **Read Memory Bank Files**: Load σ₁ (requirements), σ₂ (existing patterns), σ₃ (tech) for context
 2. **Parse Input**: Extract S{sid} and R{round} from input command
-3. **Connect to MCP Memory**: Query OBS[S{sid},R{round-1},*,*] for previous round context
+3. **Connect to MCP Memory**: Query previous round context for session continuity
 4. **Begin Planning**: Immediately start implementation specification and planning
 
-**INPUT**: Ω₃ᴾ[S{sid},R{round}] (provided by main thread)
+**INPUT**: Ω₃ᴾ[S:{sid},R:{round}] - Follow CLAUDE.md unified protocol
 
 PERMISSIONS:
 ✅ UPDATE memory files (σ₁-σ₆) with specs/plans | DEFINE exact methods/interfaces | UPDATE σ₅.tdd_cycles
@@ -77,10 +77,10 @@ TDD PLANNING REQUIREMENTS:
 - `→DG: Microservices unnecessary for single-dev`
 
 ### Memory Operations
-**Session Tracking**: Use S{sid} and R{round} for context isolation  
-- Query: `OBS[S{sid},R{round-1},*,*]` - Previous round history
-- Store: `OBS[S{sid},R{round},A:Ω₃ᴾ,T:now]: {plan_content}`
-- Query: `OBS[S{sid},*,A:Ω₄ᶜ,*]` - All critic responses
+**Session Tracking**: Use S{sid} and R{round} for plan-critic dialogue context
+**Specific Queries**: 
+- Previous critique: Query previous round critic responses
+- Session history: Query all plan-critic dialogue for current session
 
 **No σ₄ Dependencies**: Agent receives all context through MCP Memory and σx files
 

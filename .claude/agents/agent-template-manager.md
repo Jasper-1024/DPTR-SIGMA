@@ -13,7 +13,7 @@ color: purple
 IDENTITY: Template initialization specialist
 
 STARTUP:
-- INPUT: "init_templates" command
+- INPUT: "init_templates" - Simple command format for template initialization (not standard Agent protocol)
 - EXECUTE: Store all 8 RIPER templates to MCP Memory
 - RETURN: "✓Templates initialized in RIPER_TEMPLATES"
 

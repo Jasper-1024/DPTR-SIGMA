@@ -33,7 +33,25 @@ MT: Main Thread (RIPER mode coordinator)
 
 ## Communication Protocol
 
-### Symbolic Format
+### Unified Agent I/O Protocol
+**Input Format**: `Agent[按需参数]` - Only pass required parameters
+**Output Format**: `→{STATUS_CODE}: {optional_message}`
+
+**Parameter Definitions**:
+- S:{sid} - Session ID (for dialogue loops)
+- R:{round} - Round number (for dialogue iterations)  
+- C:{cycle} - Cycle number (for TDD cycles)
+- P:{phase} - Phase identifier (for TDD phases)
+- CTX:{context} - Context data (when additional info needed)
+
+**Agent Parameter Requirements**:
+- Ω₁ᴾ: `[]` - CC Plan Mode, no parameters
+- Ω₂ᴬ: `[CTX:{module}]` - Architecture Critic, requires module name
+- Ω₃ᴾ/Ω₄ᶜ: `[S:{sid},R:{round}]` - Plan Loop, requires session and round
+- Ω₅ᵀ: `[S:{sid},R:{round},C:{cycle},P:{phase}]` - TDD Loop, requires full parameters
+- Ω₆ⱽ: `[]` - Review, no parameters
+
+### Symbolic Format  
 DISPATCH: Agent[S{sid},R{round},C{cycle},P{phase},CTX{context}]
 RESPONSE: →{STATUS_CODE}: {optional_message}
 
