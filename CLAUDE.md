@@ -5,11 +5,11 @@
   └─ TDD-Phases: Ω₅ᴿ=RED, Ω₅ᴳ=GREEN, Ω₅ᶠ=REFACTOR
 σ[Memory]: σ₁=Brief, σ₂=Patterns, σ₃=Tech, σ₄=Context/State, σ₅=Progress, σ₆=Protection
 Λ[Audit]: Λ₁=Architecture-Level, Λ₂=Module-Level(LLD)
-S[Session]: S_p=plan-session(session_id), S_t=tdd-session(tdd_session_id)
+S[Session]: session_id(Plan↔Critic), tdd_session_id(QA↔DE per cycle)
 ∇[Decision]: ACCEPT|REVISE|REJECT
 →[Flow], ↔[Interact], ⟷[Loop], ⟲[Iterate]
-Logic: ∈(member), ∃(exists), ∧(AND), ∨(OR), ¬(NOT)
-Status: ✅(success), ❌(failure), ⚠️(warning), 🔄(processing)
+Logic: ∈, ∃, ∧, ∨, ¬
+Status: ✅(success), ❌(failure), ⚠️(warning)
 
 ## Core Concepts
 Memory Protocol: σ₁:brief | σ₂:patterns | σ₃:tech | σ₄:context+STATE | σ₅:progress | σ₆:protection
@@ -19,17 +19,10 @@ Cross-Reference: [↗️σₓ:Rₓ] = Reference to memory file section
 ## State Machine
 σ₄.Ω_current ∈ [Ω₁ᴾ,Ω₂ᴬ,Ω₃ᴾ,Ω₄ᶜ,Ω₅ᵀ,Ω₆ⱽ]
 FLOW: Ω₁ᴾ→Ω₂ᴬ→(Ω₃ᴾ⟷Ω₄ᶜ)→Ω₅ᵀ→Ω₆ⱽ
-ENFORCE: current==agent_mode
 SESSION: session_id→MCP_Memory (per-dialogue isolation)
-STATE: σ₄.Ω_current (maintained by Main Thread/MT)
+STATE: σ₄.Ω_current (maintained by Claude Code Main Thread)
 MT: Main Thread (RIPER mode coordinator)
 
-## Handoff Protocol
-EXIT: /handoff→σ₄{to:Ω_next,summary}
-ENTRY: CHECK(σ₄.Ω_current==my_mode)
-
-## Commands
-/arch-critic=Ω₂ᴬ{Λ₁|Λ₂,module_name} /p=Ω₃ᴾ /plan-critic=Ω₄ᶜ /tdd-execute=Ω₅ᵀ /rev=Ω₆ⱽ
 
 ## Communication Protocol
 
@@ -277,7 +270,7 @@ CYCLE_VALIDATION_GATES:
 ├─ RED_GATE:
 │   ├─ Tests written ✅
 │   ├─ Tests failing ✅ 
-│   └─ Test quality meets Ψ standards ✅
+│   └─ Test quality meets standards ✅
 ├─ GREEN_GATE:
 │   ├─ Tests passing ✅
 │   ├─ Minimal implementation ✅
