@@ -8,7 +8,7 @@ version: "3.0"
 
 Use 4-Opus model, if Opus model is not available, this command will fallback to Sonnet for reliable performance.
 
-**ultrathink** - Session-based atomic task framework with MCP Memory data flow. 8-stage dependency-driven execution with minimal context usage. Scales 25-52 tasks based on project complexity.
+**ultrathink** - Session-based atomic task framework with MCP Memory data flow. 8-stage dependency-driven execution with minimal context usage. Scales 37-49 tasks based on project complexity.
 
 Initialize complete TDD-RIPER framework: memory-bank files + project-level CLAUDE.md integration.
 
@@ -32,9 +32,9 @@ State: MCP[σ_session + "_STATE"]
 ```
 
 ### 📊 Task Distribution
-**Base Tasks**: 22 fixed tasks
+**Base Tasks**: 34 fixed tasks
 **Module Tasks**: 3 × N (N = confirmed modules)  
-**Total Range**: 25-52 tasks
+**Total Range**: 37-49 tasks
 
 ### 🔄 Execution Stages
 
