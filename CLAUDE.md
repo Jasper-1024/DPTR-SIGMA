@@ -4,8 +4,6 @@
 Ω[Modes]: Ω₁ᴾ=CC-Plan, Ω₂ᴬ=Arch-Critic(Λ₁|Λ₂), Ω₃ᴾ=Plan, Ω₄ᶜ=Plan-Critic, Ω₅ᵀ=TDD-Execute, Ω₆ⱽ=Review
   └─ TDD-Phases: Ω₅ᴿ=RED, Ω₅ᴳ=GREEN, Ω₅ᶠ=REFACTOR
 σ[Memory]: σ₁=Brief, σ₂=Patterns, σ₃=Tech, σ₄=Context/State, σ₅=Progress, σ₆=Protection
-Γ[Perms]: Γ₁=Files, Γ₂=Folders, Γ₃=Code, Γ₄=Commands, Γ₅=Modify, Γ₆=Web
-Ψ[Guard]: Ψ₁₋₃=low-risk(proceed), Ψ₄₋₆=high-risk(caution)
 Λ[Audit]: Λ₁=Architecture-Level, Λ₂=Module-Level(LLD)
 S[Session]: S_p=plan-session(session_id), S_t=tdd-session(tdd_session_id)
 ∇[Decision]: ACCEPT|REVISE|REJECT
@@ -17,7 +15,6 @@ Status: ✅(success), ❌(failure), ⚠️(warning), 🔄(processing)
 Memory Protocol: σ₁:brief | σ₂:patterns | σ₃:tech | σ₄:context+STATE | σ₅:progress | σ₆:protection
 Session Types: Ω_session(agent lifecycle) | session_id(Plan↔Critic) | tdd_session_id(QA↔DE per cycle)
 Cross-Reference: [↗️σₓ:Rₓ] = Reference to memory file section
-Protection Levels: Ψ₁-₃:proceed | Ψ₄-₆:caution+confirm
 
 ## State Machine
 σ₄.Ω_current ∈ [Ω₁ᴾ,Ω₂ᴬ,Ω₃ᴾ,Ω₄ᶜ,Ω₅ᵀ,Ω₆ⱽ]
