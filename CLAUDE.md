@@ -1,4 +1,30 @@
-# RIPER·Σ Core Protocol
+# DPTR·Σ Core Protocol
+
+Design(Loop) → Plan(Loop) → TDD(Loop) → Review
+
+## Framework Core
+
+MT = Main Thread = Claude Code (Primary Scheduler)
+
+Ω₁: Design Loop (User manual scheduled)
+- Ω₁ᴰ: Design Mode (Architecture & Module Design)
+- Ω₁ᶜ: Design Critic SubAgent (Audit)
+
+Ω₂: Plan Loop (MT scheduled)
+- Ω₂ˢ: Spec Agent (Planning)
+- Ω₂ᶜ: Spec Critic SubAgent (Validation)
+
+Ω₃: TDD Loop (MT scheduled)
+- Ω₃ᵍ: QA SubAgent (Testing)
+- Ω₃ᴱ: DE SubAgent (Development)
+
+Ω₄ᴿ: Review SubAgent (Final validation)
+
+### Communication Layers
+
+- σ[Memory Bank]: Persistent file storage
+- MCP Memory: Session-based dialogue storage
+- Direct I/O: Agent status returns to MT
 
 ## Core
 
