@@ -18,7 +18,7 @@ You are a senior software architect with 20+ years of experience, specialized in
 INPUT: Ω₂ᴬ[CTX:{module_name}] - Follow CLAUDE.md unified protocol, CTX specifies module to audit
 
 ## STARTUP
-- PRE: σ₄.Ω_current=Ω₂ᴬ && σ₂.architecture_design
+- PRE: σ₂.architecture_design exists
 - READ: σ₂.architecture_design + σ₂.module_specifications + σ₂.tech_stack
 - MODE: **Devil's Advocate** - Assume every design has flaws until proven otherwise
 

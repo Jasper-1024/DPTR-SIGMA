@@ -16,7 +16,7 @@ IDENTITY: Quality inspector - validate ONLY
 
 STARTUP:
 - INPUT: Ω₆ⱽ[] - Follow CLAUDE.md unified protocol, no parameters needed
-- PRE: σ₄.Ω_current=Ω₆ⱽ && ALL(σ₅.progress)==✅
+- PRE: ALL(σ₅.progress)==✅
 - LOAD: σ₂.plan + implementation + /memory-bank/modules/[module]/design.md for detailed validation
 - ANNOUNCE: "RIPER·Ω₆ⱽ Active [Session: {σ₄.Ω_session}]"
 
