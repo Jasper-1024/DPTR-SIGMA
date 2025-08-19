@@ -1,6 +1,6 @@
 # RIPER·Σ Core Protocol
 
-## Core Concepts
+## Core
 
 Ω[Modes]: Ω₁ᴾ=CC-Plan, Ω₂ᴬ=Arch-Critic, Ω₃ᴾ=Plan, Ω₄ᶜ=Plan-Critic, Ω₅ᵀ=TDD-Execute, Ω₆ⱽ=Review
   └─ TDD-Phases: Ω₅ᴿ=RED, Ω₅ᴳ=GREEN, Ω₅ᶠ=REFACTOR
@@ -9,7 +9,7 @@ Memory Protocol: σ₁:brief | σ₂:patterns | σ₃:tech | σ₄:context+STATE
 σ[Memory]: σ₁=Brief, σ₂=Patterns, σ₃=Tech, σ₄=Context/State, σ₅=Progress
 Cross-Reference: [↗️σₓ:Rₓ] = Reference to memory file section
 
-## Symbol System
+### Symbol System
 
 S[Session]: session_id(Plan↔Critic), tdd_session_id(QA↔DE per cycle)
 ∇[Decision]: ACCEPT|REVISE|REJECT
@@ -17,19 +17,15 @@ S[Session]: session_id(Plan↔Critic), tdd_session_id(QA↔DE per cycle)
 Logic: ∈, ∃, ∧, ∨, ¬
 Status: ✅(success), ❌(failure), ⚠️(warning)
 
-## State Machine
-FLOW: Ω₁ᴾ→Ω₂ᴬ→(Ω₃ᴾ⟷Ω₄ᶜ)→Ω₅ᵀ→Ω₆ⱽ
-SESSION: session_id→MCP_Memory (per-dialogue isolation)
-MT: Main Thread (RIPER mode coordinator)
-
-
 ## Communication Protocol
 
 ### Unified Agent I/O Protocol
+
 **Input Format**: `Agent[按需参数]` - Only pass required parameters
 **Output Format**: `→{STATUS_CODE}: {optional_message}`
 
 **Parameter Definitions**:
+
 - S:{sid} - Session ID (for dialogue loops)
 - R:{round} - Round number (for dialogue iterations)  
 - C:{cycle} - Cycle number (for TDD cycles)
@@ -37,32 +33,44 @@ MT: Main Thread (RIPER mode coordinator)
 - CTX:{context} - Context data (when additional info needed)
 
 **Agent Parameter Requirements**:
+
 - Ω₁ᴾ: `[]` - CC Plan Mode, no parameters
 - Ω₂ᴬ: `[CTX:{module}]` - Architecture Critic, requires module name
 - Ω₃ᴾ/Ω₄ᶜ: `[S:{sid},R:{round}]` - Plan Loop, requires session and round
 - Ω₅ᵀ: `[S:{sid},R:{round},C:{cycle},P:{phase}]` - TDD Loop, requires full parameters
 - Ω₆ⱽ: `[]` - Review, no parameters
 
-### Symbolic Format  
+### Symbolic Format
+
 DISPATCH: Agent[S{sid},R{round},C{cycle},P{phase},CTX{context}]
 RESPONSE: →{STATUS_CODE}: {optional_message}
 
 ### Status Codes
+
 Plan Loop: →PC|→PR|→NR|→PA|→DG
 TDD Loop: →RC|→GC|→RTC|→RIC
 Errors: →ME|→TO|→EX|→BL
 
 ### MCP Storage Format
+
 OBS[S{sid},R{n},A:{agent},T:{timestamp}]: {content}
 
 ### Query Patterns
+
 QUERY: OBS[S{sid},R{current},*,*]      # Current round
 QUERY: OBS[S{sid},R{n-1},*,*]          # Previous round  
 QUERY: OBS[S{sid},*,A:{agent},*]       # All from agent
 
+## State Machine
+
+FLOW: Ω₁ᴾ→Ω₂ᴬ→(Ω₃ᴾ⟷Ω₄ᶜ)→Ω₅ᵀ→Ω₆ⱽ
+SESSION: session_id→MCP_Memory (per-dialogue isolation)
+MT: Main Thread (RIPER mode coordinator)
+
 ## Mode Specifications
 
 ### CC Plan Mode Integration (Ω₁ᴾ)
+
 Ω₁ᴾ: CC Plan Mode - architecture & module design *(CC native plan mode)*
 TRIGGER: User uses CC native Plan Mode
 OUTPUT: Direct to memory bank
