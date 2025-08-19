@@ -1,26 +1,25 @@
 # RIPER·Σ Core Protocol
 
-## Symbol System
-Ω[Modes]: Ω₁ᴾ=CC-Plan, Ω₂ᴬ=Arch-Critic(Λ₁|Λ₂), Ω₃ᴾ=Plan, Ω₄ᶜ=Plan-Critic, Ω₅ᵀ=TDD-Execute, Ω₆ⱽ=Review
+## Core Concepts
+
+Ω[Modes]: Ω₁ᴾ=CC-Plan, Ω₂ᴬ=Arch-Critic, Ω₃ᴾ=Plan, Ω₄ᶜ=Plan-Critic, Ω₅ᵀ=TDD-Execute, Ω₆ⱽ=Review
   └─ TDD-Phases: Ω₅ᴿ=RED, Ω₅ᴳ=GREEN, Ω₅ᶠ=REFACTOR
-σ[Memory]: σ₁=Brief, σ₂=Patterns, σ₃=Tech, σ₄=Context/State, σ₅=Progress, σ₆=Protection
-Λ[Audit]: Λ₁=Architecture-Level, Λ₂=Module-Level(LLD)
+
+Memory Protocol: σ₁:brief | σ₂:patterns | σ₃:tech | σ₄:context+STATE | σ₅:progress
+σ[Memory]: σ₁=Brief, σ₂=Patterns, σ₃=Tech, σ₄=Context/State, σ₅=Progress
+Cross-Reference: [↗️σₓ:Rₓ] = Reference to memory file section
+
+## Symbol System
+
 S[Session]: session_id(Plan↔Critic), tdd_session_id(QA↔DE per cycle)
 ∇[Decision]: ACCEPT|REVISE|REJECT
 →[Flow], ↔[Interact], ⟷[Loop], ⟲[Iterate]
 Logic: ∈, ∃, ∧, ∨, ¬
 Status: ✅(success), ❌(failure), ⚠️(warning)
 
-## Core Concepts
-Memory Protocol: σ₁:brief | σ₂:patterns | σ₃:tech | σ₄:context+STATE | σ₅:progress | σ₆:protection
-Session Types: Ω_session(agent lifecycle) | session_id(Plan↔Critic) | tdd_session_id(QA↔DE per cycle)
-Cross-Reference: [↗️σₓ:Rₓ] = Reference to memory file section
-
 ## State Machine
-σ₄.Ω_current ∈ [Ω₁ᴾ,Ω₂ᴬ,Ω₃ᴾ,Ω₄ᶜ,Ω₅ᵀ,Ω₆ⱽ]
 FLOW: Ω₁ᴾ→Ω₂ᴬ→(Ω₃ᴾ⟷Ω₄ᶜ)→Ω₅ᵀ→Ω₆ⱽ
 SESSION: session_id→MCP_Memory (per-dialogue isolation)
-STATE: σ₄.Ω_current (maintained by Claude Code Main Thread)
 MT: Main Thread (RIPER mode coordinator)
 
 
@@ -75,7 +74,7 @@ HANDOFF: Automatic transition to Ω₂ᴬ for design audit
 ### Dual Loop Protocol
 
 #### Design Quality Loop (Ω₁ᴾ → Ω₂ᴬ)
-DESIGN_LOOP: Ω₁ᴾ → Ω₂ᴬ{Λ₁|Λ₂,module_name} → σ₄.arch_critique → ∇decision
+DESIGN_LOOP: Ω₁ᴾ → Ω₂ᴬ{module_name} → σ₄.arch_critique → ∇decision
 ∇decision: 
 ├─ ACCEPT → σ₄.design_approved=true → Ω₃ᴾ
 ├─ REVISE → σ₄.design_feedback → re-enter Ω₁ᴾ
@@ -308,5 +307,5 @@ TERMINATION_PROCEDURE:
 ├─ CLEAR: Agent activation flags
 ├─ SUMMARY: Create failure analysis
 ├─ HANDOFF: Prepare σ₄ for next mode
-└─ TRANSITION: σ₄.Ω_current → Ω₆ⱽ
+└─ TRANSITION: → Ω₆ⱽ
 ```
