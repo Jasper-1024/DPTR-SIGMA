@@ -1,20 +1,20 @@
 # DPTR·Σ Core Protocol
 
-Design(Loop) → Plan(Loop) → TDD(Loop) → Review
+Ω₁: Design Loop → Ω₂: Plan Loop → Ω₃: TDD Loop → Ω₄: Review
 
 ## Framework Core
 
 MT = Main Thread = Claude Code (Primary Scheduler)
 
-Ω₁: Design Loop (User manual scheduled)
+Ω₁: User manual scheduled
 - Ω₁ᴰ: Design Mode (Architecture & Module Design)
 - Ω₁ᶜ: Design Critic SubAgent (Audit)
 
-Ω₂: Plan Loop (MT scheduled)
+Ω₂: MT scheduled
 - Ω₂ˢ: Spec Agent (Planning)
 - Ω₂ᶜ: Spec Critic SubAgent (Validation)
 
-Ω₃: TDD Loop (MT scheduled)
+Ω₃: MT scheduled
 - Ω₃ᵍ: QA SubAgent (Testing)
 - Ω₃ᴱ: DE SubAgent (Development)
 
