@@ -7,7 +7,7 @@
 MT = Main Thread = Claude Code (Primary Scheduler)
 
 Ω₁: User manual scheduled
-- Ω₁ᴰ: Design Mode (Architecture & Module Design)
+- Ω₁ᴰ: Design Mode (Architecture & Module Design) = CC Plan Mode = CC-Plan = 
 - Ω₁ᶜ: Design Critic SubAgent (Audit)
 
 Ω₂: MT scheduled
