@@ -1,14 +1,14 @@
 ---
-name: riper-validator
-description: RIPER Validator Agent (Ωⱽ) - Validates, fixes, and integrates content
+name: dptr-validator
+description: DPTR Validator Agent (Ωⱽ) - Validates, fixes, and integrates content
 tools: Read, Edit, MultiEdit, Write, LS, Bash, Glob, Grep, TodoWrite, mcp__memory__create_entities, mcp__memory__search_nodes, mcp__memory__open_nodes
 model: sonnet
 color: green
 ---
 
-# RIPER Validator Agent Instructions
+# DPTR Validator Agent Instructions
 
-@RIPER·Σ Agent Ωⱽ
+@DPTR·Σ Agent Ωⱽ
 
 IDENTITY: Content validator - verify, fix, integrate
 
@@ -82,7 +82,7 @@ PARSE_INSTRUCTION(instruction):
 │   ├─ M{NN} → MCP[σ_session + "_T{NN}"]
 │   ├─ U{NN} → MCP[σ_session + "_USER_T{NN}"]
 │   ├─ σ{N} → memory-bank/{filename}
-│   ├─ τ{N} → RIPER_TEMPLATES.{template}  
+│   ├─ τ{N} → DPTR_TEMPLATES.{template}  
 │   ├─ /memory-bank/modules/{module_name}/* → /memory-bank/modules/{module_name}/{file}
 │   ├─ M{NN}-{MM} → Range MCP[σ_session + "_T{NN}" to "_T{MM}"]
 │   └─ F(*) → Project files
@@ -122,7 +122,7 @@ Before completion verify:
 - ✅ Content accuracy confirmed
 - ✅ References validated
 - ✅ Metadata consistent
-- ✅ RIPER standards met
+- ✅ DPTR standards met
 
 ## Error Handling
 
@@ -139,7 +139,7 @@ Before completion verify:
 - Date formats → Convert to YYYY-MM-DD
 - Symbol errors → Use standard σ/Ω notation
 - Broken paths → Fix if detectable, update cross-references
-- Template violations → Apply correct RIPER template structure
+- Template violations → Apply correct DPTR template structure
 - Missing metadata → Add required fields with appropriate defaults
 - User feedback integration → Apply all user modifications to target files
 - Structure validation → Regenerate malformed files when necessary

@@ -1,16 +1,16 @@
 ---
-description: "Initialize TDD-RIPER framework: memory-bank + CLAUDE.md via session-based orchestration"
+description: "Initialize DPTR framework: memory-bank + CLAUDE.md via session-based orchestration"
 allowed-tools: Read, Write, Edit, MultiEdit, LS, Bash, Glob, Grep, WebSearch, WebFetch, TodoWrite, Task
 version: "3.0"
 ---
 
-# RIPER Initialization Command v3.0
+# DPTR Initialization Command v3.0
 
 Use 4-Opus model, if Opus model is not available, this command will fallback to Sonnet for reliable performance.
 
 **ultrathink** - Session-based atomic task framework with MCP Memory data flow. 8-stage dependency-driven execution with minimal context usage. Scales 37-49 tasks based on project complexity.
 
-Initialize complete TDD-RIPER framework: memory-bank files + project-level CLAUDE.md integration.
+Initialize complete DPTR framework: memory-bank files + project-level CLAUDE.md integration.
 
 ## 📁 CRITICAL: Memory-Bank File Location
 **ALL memory-bank files MUST be created in `./memory-bank/` directory relative to project root**
@@ -25,8 +25,8 @@ Initialize complete TDD-RIPER framework: memory-bank files + project-level CLAUD
 
 ### 📊 Session Protocol
 ```
-σ_session = "RIPER_{timestamp}"
-Templates: MCP["RIPER_TEMPLATES"]  
+σ_session = "DPTR_{timestamp}"
+Templates: MCP["DPTR_TEMPLATES"]  
 Task Data: MCP[σ_session + "_" + task_id]
 State: MCP[σ_session + "_STATE"]
 ```
@@ -39,7 +39,7 @@ State: MCP[σ_session + "_STATE"]
 ### 🔄 Execution Stages
 
 **R-1: Template Initialization** `[1 task]`
-- T00: INIT_TEMPLATES → Template Manager Agent → MCP["RIPER_TEMPLATES"]
+- T00: INIT_TEMPLATES → Template Manager Agent → MCP["DPTR_TEMPLATES"]
   └─ `INIT[∅→MCP_TEMPLATES]`
 
 **R0: Project Foundation Scan** `[1 task]`
@@ -172,7 +172,7 @@ T33:GEN[M31,M32,τ_claude→CLAUDE.md] # Generate CLAUDE.md from commands + cons
 
 ### 🤖 Agent Assignment
 
-**Template Manager**: T00 → Initialize templates to MCP["RIPER_TEMPLATES"]
+**Template Manager**: T00 → Initialize templates to MCP["DPTR_TEMPLATES"]
 
 **Generator Agent** (instruction, σ_session):
 - Tasks: T01, T02, T05-T07, T09-T13, T15-T19, T22-T23, T25-T26, T28-T29, T31-T33, T35
@@ -204,7 +204,7 @@ T33:GEN[M31,M32,τ_claude→CLAUDE.md] # Generate CLAUDE.md from commands + cons
 **Session State**: Stored in MCP[σ_session + "_STATE"]  
 **Task Results**: Stored in MCP[σ_session + "_" + task_id]  
 **User Interactions**: Stored in MCP[σ_session + "_USER_" + task_id]  
-**No .riper-execution.json file** - all state in MCP Memory
+**No .dptr-execution.json file** - all state in MCP Memory
 
 ## Data Flow Protocol
 
