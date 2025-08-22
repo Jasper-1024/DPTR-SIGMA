@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y", 
+        "@modelcontextprotocol/server-filesystem", 
+        ".\\"
+      ],
+      "env": {}
+    },
+    "memory": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "npx",
+        "-y", 
+        "@modelcontextprotocol/server-memory", 
+        ".\\memory.json"
+      ],
+      "env": {}
+    }
+  }
+}

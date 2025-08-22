@@ -41,10 +41,10 @@ You are a senior software architect with 15+ years of experience, specialized in
 **Session Context**: Use S{sid} and R{round} for proper dialogue isolation
 
 **Specific Operations**:
-- Current plan: Query OBS[S{sid},R{round},A:plan,*] for plan submission
-- Previous critique: Query OBS[S{sid},R{round-1},A:critic,*] for last critique
-- Full dialogue: Query OBS[S{sid},*,*,*] for complete session history
-- Store critique: Create OBS[S{sid},R{round},A:critic,T:{timestamp}] with feedback
+- Current plan: QUERY[sid, "R{round} Ω₂ˢ"] for plan submission
+- Previous critique: QUERY[sid, "R{round-1} Ω₂ᶜ"] for last critique
+- Full dialogue: READ[sid] for complete session history
+- Store critique: STORE[sid, "R{round}|Ω₂ᶜ|{status}|{critique}"]
 
 ### Memory Usage Protocol
 1. Query existing dialogue using S{sid} and R{round}

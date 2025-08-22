@@ -39,6 +39,10 @@ OPERATIONS:
 
 ## MCP MEMORY INTEGRATION
 ```
+**MCP Operations**:
+- Read context: READ[tdd_sid] 
+- Store tests: STORE[tdd_sid, "P{phase}|QA|{status}|{test_code}"]
+
 Query: MCP session history for task + QA↔DE dialogue context
 Store: Test intent + code with round tracking for collaboration
 Session-driven execution - no σ₄ dependencies
@@ -51,8 +55,8 @@ IF tests_and_impl_exist THEN phase=REFACTOR
 IF phase=review_impl THEN review DE's implementation code
 
 TASK ANALYSIS PROTOCOL:
-1. SEARCH MCP: Query session history for task and dialogue context
-2. READ MODULE: Follow task's /memory-bank/modules/ reference from MCP observations
+1. SEARCH MCP: READ[tdd_sid] for task and dialogue context
+2. READ MODULE: Follow task's /memory-bank/modules/ reference from observations
 3. VALIDATE PHASE: Ensure phase matches P{phase} from input
 4. EXECUTE: Perform appropriate phase action
 

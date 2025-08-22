@@ -1,12 +1,32 @@
 {
+  "env": {
+    "MEMORY_FILE_PATH": "C:\\Users\\stati\\Downloads\\tdd-riper\\memory.json"
+  },
   "permissions": {
     "allow": [
       "Bash(ls:*)",
       "Bash(find:*)",
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:claudelog.com)"
+      "WebFetch(domain:claudelog.com)",
+      "mcp__memory__search_nodes",
+      "mcp__memory__add_observations",
+      "mcp__memory__create_entities",
+      "mcp__filesystem__read_text_file",
+      "mcp__filesystem__write_file",
+      "mcp__filesystem__edit_file",
+      "mcp__filesystem__create_directory",
+      "mcp__filesystem__list_directory",
+      "mcp__filesystem__get_file_info",
+      "WebSearch",
+      "mcp__filesystem__read_file",
+      "Bash(mkdir:*)"
     ],
     "deny": []
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "filesystem",
+    "memory"
+  ]
 }

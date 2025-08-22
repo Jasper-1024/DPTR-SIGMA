@@ -6,23 +6,27 @@ Claude Code orchestrates SubAgents through Design(Loop)→Plan(Loop)→TDD(Loop)
 
 Ω₁: Design Loop → Ω₂: Plan Loop → Ω₃: TDD Loop → Ω₄: Review
 
-MT = Main Thread = Claude Code (Primary Scheduler)
+MT = Main Thread = Claude Code (Primary Scheduler) = CC
 
 ### Schedule & SubAgent
 
 Ω₁: User manual scheduled
+
 - Ω₁ᴰ: Design Mode (Architecture & Module Design) = CC Plan Mode
 - Ω₁ᶜ: Design Critic SubAgent (Audit)
 
 Ω₂: MT scheduled
+
 - Ω₂ˢ: Spec Agent (Planning)
 - Ω₂ᶜ: Spec Critic SubAgent (Validation)
 
 Ω₃: MT scheduled
+
 - Ω₃ᵍ: QA SubAgent (Testing)
 - Ω₃ᴱ: DE SubAgent (Development)
 
 Ω₄: User manual scheduled
+
 - Ω₄ᴿ: Review SubAgent (Final validation)
 
 ## Symbol System
@@ -45,6 +49,7 @@ Cross-Reference: [↗️σₓ:Rₓ] = Reference to memory file section
 SubAgents decide what to read/write from MCP/σ internally.
 
 **Session Isolation**:
+
 - Ω₂: One session_id for entire Ω₂ˢ↔Ω₂ᶜ dialogue
 - Ω₃: New tdd_session_id per cycle (QA↔DE isolation)
 
@@ -68,7 +73,8 @@ SubAgents decide what to read/write from MCP/σ internally.
 - Ω₃ᵍ/Ω₃ᴱ: `[S:{sid},R:{round},C:{cycle},P:{phase},CTX:{context}]` - session, round, cycle, phase, other context
 - Ω₄ᴿ: `[]` - no parameters
 
-**Status Codes**
+**Status Codes**:
+
 - Ω₁: →ACCEPT|→REVISE|→REJECT
 - Ω₂ˢ: →PC(Plan Created)|→PR(Plan Revised)|→DG(Disagree with Critique)
 - Ω₂ᶜ: →NR(Needs Revision)|→PA(Plan Accepted)|→EN(Escalation Needed)|→DA(Dialogue Active)
@@ -78,15 +84,30 @@ SubAgents decide what to read/write from MCP/σ internally.
 - Ω₄: →VC(Validation Complete)|→DF(Deviations Found)|→QP(Quality Passed)|→QF(Quality Failed)
 - Errors: →ME(Memory Error)|→TO(Timeout)|→EX(Exception)|→BL(Blocked)
 
-### MCP Storage Format
+### MCP Memory Storage
 
-OBS[S{sid},R{n},A:{agent},T:{timestamp}]: {content}
+**Session Design**:
 
-**Query Patterns**
+- session_id (sid) = One complete dialogue loop = One MCP Entity
+- Entity type: "plan_loop" | "tdd_loop"
+- Observations: Sequential agent outputs within that dialogue
 
-- QUERY: OBS[S{sid},R{current},*,*]      # Current round
-- QUERY: OBS[S{sid},R{n-1},*,*]          # Previous round  
-- QUERY: OBS[S{sid},*,A:{agent},*]       # All from agent
+**Symbolic Operations**:
+
+- INIT[sid,type] → mcp__filesystem__create_entities(name=sid, entityType=type)
+- STORE[sid,content] → mcp__filesystem__add_observations(entityName=sid, contents=[content])
+- QUERY[sid,pattern] → mcp__filesystem__search_nodes(query=sid+" "+pattern)
+- READ[sid] → mcp__filesystem__open_nodes(names=[sid])
+
+**Content Format**:
+"R{round}|{agent}|{status}|{content}" for plan/design loops
+"P{phase}|{agent}|{status}|{content}" for TDD loops
+
+**Examples**:
+
+- Full dialogue: READ["plan_2025_001"] → All observations in order
+- Query previous round: QUERY["plan_2025_001", "R0"] → Round 0 content
+- Store new round: STORE["plan_2025_001", "R1|Ω₂ˢ|→PR|Revised plan..."]
 
 ## Ω Specifications
 
@@ -100,13 +121,13 @@ OBS[S{sid},R{n},A:{agent},T:{timestamp}]: {content}
 
 ### Ω₂: Plan Loop (MT scheduled)
 
-**OUTPUT**: σ₅.tdd_cycles (method-level RGR plans)
+**OUTPUT**: σ₅.implementation_plan, σ₅.tdd_cycles, σ₅.execution_checklist
 **DIALOGUE**: Ω₂ˢ↔Ω₂ᶜ via MCP Memory
 
 MT→Ω₂ˢ[S,R]→status→MT→Ω₂ᶜ[S,R]→status→MT ⟲ until →PA
 
 PLAN_EXECUTE():
-├─ INIT: sid=generate() → MCP_Memory
+├─ INIT: sid=PLAN_{timestamp} → INIT[sid,"plan_loop"]
 ├─ STORE: σ₄.session_id=sid, r=0
 ├─ DISPATCH: Ω₂ˢ[S{sid},R{r}]
 ├─ RECEIVE: →PC|→PR
@@ -118,12 +139,12 @@ PLAN_EXECUTE():
 └─ LOOP: ⟲ until →PA
 
 PLAN_OUTPUT:
-├─ σ₂.implementation_plan (method breakdown)
+├─ σ₅.implementation_plan (method breakdown)
 ├─ σ₅.tdd_cycles: [
 │   ├─ TDD₁: Method() → ℜ→ℜᴳ→ℜᶠ [module ref]
 │   └─ TDD₂: Method() → ℜ→ℜᴳ→ℜᶠ [module ref]
 │   ]
-└─ σ₂.execution_checklist (validation)
+└─ σ₅.execution_checklist (validation)
 
 ### Ω₃: TDD Loop (MT scheduled)
 
@@ -131,7 +152,7 @@ PLAN_OUTPUT:
 **PERMISSIONS**: QA(test-only) | DE(impl-only)
 
 TDD_EXECUTE():
-├─ INIT: sid=TDD_{timestamp}, r=0
+├─ INIT: sid=TDD_{timestamp} → INIT[sid,"tdd_loop"]
 ├─ Phase 0: (first cycle setup)
 │   ├─ MT→Ω₃ᴱ[S{sid},R{r},C{0},P:Phase0]
 │   ├─ DE creates minimal interface definitions
