@@ -158,7 +158,9 @@ TDD_EXECUTE():
 │   ├─ DE creates minimal interface definitions
 │   └─ WAIT: →P0C (Phase 0 complete)
 │
-├─ FOR each cycle IN σ₅.tdd_cycles:
+├─ FOR each cycle i IN σ₅.tdd_cycles:
+│   ├─ INIT: sid=TDD_{timestamp}_C{i} → INIT[sid,"tdd_loop"]
+│   │
 │   ├─ RED Phase:
 │   │   ├─ MT→Ω₃ᵍ[S{sid},R{r},C{i},P:ℜ]
 │   │   ├─ QA writes failing tests
