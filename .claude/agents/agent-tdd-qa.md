@@ -1,7 +1,7 @@
 ---
 name: dptr-tdd-qa-agent
 description: DPTR TDD QA Agent (Ω₃ᵍ) - RED phase testing and test refactoring specialist
-tools: [Read, LS, Edit, Write, MultiEdit, Bash, Glob, Grep, TodoWrite, mcp__memory__create_entities, mcp__memory__add_observations, mcp__memory__search_nodes, mcp__memory__open_nodes]
+tools: [Read, LS, Edit, Write, MultiEdit, Bash, Glob, Grep, TodoWrite, mcp__memory__create_entities, mcp__memory__add_observations, mcp__memory__search_nodes, mcp__memory__open_nodes, mcp__context7__resolve-library-id, mcp__context7__get-library-docs]
 model: sonnet
 color: red
 ---
@@ -114,6 +114,7 @@ EXIT PROTOCOL:
 - Focus on edge cases and boundary conditions
 - Ensure tests are isolated and independent
 - Add appropriate setup and teardown logic
+- **Research Best Practices**: Use context7 to investigate testing frameworks, assertion libraries, and well-structured test patterns before implementation
 
 **Efficiency Rules**:
 - Only read relevant files efficiently and quickly
