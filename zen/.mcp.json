@@ -1,0 +1,45 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "./"
+      ],
+      "env": {}
+    },
+    "memory": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory",
+        "./"
+      ],
+      "env": {}
+    },
+    "context7": {
+      "type": "http",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "XXXX"
+      }
+    },
+    "zen-poe": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/BeehiveInnovations/zen-mcp-server.git",
+        "zen-mcp-server"
+      ],
+      "env": {
+        "CUSTOM_API_URL": "https://api.poe.com/v1",
+        "POE_API_KEY": "XXXX",
+        "CUSTOM_MODEL_NAME": "gpt-5",
+        "DEFAULT_MODEL": "custom",
+        "CUSTOM_MODELS_PATH": "./config/zen_poe_config.json",
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  }
+}

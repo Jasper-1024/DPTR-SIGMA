@@ -1,0 +1,385 @@
+{
+  "_description": "Comprehensive Poe AI Models Configuration for zen-mcp Integration",
+  "_provider": "Poe (Quora)",
+  "_api_endpoint": "https://api.poe.com/v1",
+  "_last_updated": "2025-08-22",
+  "models": {
+    "text_models": [
+      {
+        "model_name": "Claude-Opus-4.1",
+        "aliases": ["opus", "claude-opus", "opus-4.1", "poe-opus"],
+        "context_window": 200000,
+        "max_output_tokens": 64000,
+        "supports_images": true,
+        "supports_extended_thinking": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "Anthropic Claude Opus 4.1 - Most capable Claude model via Poe"
+      },
+      {
+        "model_name": "Claude-Sonnet-4",
+        "aliases": ["sonnet", "claude-sonnet", "sonnet-4", "poe-sonnet"],
+        "context_window": 200000,
+        "max_output_tokens": 64000,
+        "supports_images": true,
+        "supports_extended_thinking": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "Anthropic Claude Sonnet 4 - Balanced performance and speed via Poe"
+      },
+      {
+        "model_name": "Claude-3.7-Sonnet",
+        "aliases": ["sonnet-3.7", "claude-3.7", "poe-sonnet-3.7"],
+        "context_window": 200000,
+        "max_output_tokens": 8192,
+        "supports_images": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "Anthropic Claude 3.7 Sonnet via Poe"
+      },
+      {
+        "model_name": "Claude-3.5-Sonnet",
+        "aliases": ["sonnet-3.5", "claude-3.5", "poe-sonnet-3.5"],
+        "context_window": 200000,
+        "max_output_tokens": 8192,
+        "supports_images": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "Anthropic Claude 3.5 Sonnet via Poe"
+      },
+      {
+        "model_name": "GPT-5",
+        "aliases": ["gpt5", "gpt-5", "poe-gpt5"],
+        "context_window": 400000,
+        "max_output_tokens": 64000,
+        "supports_images": true,
+        "supports_extended_thinking": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "OpenAI GPT-5 with 400k context via Poe"
+      },
+      {
+        "model_name": "GPT-5-mini",
+        "aliases": ["gpt5-mini", "gpt-5-mini", "poe-gpt5-mini"],
+        "context_window": 128000,
+        "max_output_tokens": 32000,
+        "supports_images": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "OpenAI GPT-5 mini - Efficient version via Poe"
+      },
+      {
+        "model_name": "GPT-4.1",
+        "aliases": ["gpt4.1", "gpt-4.1", "poe-gpt4.1"],
+        "context_window": 128000,
+        "max_output_tokens": 32000,
+        "supports_images": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "OpenAI GPT-4.1 via Poe"
+      },
+      {
+        "model_name": "GPT-4o",
+        "aliases": ["gpt4o", "gpt-4o", "poe-gpt4o"],
+        "context_window": 128000,
+        "max_output_tokens": 16384,
+        "supports_images": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "OpenAI GPT-4o - Optimized version via Poe"
+      },
+      {
+        "model_name": "o1-preview",
+        "aliases": ["o1", "o1-preview", "poe-o1"],
+        "context_window": 128000,
+        "max_output_tokens": 32768,
+        "supports_extended_thinking": true,
+        "supports_json_mode": true,
+        "is_custom": true,
+        "description": "OpenAI o1-preview reasoning model via Poe"
+      },
+      {
+        "model_name": "o1-pro",
+        "aliases": ["o1pro", "o1-pro", "poe-o1-pro"],
+        "context_window": 128000,
+        "max_output_tokens": 32768,
+        "supports_extended_thinking": true,
+        "supports_json_mode": true,
+        "is_custom": true,
+        "description": "OpenAI o1-pro advanced reasoning model via Poe"
+      },
+      {
+        "model_name": "o3-mini",
+        "aliases": ["o3mini", "o3-mini", "poe-o3-mini"],
+        "context_window": 128000,
+        "max_output_tokens": 65536,
+        "supports_extended_thinking": true,
+        "supports_json_mode": true,
+        "is_custom": true,
+        "description": "OpenAI o3-mini reasoning model via Poe"
+      },
+      {
+        "model_name": "o3-mini-high",
+        "aliases": ["o3mini-high", "o3-mini-high", "poe-o3-mini-high"],
+        "context_window": 128000,
+        "max_output_tokens": 65536,
+        "supports_extended_thinking": true,
+        "supports_json_mode": true,
+        "is_custom": true,
+        "description": "OpenAI o3-mini-high enhanced reasoning model via Poe"
+      },
+      {
+        "model_name": "o3",
+        "aliases": ["o3", "poe-o3"],
+        "context_window": 128000,
+        "max_output_tokens": 100000,
+        "supports_extended_thinking": true,
+        "supports_json_mode": true,
+        "is_custom": true,
+        "description": "OpenAI o3 reasoning model via Poe"
+      },
+      {
+        "model_name": "o4-mini",
+        "aliases": ["o4mini", "o4-mini", "poe-o4-mini"],
+        "context_window": 128000,
+        "max_output_tokens": 65536,
+        "supports_extended_thinking": true,
+        "supports_json_mode": true,
+        "is_custom": true,
+        "description": "OpenAI o4-mini reasoning model via Poe"
+      },
+      {
+        "model_name": "Gemini-2.5-Pro",
+        "aliases": ["gemini-pro", "gemini-2.5", "poe-gemini-pro"],
+        "context_window": 2000000,
+        "max_output_tokens": 64000,
+        "supports_images": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "Google Gemini 2.5 Pro with 2M context via Poe"
+      },
+      {
+        "model_name": "Gemini-2.5-Flash-Preview",
+        "aliases": ["gemini-flash", "gemini-2.5-flash", "poe-gemini-flash"],
+        "context_window": 1000000,
+        "max_output_tokens": 32000,
+        "supports_images": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "Google Gemini 2.5 Flash Preview - Fast and efficient via Poe"
+      },
+      {
+        "model_name": "DeepSeek-R1",
+        "aliases": ["deepseek", "deepseek-r1", "poe-deepseek"],
+        "context_window": 128000,
+        "max_output_tokens": 8192,
+        "supports_extended_thinking": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "DeepSeek R1 reasoning model via Poe"
+      },
+      {
+        "model_name": "Grok-4",
+        "aliases": ["grok4", "grok-4", "poe-grok4"],
+        "context_window": 128000,
+        "max_output_tokens": 32768,
+        "supports_images": true,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "xAI Grok 4 - Latest model via Poe"
+      },
+      {
+        "model_name": "Grok-3-mini",
+        "aliases": ["grok3-mini", "grok-3-mini", "poe-grok3-mini"],
+        "context_window": 128000,
+        "max_output_tokens": 8192,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "xAI Grok 3 mini - Efficient version via Poe"
+      },
+      {
+        "model_name": "Llama-3.1-405B",
+        "aliases": ["llama-405b", "llama3.1-405b", "poe-llama-405b"],
+        "context_window": 128000,
+        "max_output_tokens": 32768,
+        "supports_json_mode": true,
+        "supports_function_calling": true,
+        "is_custom": true,
+        "description": "Meta Llama 3.1 405B - Largest open model via Poe"
+      }
+    ],
+    "image_models": [
+      {
+        "model_name": "GPT-Image-1",
+        "aliases": ["gpt-image", "dalle", "poe-dalle"],
+        "is_custom": true,
+        "model_type": "image_generation",
+        "description": "OpenAI GPT-Image-1 - Advanced image generation via Poe"
+      },
+      {
+        "model_name": "DALL-E-3",
+        "aliases": ["dalle3", "dall-e-3", "poe-dalle3"],
+        "is_custom": true,
+        "model_type": "image_generation",
+        "description": "OpenAI DALL-E 3 - Image generation via Poe"
+      },
+      {
+        "model_name": "Imagen3",
+        "aliases": ["imagen3", "poe-imagen3"],
+        "is_custom": true,
+        "model_type": "image_generation",
+        "description": "Google Imagen3 - Image generation via Poe"
+      },
+      {
+        "model_name": "Imagen4",
+        "aliases": ["imagen4", "poe-imagen4"],
+        "is_custom": true,
+        "model_type": "image_generation",
+        "description": "Google Imagen4 - Latest image generation via Poe"
+      },
+      {
+        "model_name": "FLUX",
+        "aliases": ["flux", "poe-flux"],
+        "is_custom": true,
+        "model_type": "image_generation",
+        "description": "Black Forest Labs FLUX - Image generation via Poe"
+      },
+      {
+        "model_name": "Stable-Diffusion-3.5",
+        "aliases": ["sd3.5", "stable-3.5", "poe-sd3.5"],
+        "is_custom": true,
+        "model_type": "image_generation",
+        "description": "Stable Diffusion 3.5 - Image generation via Poe"
+      },
+      {
+        "model_name": "Ideogram-2.0",
+        "aliases": ["ideogram", "ideogram2", "poe-ideogram"],
+        "is_custom": true,
+        "model_type": "image_generation",
+        "description": "Ideogram 2.0 - Image generation with text via Poe"
+      },
+      {
+        "model_name": "Playground-v3",
+        "aliases": ["playground", "playground3", "poe-playground"],
+        "is_custom": true,
+        "model_type": "image_generation",
+        "description": "Playground v3 - Image generation via Poe"
+      },
+      {
+        "model_name": "Recraft-v3",
+        "aliases": ["recraft", "recraft3", "poe-recraft"],
+        "is_custom": true,
+        "model_type": "image_generation",
+        "description": "Recraft v3 - Image generation via Poe"
+      },
+      {
+        "model_name": "Seedream-3.0",
+        "aliases": ["seedream", "seedream3", "poe-seedream"],
+        "is_custom": true,
+        "model_type": "image_generation",
+        "description": "Seedream 3.0 - Image generation via Poe"
+      }
+    ],
+    "video_models": [
+      {
+        "model_name": "Veo-3",
+        "aliases": ["veo3", "veo-3", "poe-veo"],
+        "is_custom": true,
+        "model_type": "video_generation",
+        "stream_recommended": false,
+        "description": "Google Veo 3 - Video generation via Poe"
+      },
+      {
+        "model_name": "Kling-2.1-Master",
+        "aliases": ["kling", "kling2.1", "poe-kling"],
+        "is_custom": true,
+        "model_type": "video_generation",
+        "stream_recommended": false,
+        "description": "Kuaishou Kling 2.1 Master - Video generation via Poe"
+      },
+      {
+        "model_name": "Kling-2.0-Master",
+        "aliases": ["kling2", "kling2.0", "poe-kling2"],
+        "is_custom": true,
+        "model_type": "video_generation",
+        "stream_recommended": false,
+        "description": "Kuaishou Kling 2.0 Master - Video generation via Poe"
+      },
+      {
+        "model_name": "Runway-Gen-4-Turbo",
+        "aliases": ["runway", "gen4turbo", "poe-runway"],
+        "is_custom": true,
+        "model_type": "video_generation",
+        "stream_recommended": false,
+        "description": "Runway Gen 4 Turbo - Video generation via Poe"
+      },
+      {
+        "model_name": "Luma",
+        "aliases": ["luma", "poe-luma"],
+        "is_custom": true,
+        "model_type": "video_generation",
+        "stream_recommended": false,
+        "description": "Luma Labs - Video generation via Poe"
+      },
+      {
+        "model_name": "Hailuo",
+        "aliases": ["hailuo", "poe-hailuo"],
+        "is_custom": true,
+        "model_type": "video_generation",
+        "stream_recommended": false,
+        "description": "Hailuo - Video generation via Poe"
+      },
+      {
+        "model_name": "Pika",
+        "aliases": ["pika", "poe-pika"],
+        "is_custom": true,
+        "model_type": "video_generation",
+        "stream_recommended": false,
+        "description": "Pika - Video generation via Poe"
+      }
+    ],
+    "audio_models": [
+      {
+        "model_name": "ElevenLabs",
+        "aliases": ["elevenlabs", "eleven", "poe-elevenlabs"],
+        "is_custom": true,
+        "model_type": "audio_generation",
+        "description": "ElevenLabs - Audio generation via Poe"
+      },
+      {
+        "model_name": "Lyria",
+        "aliases": ["lyria", "poe-lyria"],
+        "is_custom": true,
+        "model_type": "audio_generation",
+        "description": "Lyria - Audio generation via Poe"
+      }
+    ]
+  },
+  "api_configuration": {
+    "base_url": "https://api.poe.com/v1",
+    "auth_header": "Authorization: Bearer $POE_API_KEY",
+    "required_parameters": {
+      "n": 1,
+      "stream": "false for media models, optional for text"
+    },
+    "notes": [
+      "Get API key from https://poe.com/api_key",
+      "All public bots on Poe are accessible",
+      "Uses Poe subscription points",
+      "Compatible with OpenAI SDK"
+    ]
+  }
+}
