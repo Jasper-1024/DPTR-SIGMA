@@ -61,15 +61,16 @@ SubAgents decide what to read/write from MCP/σ internally.
 - R:{round} - Round number (for dialogue)  
 - C:{cycle} - Cycle number (for Ω₃)
 - P:{phase} - Phase identifier (for Ω₃)
+- M:{module} - Module path (for Ω₂)
 - CTX:{context} - Context data (when additional info needed)
 
-**Input Format**: `[S{sid}?,R{round}?,C{cycle}?,P{phase}?,CTX{context}]` - Only pass required parameters, `?` means optional
+**Input Format**: `[S{sid}?,R{round}?,C{cycle}?,P{phase}?,M{module}?,CTX{context}]` - Only pass required parameters, `?` means optional
 **Output Format**: `→[{STATUS_CODE},{optional_message}]`
 
 **Agent Parameter Requirements**:
 
 - Ω₁ᶜ: `[CTX:{module}]` - architecture or module context
-- Ω₂ˢ/Ω₂ᶜ: `[S:{sid},R:{round},CTX:{context}]` - session, round, other context
+- Ω₂ˢ/Ω₂ᶜ: `[S:{sid},R:{round},M:{module},CTX:{context}]` - session, round, module, other context
 - Ω₃ᵍ/Ω₃ᴱ: `[S:{sid},R:{round},C:{cycle},P:{phase},CTX:{context}]` - session, round, cycle, phase, other context
 - Ω₄ᴿ: `[]` - no parameters
 
@@ -158,38 +159,36 @@ TDD_EXECUTE():
 │   ├─ DE creates minimal interface definitions
 │   └─ WAIT: →P0C (Phase 0 complete)
 │
-├─ FOR each cycle i IN σ₅.tdd_cycles:
-│   ├─ INIT: sid=TDD_{timestamp}_C{i} → INIT[sid,"tdd_loop"]
+├─ FOR each batch B IN σ₅.tdd_cycles:
+│   ├─ EXTRACT: cycles = B.cycles[0:B.parallel] # parallel ∈ {1,2,3}
+│   ├─ SESSIONS: sids = {TDD_{timestamp}_C{c} | c ∈ cycles}
 │   │
 │   ├─ RED Phase:
-│   │   ├─ MT→Ω₃ᵍ[S{sid},R{r},C{i},P:ℜ]
-│   │   ├─ QA writes failing tests
-│   │   └─ WAIT: →RC (tests written & failing)
+│   │   ├─ MT→{Ω₃ᵍ[S{sid},R{0},C{c},P:ℜ] | sid,c ∈ sids×cycles}
+│   │   └─ WAIT_ALL: {→RC}
 │   │
 │   ├─ GREEN Phase:
-│   │   ├─ MT→Ω₃ᴱ[S{sid},R{r},C{i},P:ℜᴳ]
-│   │   ├─ DE implements minimal code
-│   │   └─ WAIT: →GC (tests passing)
+│   │   ├─ MT→{Ω₃ᴱ[S{sid},R{0},C{c},P:ℜᴳ] | sid,c ∈ sids×cycles}
+│   │   └─ WAIT_ALL: {→GC}
 │   │
 │   └─ REFACTOR Phase:
-│       ├─ MT: r++ # enter REFACTOR
-│       ├─ MT→Ω₃ᵍ[S{sid},R{r},C{i},P:ℜᶠᵗ]
-│       │   └─ QA refactors test code →RTC
-│       ├─ MT→Ω₃ᴱ[S{sid},R{r},C{i},P:ℜᶠⁱ]
-│       │   └─ DE refactors implementation →RIC
-│       ├─ MT: Run test suite validation
-│       ├─ r++ # for cross-review
-│       ├─ MT→Ω₃ᴱ[S{sid},R{r},C{i},P:review_tests]
-│       │   └─ DE reviews QA's test code →APPROVED|→NEEDS_CHANGE
-│       ├─ MT→Ω₃ᵍ[S{sid},R{r},C{i},P:review_impl]
-│       │   └─ QA reviews DE's implementation →APPROVED|→NEEDS_CHANGE
-│       └─ MT: Convergence check
-│           ├─ IF both →APPROVED AND tests_pass:
-│           │   └─ ADVANCE to next_cycle
-│           └─ ELSE:
-│               ├─ r++ (new iteration)
-│               └─ REPEAT REFACTOR sequence
-└─ UPDATE: σ₅.progress[cycle] = ✅
+│       ├─ r = 1
+│       └─ LOOP until convergence:
+│           ├─ MT→{Ω₃ᵍ[S{sid},R{r},C{c},P:ℜᶠᵗ] | sid,c ∈ sids×cycles}
+│           ├─ WAIT_ALL: {→RTC from all cycles}
+│           ├─ MT→{Ω₃ᴱ[S{sid},R{r},C{c},P:ℜᶠⁱ] | sid,c ∈ sids×cycles}
+│           ├─ WAIT_ALL: {→RIC from all cycles}
+│           ├─ r++ # for cross-review round
+│           ├─ MT→{Ω₃ᴱ[S{sid},R{r},C{c},P:review_tests] | all cycles}
+│           ├─ MT→{Ω₃ᵍ[S{sid},R{r},C{c},P:review_impl] | all cycles}
+│           ├─ WAIT_ALL: {review results from all cycles}
+│           └─ CONVERGENCE_CHECK:
+│               ├─ IF ∀c: →APPROVED ∧ tests_pass:
+│               │   └─ BREAK # Move to next batch
+│               └─ ELSE:
+│                   ├─ r++ # Continue refactor iteration
+│                   └─ CONTINUE # ALL cycles repeat together
+└─ UPDATE: σ₅.progress[batch] = ✅
 
 QUALITY_GATES:
 ├─ RED: Tests written & failing
