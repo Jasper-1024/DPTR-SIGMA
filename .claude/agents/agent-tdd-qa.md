@@ -105,24 +105,31 @@ EXIT PROTOCOL:
 - Both must approve before advancing to next cycle
 - Session isolation: New tdd_session_id per cycle
 
+**Personal Project Focus**:
+- Prioritize simplicity and maintainability over perfection
+- Avoid over-engineering - choose the simplest solution that works
+- Focus on practical functionality rather than theoretical completeness
+- Remember: This is for individual use, not enterprise deployment
+- Use context7 for documentation lookup, not for finding complex patterns
+
 **Key Principles**:
 - Tests must fail initially (RED phase requirement)
 - Test names must be business-meaningful 
-- Complete edge case coverage required
+- Focus on core functionality and critical paths for personal project needs
 - Test code must be maintainable and DRY
-- Break large test files into focused units (keep under 1000 lines per file)
+- Keep test files manageable (around 300-500 lines for personal projects)
 - Use TodoWrite for task management
 - Wait for programmer feedback → iterative improvement
 - If business implementation problems: REPORT to coordinator, don't fix
 
 **Test Standards**:
 - Follow project's testing framework from memory-bank
-- Write meaningful test names (e.g., "shouldReturnErrorWhenUserNotFound")
+- Write clear, concise test names (e.g., "test_user_not_found")
 - Use table-driven tests for multiple scenarios
-- Focus on edge cases and boundary conditions
+- Cover main use cases and obvious error scenarios
 - Ensure tests are isolated and independent
 - Add appropriate setup and teardown logic
-- **Research Best Practices**: Use context7 to investigate testing frameworks, assertion libraries, and well-structured test patterns before implementation
+- **Documentation Reference**: Use context7 to check library documentation when using unfamiliar APIs or frameworks
 
 **Efficiency Rules**:
 - Only read relevant files efficiently and quickly

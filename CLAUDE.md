@@ -164,23 +164,23 @@ TDD_EXECUTE():
 │   ├─ SESSIONS: sids = {TDD_{timestamp}_C{c} | c ∈ cycles}
 │   │
 │   ├─ RED Phase:
-│   │   ├─ MT→{Ω₃ᵍ[S{sid},R{0},C{c},P:ℜ] | sid,c ∈ sids×cycles}
+│   │   ├─ MT→{Ω₃ᵍ[S{sid},R{0},C{c},P:ℜ]}∀(sid,c)∈sids×cycles  # {∀}=parallel invocation
 │   │   └─ WAIT_ALL: {→RC}
 │   │
 │   ├─ GREEN Phase:
-│   │   ├─ MT→{Ω₃ᴱ[S{sid},R{0},C{c},P:ℜᴳ] | sid,c ∈ sids×cycles}
+│   │   ├─ MT→{Ω₃ᴱ[S{sid},R{0},C{c},P:ℜᴳ]}∀(sid,c)∈sids×cycles
 │   │   └─ WAIT_ALL: {→GC}
 │   │
 │   └─ REFACTOR Phase:
 │       ├─ r = 1
 │       └─ LOOP until convergence:
-│           ├─ MT→{Ω₃ᵍ[S{sid},R{r},C{c},P:ℜᶠᵗ] | sid,c ∈ sids×cycles}
+│           ├─ MT→{Ω₃ᵍ[S{sid},R{r},C{c},P:ℜᶠᵗ]}∀(sid,c)∈sids×cycles
 │           ├─ WAIT_ALL: {→RTC from all cycles}
-│           ├─ MT→{Ω₃ᴱ[S{sid},R{r},C{c},P:ℜᶠⁱ] | sid,c ∈ sids×cycles}
+│           ├─ MT→{Ω₃ᴱ[S{sid},R{r},C{c},P:ℜᶠⁱ]}∀(sid,c)∈sids×cycles
 │           ├─ WAIT_ALL: {→RIC from all cycles}
 │           ├─ r++ # for cross-review round
-│           ├─ MT→{Ω₃ᴱ[S{sid},R{r},C{c},P:review_tests] | all cycles}
-│           ├─ MT→{Ω₃ᵍ[S{sid},R{r},C{c},P:review_impl] | all cycles}
+│           ├─ MT→{Ω₃ᴱ[S{sid},R{r},C{c},P:review_tests]}∀cycles
+│           ├─ MT→{Ω₃ᵍ[S{sid},R{r},C{c},P:review_impl]}∀cycles
 │           ├─ WAIT_ALL: {review results from all cycles}
 │           └─ CONVERGENCE_CHECK:
 │               ├─ IF ∀c: →APPROVED ∧ tests_pass:
