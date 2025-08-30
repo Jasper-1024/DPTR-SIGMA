@@ -132,28 +132,6 @@ You are a senior software architect with 15+ years of experience, specialized in
 - If all batches serial → "Identify parallelization opportunities"
 - If intra-batch dependency → "Split into sequential batches"
 
-## File Conflict Violations
-
-**Common File Conflicts to Catch**:
-- Multiple cycles modifying same source file → WRONG (file editing conflicts)
-- Multiple cycles modifying same test file → WRONG (test conflicts)  
-- Extension cycles editing base model → WRONG (base class conflicts)
-- API and service layers editing shared utility → WRONG (shared resource conflicts)
-
-**File Conflict Detection Examples**:
-```
-❌ WRONG - File Conflicts:
-Batch₁: (parallel 2)
-□ TDD₁: User Model [files: models/user.py, tests/test_user.py]
-□ TDD₂: User Extensions [files: models/user.py, tests/test_extensions.py]
-                             ^^^^^^^^^^^^^^^^^ Same file conflict!
-
-✅ CORRECT - No Conflicts:  
-Batch₁: (parallel 2)
-□ TDD₁: User Model [files: models/user.py, tests/test_user.py]  
-□ TDD₂: Auth Service [files: services/auth.py, tests/test_auth.py]
-```
-
 ## Common Dependency Violations
 
 **Common Violations to Catch**:

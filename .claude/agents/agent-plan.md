@@ -65,7 +65,7 @@ Batch₁: (parallel 2)  # Independent feature components
 □ TDD₁: Complete Validation Interface (validateEmail, validatePassword, sanitizeInput) → ℜ→ℜᴳ→ℜᶠ 
   [files: models/validation.py, tests/test_validation.py]
 □ TDD₂: Logger Feature Group (logInfo, logError, logDebug, configure) → ℜ→ℜᴳ→ℜᶠ
-  [files: services/logger.py, tests/test_logger.py] ✓ No file conflicts
+  [files: services/logger.py, tests/test_logger.py]
 
 Batch₂: (parallel 1)  # Depends on validation
 □ TDD₃: Authentication Service (register, login, logout, resetPassword) → ℜ→ℜᴳ→ℜᶠ
@@ -80,10 +80,7 @@ TDD PLANNING REQUIREMENTS:
 - Component cohesion analysis to group related functionality
 - Each TDD cycle should represent a complete feature or interface
 - Group getter/setter pairs, CRUD operations, related validations together
-- Dependency analysis between components (not individual methods)
-- **File conflict analysis**: List target files for each TDD cycle 
-- **Parallel safety**: Ensure no file overlaps within same batch (parallel execution)
-- Cycles modifying same files must be placed in sequential batches
+- Dependency and file conflict analysis between components (no parallel file edits)
 - Group independent feature components into parallel batches (max 3 parallel)
 - Complete RGR flow planning for each feature/interface
 - Traceable references to /memory-bank/modules/{module}/design.md
