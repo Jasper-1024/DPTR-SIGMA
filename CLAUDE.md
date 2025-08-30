@@ -62,7 +62,7 @@ SubAgents decide what to read/write from MCP/σ internally.
 - C:{cycle} - Cycle number (for Ω₃)
 - P:{phase} - Phase identifier (for Ω₃)
 - M:{module} - Module path (for Ω₂)
-- CTX:{context} - Context data (when additional info needed)
+- CTX:{context} - Context data (REQUIRED for Ω₃, contains design/plan/interface paths)
 
 **Input Format**: `[S{sid}?,R{round}?,C{cycle}?,P{phase}?,M{module}?,CTX{context}]` - Only pass required parameters, `?` means optional
 **Output Format**: `→[{STATUS_CODE},{optional_message}]`
@@ -73,6 +73,11 @@ SubAgents decide what to read/write from MCP/σ internally.
 - Ω₂ˢ/Ω₂ᶜ: `[S:{sid},R:{round},M:{module},CTX:{context}]` - session, round, module, other context
 - Ω₃ᵍ/Ω₃ᴱ: `[S:{sid},R:{round},C:{cycle},P:{phase},CTX:{context}]` - session, round, cycle, phase, other context
 - Ω₄ᴿ: `[]` - no parameters
+
+**CTX Format Standards**:
+- Ω₁ᶜ: `CTX:module=/memory-bank/modules/{name}`
+- Ω₂: `CTX:module=/memory-bank/modules/{name}, design={path}`
+- Ω₃: `CTX:design={path}, plan={path}, interface="{exact_signature}"`
 
 **Status Codes**:
 
@@ -122,7 +127,7 @@ SubAgents decide what to read/write from MCP/σ internally.
 
 ### Ω₂: Plan Loop (MT scheduled)
 
-**OUTPUT**: σ₅.implementation_plan, σ₅.tdd_cycles, σ₅.execution_checklist
+**OUTPUT**: /memory-bank/modules/{module}/tdd_plan.md
 **DIALOGUE**: Ω₂ˢ↔Ω₂ᶜ via MCP Memory
 
 MT→Ω₂ˢ[S,R]→status→MT→Ω₂ᶜ[S,R]→status→MT ⟲ until →PA
@@ -140,26 +145,25 @@ PLAN_EXECUTE():
 └─ LOOP: ⟲ until →PA
 
 PLAN_OUTPUT:
-├─ σ₅.implementation_plan (method breakdown)
-├─ σ₅.tdd_cycles: [
-│   ├─ TDD₁: Method() → ℜ→ℜᴳ→ℜᶠ [module ref]
-│   └─ TDD₂: Method() → ℜ→ℜᴳ→ℜᶠ [module ref]
+├─ module.tdd_cycles: [
+│   ├─ TDD₁: Method() → ℜ→ℜᴳ→ℜᶠ [interface signature]
+│   └─ TDD₂: Method() → ℜ→ℜᴳ→ℜᶠ [interface signature]
 │   ]
-└─ σ₅.execution_checklist (validation)
+└─ module.execution_checklist (validation)
 
 ### Ω₃: TDD Loop (MT scheduled)
 
-**INPUT**: σ₅.tdd_cycles from Ω₂
+**INPUT**: tdd_cycles from /memory-bank/modules/{module}/tdd_plan.md
 **PERMISSIONS**: QA(test-only) | DE(impl-only)
 
 TDD_EXECUTE():
 ├─ INIT: sid=TDD_{timestamp} → INIT[sid,"tdd_loop"]
 ├─ Phase 0: (first cycle setup)
 │   ├─ MT→Ω₃ᴱ[S{sid},R{r},C{0},P:Phase0]
-│   ├─ DE creates minimal interface definitions
+│   ├─ DE implements interface skeleton from design.md
 │   └─ WAIT: →P0C (Phase 0 complete)
 │
-├─ FOR each batch B IN σ₅.tdd_cycles:
+├─ FOR each batch B IN module.tdd_cycles:
 │   ├─ EXTRACT: cycles = B.cycles[0:B.parallel] # parallel ∈ {1,2,3}
 │   ├─ SESSIONS: sids = {TDD_{timestamp}_C{c} | c ∈ cycles}
 │   │
