@@ -106,27 +106,53 @@ You are a senior software architect with 15+ years of experience, specialized in
 ### TDD Cycles & Batch Validation
 
 **Required Checks**:
-- Each cycle has clear method signature from design document
+- Each cycle represents complete interface or feature from design
+- Related methods are grouped together (Get/Set, CRUD, validation sets)
 - Module references exist in /memory-bank/modules/
-- RED→GREEN→REFACTOR phases are properly defined
-- Cycles grouped into batches based on dependencies
+- RED→GREEN→REFACTOR phases cover the entire feature
+- Cycles grouped into batches based on component dependencies
 
 **Batch Structure Validation**:
 - NO dependencies within same batch (all cycles must be independent)
+- NO file conflicts within same batch (cycles must edit different files)
 - NO forward dependencies (later batches cannot depend on future)
 - Integration tests in separate batch (parallel 1)
 - Parallel count ∈ {1, 2, 3}
 
 **Complexity Assessment (Per Module)**:
-- Count methods from design.md
-- Reasonable batches = methods ÷ 3 (feature grouping)
-- Each batch ≈ 2-4 hours with parallelization
+- Count components/interfaces from design.md
+- Reasonable cycles = logical feature groups (5-8 for typical module)
+- Each cycle = complete feature implementation (2-4 hours with parallelization)
+- Red flag if cycles > components (over-splitting into method level)
 - Red flag if total time > 100 hours
 
 **Auto-Challenge Triggers**:
-- If cycles > 2× method count → "Consider feature-based grouping"
+- If cycles > components → "Consider combining related methods into feature groups"
+- If cycles contain single methods → "Group related methods into complete interfaces"
 - If all batches serial → "Identify parallelization opportunities"
 - If intra-batch dependency → "Split into sequential batches"
+
+## File Conflict Violations
+
+**Common File Conflicts to Catch**:
+- Multiple cycles modifying same source file → WRONG (file editing conflicts)
+- Multiple cycles modifying same test file → WRONG (test conflicts)  
+- Extension cycles editing base model → WRONG (base class conflicts)
+- API and service layers editing shared utility → WRONG (shared resource conflicts)
+
+**File Conflict Detection Examples**:
+```
+❌ WRONG - File Conflicts:
+Batch₁: (parallel 2)
+□ TDD₁: User Model [files: models/user.py, tests/test_user.py]
+□ TDD₂: User Extensions [files: models/user.py, tests/test_extensions.py]
+                             ^^^^^^^^^^^^^^^^^ Same file conflict!
+
+✅ CORRECT - No Conflicts:  
+Batch₁: (parallel 2)
+□ TDD₁: User Model [files: models/user.py, tests/test_user.py]  
+□ TDD₂: Auth Service [files: services/auth.py, tests/test_auth.py]
+```
 
 ## Common Dependency Violations
 
@@ -138,6 +164,7 @@ You are a senior software architect with 15+ years of experience, specialized in
 
 **Auto-Reject Triggers**:
 - If intra-batch dependency detected → →NR "Split dependent cycles into sequential batches"
+- If file conflicts within batch detected → →NR "Cycles editing same files must be in sequential batches"
 - If parallel > 3 → →NR "Reduce parallel degree to maximum 3 for stability"
 - If no batching attempted → →NR "Identify independent cycles for parallel execution"
 - If integration mixed with unit cycles → →NR "Separate integration tests into final batch"
@@ -145,7 +172,7 @@ You are a senior software architect with 15+ years of experience, specialized in
 **Batch Optimization Suggestions**:
 - Similar complexity cycles should be grouped together
 - I/O-heavy and CPU-heavy cycles can be parallelized
-- Independent utility functions are excellent parallel candidates
+- Independent utility components are excellent parallel candidates
 
 ## COMMUNICATION PROTOCOL
 

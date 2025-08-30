@@ -50,10 +50,10 @@ OPERATIONS:
 **CRITICAL**: Both module-specific updates and MCP Memory must complete or DPTR workflow fails
 
 **Other Operations:**
-- ANALYZE: Extract method signatures from design.md (DO NOT MODIFY)
-- ORGANIZE: Group methods into batches based on dependency analysis  
-- SEQUENCE: Determine batch execution order based on method dependencies
-- REFERENCE: Use design.md methods as-is for TDD cycle definitions
+- ANALYZE: Extract interface definitions from design.md (DO NOT MODIFY)
+- ORGANIZE: Group methods into feature/interface components based on cohesion analysis  
+- SEQUENCE: Determine batch execution order based on component dependencies
+- REFERENCE: Reference design.md interfaces as-is for TDD cycle definitions
 
 ## TDD Cycle Format Requirement
 **CRITICAL**: Use batch-based format for parallel execution
@@ -61,23 +61,31 @@ OPERATIONS:
 ```
 Phase0: Create minimal interface definitions (DE executes)
 
-Batch₁: (parallel 3)  # Independent foundation components
-□ TDD₁: Validator.validateEmail() → ℜ→ℜᴳ→ℜᶠ [/memory-bank/modules/validation.md]
-□ TDD₂: Validator.validatePassword() → ℜ→ℜᴳ→ℜᶠ [/memory-bank/modules/validation.md]
-□ TDD₃: Validator.sanitizeInput() → ℜ→ℜᴳ→ℜᶠ [/memory-bank/modules/validation.md]
+Batch₁: (parallel 2)  # Independent feature components
+□ TDD₁: Complete Validation Interface (validateEmail, validatePassword, sanitizeInput) → ℜ→ℜᴳ→ℜᶠ 
+  [files: models/validation.py, tests/test_validation.py]
+□ TDD₂: Logger Feature Group (logInfo, logError, logDebug, configure) → ℜ→ℜᴳ→ℜᶠ
+  [files: services/logger.py, tests/test_logger.py] ✓ No file conflicts
 
 Batch₂: (parallel 1)  # Depends on validation
-□ TDD₄: AuthService.register() → ℜ→ℜᴳ→ℜᶠ [/memory-bank/modules/authentication.md]
+□ TDD₃: Authentication Service (register, login, logout, resetPassword) → ℜ→ℜᴳ→ℜᶠ
+  [files: services/auth.py, tests/test_auth.py, models/user.py]
 ```
 **NO JSON format** - use compact, readable batch format as shown above.
 - CHECK: Ψ levels for all changes
-- ENSURE: Each cycle is traceable and method-focused with proper module references
+- ENSURE: Each cycle is traceable and feature-focused with proper module references
 
 TDD PLANNING REQUIREMENTS:
-- Method-to-TDD-cycle mapping (use existing methods from design.md)
-- Dependency analysis between methods to determine batch sequencing
-- Group independent methods into parallel batches (max 3 parallel)
-- Complete RGR flow planning for each method
+- Interface/Feature-to-TDD-cycle mapping (group related methods from design.md)
+- Component cohesion analysis to group related functionality
+- Each TDD cycle should represent a complete feature or interface
+- Group getter/setter pairs, CRUD operations, related validations together
+- Dependency analysis between components (not individual methods)
+- **File conflict analysis**: List target files for each TDD cycle 
+- **Parallel safety**: Ensure no file overlaps within same batch (parallel execution)
+- Cycles modifying same files must be placed in sequential batches
+- Group independent feature components into parallel batches (max 3 parallel)
+- Complete RGR flow planning for each feature/interface
 - Traceable references to /memory-bank/modules/{module}/design.md
 - Output to /memory-bank/modules/{module}/tdd_plan.md (NOT global σ₅)
 - NEVER modify design.md - only reference existing interface definitions
