@@ -156,6 +156,10 @@ PLAN_OUTPUT:
 **INPUT**: tdd_cycles from /memory-bank/modules/{module}/tdd_plan.md
 **PERMISSIONS**: QA(test-only) | DE(impl-only)
 
+**PARALLEL EXECUTION**: 
+For n instances, invoke Task tool n times in ONE message.
+Example: [Ω₃ᵍ×2] requires 2 Task invocations in the same message.
+
 TDD_EXECUTE():
 ├─ INIT: sid=TDD_{timestamp} → INIT[sid,"tdd_loop"]
 ├─ Phase 0: (first cycle setup)
@@ -165,27 +169,27 @@ TDD_EXECUTE():
 │
 ├─ FOR each batch B IN module.tdd_cycles:
 │   ├─ EXTRACT: cycles = B.cycles[0:B.parallel] # parallel ∈ {1,2,3}
-│   ├─ SESSIONS: sids = {TDD_{timestamp}_C{c} | c ∈ cycles}
+│   ├─ SESSIONS: For each c in cycles: sid_c = TDD_{timestamp}_C{c}
 │   │
 │   ├─ RED Phase:
-│   │   ├─ MT→{Ω₃ᵍ[S{sid},R{0},C{c},P:ℜ]}∀(sid,c)∈sids×cycles  # {∀}=parallel invocation
-│   │   └─ WAIT_ALL: {→RC}
+│   │   ├─ MT→[Ω₃ᵍ×n]: {[S:TDD_{timestamp}_Ci,R:0,C:i,P:ℜ] | i∈{1..n}}
+│   │   └─ WAIT_ALL: {→RC}×n
 │   │
 │   ├─ GREEN Phase:
-│   │   ├─ MT→{Ω₃ᴱ[S{sid},R{0},C{c},P:ℜᴳ]}∀(sid,c)∈sids×cycles
-│   │   └─ WAIT_ALL: {→GC}
+│   │   ├─ MT→[Ω₃ᴱ×n]: {[S:TDD_{timestamp}_Ci,R:0,C:i,P:ℜᴳ] | i∈{1..n}}
+│   │   └─ WAIT_ALL: {→GC}×n
 │   │
 │   └─ REFACTOR Phase:
 │       ├─ r = 1
 │       └─ LOOP until convergence:
-│           ├─ MT→{Ω₃ᵍ[S{sid},R{r},C{c},P:ℜᶠᵗ]}∀(sid,c)∈sids×cycles
-│           ├─ WAIT_ALL: {→RTC from all cycles}
-│           ├─ MT→{Ω₃ᴱ[S{sid},R{r},C{c},P:ℜᶠⁱ]}∀(sid,c)∈sids×cycles
-│           ├─ WAIT_ALL: {→RIC from all cycles}
+│           ├─ MT→[Ω₃ᵍ×n]: {[S:TDD_{timestamp}_Ci,R:r,C:i,P:ℜᶠᵗ] | i∈{1..n}}
+│           ├─ WAIT_ALL: {→RTC}×n
+│           ├─ MT→[Ω₃ᴱ×n]: {[S:TDD_{timestamp}_Ci,R:r,C:i,P:ℜᶠⁱ] | i∈{1..n}}
+│           ├─ WAIT_ALL: {→RIC}×n
 │           ├─ r++ # for cross-review round
-│           ├─ MT→{Ω₃ᴱ[S{sid},R{r},C{c},P:review_tests]}∀cycles
-│           ├─ MT→{Ω₃ᵍ[S{sid},R{r},C{c},P:review_impl]}∀cycles
-│           ├─ WAIT_ALL: {review results from all cycles}
+│           ├─ MT→[Ω₃ᴱ×n]: {[S:TDD_{timestamp}_Ci,R:r,C:i,P:review_tests] | i∈{1..n}}
+│           ├─ MT→[Ω₃ᵍ×n]: {[S:TDD_{timestamp}_Ci,R:r,C:i,P:review_impl] | i∈{1..n}}
+│           ├─ WAIT_ALL: {review_results}×n
 │           └─ CONVERGENCE_CHECK:
 │               ├─ IF ∀c: →APPROVED ∧ tests_pass:
 │               │   └─ BREAK # Move to next batch
@@ -198,6 +202,34 @@ QUALITY_GATES:
 ├─ RED: Tests written & failing
 ├─ GREEN: Minimal implementation, all tests pass
 └─ REFACTOR: Code quality improved, tests pass, both approved
+
+#### TDD Workflow Refactor Phase
+QA Responsibilities:
+- Refactor test code (extract test helpers, optimize test data setup)
+- Ensure tests still verify correct business logic
+- Check if test coverage is affected
+- Verify refactored tests can still detect potential bugs
+- All improvement opportunities must be handled in refactor phase, not deferred to next TDD cycle
+
+Developer Responsibilities:
+- Refactor implementation code (extract small functions, optimize algorithms, improve naming)
+- Ensure code structure is clearer
+- Handle code duplication and design improvements
+- All improvement opportunities must be handled in refactor phase, not deferred to next TDD cycle
+
+Joint Collaboration:
+- Discuss whether interface design needs adjustment
+- Ensure test and implementation refactoring directions are consistent
+- Run complete test suite to verify refactor success
+- Code review to ensure quality
+
+Actual Operation Flow:
+Refactor phase begins:
+├─ QA: Refactor test code, maintain test intent
+├─ Developer: Refactor implementation code, maintain behavior
+├─ Collaboration: Run tests to ensure all pass
+├─ Collaboration: Code review and discussion
+└─ Commit refactored code, enter next TDD cycle
 
 ### Ω₄: Review (Manual scheduled)
 
