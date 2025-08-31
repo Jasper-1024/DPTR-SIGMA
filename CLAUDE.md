@@ -157,8 +157,8 @@ PLAN_OUTPUT:
 **PERMISSIONS**: QA(test-only) | DE(impl-only)
 
 **PARALLEL EXECUTION**: 
-For n instances, invoke Task tool n times in ONE message.
-Example: [Ω₃ᵍ×2] requires 2 Task invocations in the same message.
+For |cycles| instances, invoke Task tool |cycles| times in ONE message.
+Example: [Ω₃ᵍ×|cycles|] where cycles={1,2} requires 2 Task invocations in the same message.
 
 TDD_EXECUTE():
 ├─ INIT: sid=TDD_{timestamp} → INIT[sid,"tdd_loop"]
@@ -172,30 +172,32 @@ TDD_EXECUTE():
 │   ├─ SESSIONS: For each c in cycles: sid_c = TDD_{timestamp}_C{c}
 │   │
 │   ├─ RED Phase:
-│   │   ├─ MT→[Ω₃ᵍ×n]: {[S:TDD_{timestamp}_Ci,R:0,C:i,P:ℜ] | i∈{1..n}}
-│   │   └─ WAIT_ALL: {→RC}×n
+│   │   ├─ MT→[Ω₃ᵍ×|cycles|]: {[S:TDD_{timestamp}_C{c},R:0,C:{c},P:ℜ] | c∈cycles}
+│   │   └─ WAIT_ALL: {→RC}×|cycles|
 │   │
 │   ├─ GREEN Phase:
-│   │   ├─ MT→[Ω₃ᴱ×n]: {[S:TDD_{timestamp}_Ci,R:0,C:i,P:ℜᴳ] | i∈{1..n}}
-│   │   └─ WAIT_ALL: {→GC}×n
+│   │   ├─ MT→[Ω₃ᴱ×|cycles|]: {[S:TDD_{timestamp}_C{c},R:0,C:{c},P:ℜᴳ] | c∈cycles}
+│   │   └─ WAIT_ALL: {→GC}×|cycles|
 │   │
 │   └─ REFACTOR Phase:
 │       ├─ r = 1
 │       └─ LOOP until convergence:
-│           ├─ MT→[Ω₃ᵍ×n]: {[S:TDD_{timestamp}_Ci,R:r,C:i,P:ℜᶠᵗ] | i∈{1..n}}
-│           ├─ WAIT_ALL: {→RTC}×n
-│           ├─ MT→[Ω₃ᴱ×n]: {[S:TDD_{timestamp}_Ci,R:r,C:i,P:ℜᶠⁱ] | i∈{1..n}}
-│           ├─ WAIT_ALL: {→RIC}×n
+│           ├─ MT→[Ω₃ᵍ×|cycles|]: {[S:TDD_{timestamp}_C{c},R:r,C:{c},P:ℜᶠᵗ] | c∈cycles}
+│           ├─ WAIT_ALL: {→RTC}×|cycles|
+│           ├─ MT→[Ω₃ᴱ×|cycles|]: {[S:TDD_{timestamp}_C{c},R:r,C:{c},P:ℜᶠⁱ] | c∈cycles}
+│           ├─ WAIT_ALL: {→RIC}×|cycles|
 │           ├─ r++ # for cross-review round
-│           ├─ MT→[Ω₃ᴱ×n]: {[S:TDD_{timestamp}_Ci,R:r,C:i,P:review_tests] | i∈{1..n}}
-│           ├─ MT→[Ω₃ᵍ×n]: {[S:TDD_{timestamp}_Ci,R:r,C:i,P:review_impl] | i∈{1..n}}
-│           ├─ WAIT_ALL: {review_results}×n
+│           ├─ MT→[Ω₃ᴱ×|cycles|]: {[S:TDD_{timestamp}_C{c},R:r,C:{c},P:review_tests] | c∈cycles}
+│           ├─ WAIT_ALL: {review_tests}×|cycles|
+│           ├─ MT→[Ω₃ᵍ×|cycles|]: {[S:TDD_{timestamp}_C{c},R:r,C:{c},P:review_impl] | c∈cycles}
+│           ├─ WAIT_ALL: {review_impl}×|cycles|
 │           └─ CONVERGENCE_CHECK:
-│               ├─ IF ∀c: →APPROVED ∧ tests_pass:
+│               ├─ cycles = {c∈cycles | ¬converged(c)} # update active cycles
+│               ├─ IF cycles = ∅:
 │               │   └─ BREAK # Move to next batch
 │               └─ ELSE:
-│                   ├─ r++ # Continue refactor iteration
-│                   └─ CONTINUE # ALL cycles repeat together
+│                   ├─ r++
+│                   └─ CONTINUE # 
 └─ UPDATE: σ₅.progress[batch] = ✅
 
 QUALITY_GATES:
